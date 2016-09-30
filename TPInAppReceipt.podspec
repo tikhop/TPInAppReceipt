@@ -56,7 +56,7 @@ Pod::Spec.new do |s|
   # s.vendored_libraries = "Vendor/OpenSSL/lib/libssl.a", "Vendor/OpenSSL/lib/libcrypto.a"
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL', 'LIBRARY_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/lib' }
   s.preserve_paths = 'Vendor/OpenSSL/module.modulemap'
-  s.module_map = 'Vendor/OpenSSL/module.modulemap'
+  # s.module_map = 'Vendor/OpenSSL/module.modulemap'
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
   #  A list of resources included with the Pod. These are copied into the
