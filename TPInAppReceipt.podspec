@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "TPInAppReceipt"
-  s.version      = "0.0.1.4"
+  s.version      = "0.0.1.5"
   s.summary      = "Apple in-app receipt helper."
 
   s.description  = "Apple in-app receipt helper. Readable receipt." 
@@ -65,7 +65,7 @@ Pod::Spec.new do |s|
   #  non-essential files like tests, examples and documentation.
   #
 
-  # s.resource  = "icon.png"
+  s.resources  = "Vendor/OpenSSL/include/**/*.h"
   # s.resources = "Resources/*.png"
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
