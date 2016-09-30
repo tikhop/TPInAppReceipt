@@ -23,7 +23,7 @@ public enum ReceiptValidatorError: Error
 
 public class InAppReceiptManager
 {
-    public func load() throws -> InAppReceipt
+    public func receipt() throws -> InAppReceipt
     {
         let receipt = try receiptData()
         let asn1Data = try extractASN1Data(fromReceipt: receipt)

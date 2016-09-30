@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
 
   s.name         = "TPInAppReceipt"
-  s.version      = "0.0.1.7"
-  s.summary      = "Apple in-app receipt helper."
+  s.version      = "0.0.1"
+  s.summary      = "Validates and parses Apple Store Receipt."
 
-  s.description  = "Apple in-app receipt helper. Readable receipt." 
+  s.description  = "This helper validates and parses the payload and the PKCS7 container itself. Pure swift, openssl+bitcode" 
 
   s.homepage     = "http://tikhop.com"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
@@ -13,9 +13,8 @@ Pod::Spec.new do |s|
   # s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
 
   s.author             = { "Pavel Tikhonenko" => "hi@tikhop.com" }
-  # Or just: s.author    = "Pavel Tikhonenko"
   # s.authors            = { "Pavel Tikhonenko" => "hi@tikhop.com" }
-  # s.social_media_url   = "http://twitter.com/Pavel Tikhonenko"
+  
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -24,7 +23,7 @@ Pod::Spec.new do |s|
   #
 
   # s.platform     = :ios
-  s.platform     = :ios, "9.0"
+  s.platform     = :ios, "8.3"
 
   #  When using multiple platforms
   # s.ios.deployment_target = "5.0"
@@ -55,6 +54,8 @@ Pod::Spec.new do |s|
   s.public_header_files = "TPInAppReceipt/**/*.h"
   s.vendored_libraries = "Vendor/OpenSSL/lib/libssl.a", "Vendor/OpenSSL/lib/libcrypto.a"
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL', 'LIBRARY_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/lib' }
+  s.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL', 'LIBRARY_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/lib' }
+  #s.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL' }
   s.preserve_paths = 'TPInAppReceipt/*', 'Vendor/OpenSSL/module.modulemap', 'TPInAppReceipt/**/*'
   #s.module_map = 'Vendor/OpenSSL/module.modulemap'
 
@@ -92,12 +93,5 @@ Pod::Spec.new do |s|
   #  you can include multiple dependencies to ensure it works.
 
   # s.requires_arc = true
-
-  # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  # s.dependency "AWSSNS", '~> 2.3.6'
-  # s.dependency "JSONWebToken"
-  # s.dependency "RMStore"
-  # s.dependency "AFNetworking"
   
-  #s.dependency "TPKit", git: 'https://github.com/tikhop/TPKit.git', branch: 'swift3' 
 end
