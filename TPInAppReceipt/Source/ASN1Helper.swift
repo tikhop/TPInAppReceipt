@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import openssl
+//import openssl
 
 //func asn1ReadInteger(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, l: Int)
 //{
