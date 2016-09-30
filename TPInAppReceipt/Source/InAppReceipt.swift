@@ -140,7 +140,7 @@ public struct InAppPurchase
                 case .originalPurchaseDate:
                     originalPurchaseDate = asn1ReadASCIIString(&ptr, bytes.count)
                 
-                case .expirationDate:
+                case .subscriptionExpirationDate:
                     subscriptionExpirationDate = asn1ReadASCIIString(&ptr, bytes.count)
                 
                 case .cancellationDate:
@@ -150,11 +150,10 @@ public struct InAppPurchase
                     webOrderLineItemID = asn1ReadInteger(&ptr, bytes.count)
                 
                 default:
+                    print("attribute.type = \(attributes.type))")
                     asn1ConsumeObject(&ptr, bytes.count)
                 }
             }
-            
-            print("attribute.type = \(attributes.type))")
         }
     }
 }
