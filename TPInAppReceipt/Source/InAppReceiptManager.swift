@@ -26,7 +26,12 @@ public class InAppReceiptManager
     public func load() throws -> InAppReceipt
     {
         let receipt = try receiptData()
-        let asn1Data = try extractASN1Data(fromReceipt: receipt)
+        return try load(fromData: receipt)
+    }
+    
+    public func load(fromData data: Data) throws -> InAppReceipt
+    {
+        let asn1Data = try extractASN1Data(fromReceipt: data)
         return InAppReceipt(ans1Data: asn1Data)
     }
     
