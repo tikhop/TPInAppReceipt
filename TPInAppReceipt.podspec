@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "TPInAppReceipt"
-  s.version      = "0.0.1.5"
+  s.version      = "0.0.1.6"
   s.summary      = "Apple in-app receipt helper."
 
   s.description  = "Apple in-app receipt helper. Readable receipt." 
@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/tikhop/TPInAppReceipt.git", :tag => "#{s.version}" }
+  #s.source       = { :git => "https://github.com/tikhop/TPInAppReceipt.git", :tag => "#{s.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -52,7 +52,7 @@ Pod::Spec.new do |s|
 
   s.source_files  = "TPInAppReceipt/**/*.{h,m}", "TPInAppReceipt/**/*.{swift}"
   
-  s.public_header_files = "TPInAppReceipt/**/*.h"
+  s.public_header_files = "TPInAppReceipt/**/*.h", "Vendor/OpenSSL/include/**/*.h"
   s.vendored_libraries = "Vendor/OpenSSL/lib/libssl.a", "Vendor/OpenSSL/lib/libcrypto.a"
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SRCROOT)/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/Vendor/OpenSSL' }
   s.preserve_paths = 'Vendor/OpenSSL/module.modulemap'
@@ -81,7 +81,7 @@ Pod::Spec.new do |s|
   # s.frameworks = "StoreKit", "AdSupport"
 
   # s.library   = "iconv"
-  # s.libraries = "z", "sqlite3"
+  s.libraries = "ssl", "crypto"
 
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
