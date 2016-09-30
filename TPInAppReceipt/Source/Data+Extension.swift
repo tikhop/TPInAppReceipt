@@ -56,6 +56,13 @@ public extension Data
             
             // Skip attribute version
             ASN1_get_object(&ptr, &length, &type, &tag, sequenceEnd - ptr!)
+            if type != V_ASN1_INTEGER
+            {
+                print("ASN1 error: attribute not an integer")
+            }
+
+            integer = c2i_ASN1_INTEGER(nil, &ptr, length)
+            ASN1_INTEGER_free(integer)
             
             // Check the attribute value
             ASN1_get_object(&ptr, &length, &type, &tag, sequenceEnd - ptr!)
