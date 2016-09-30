@@ -9,7 +9,17 @@
 import Foundation
 import openssl
 
-func asn1ReadInteger(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, l: Int) -> Int
+func asn1ConsumeObject(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int)
+{
+    var pClass: Int32 = 0
+    var tag: Int32 = 0
+    var length: Int = 0
+    
+    ASN1_get_object(ptr, &length, &tag, &pClass, l)
+    ptr.pointee = ptr.pointee?.advanced(by: length)
+}
+
+func asn1ReadInteger(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int) -> Int
 {
     var pClass: Int32 = 0
     var tag: Int32 = 0
@@ -28,12 +38,10 @@ func asn1ReadInteger(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, l: Int)
     value = ASN1_INTEGER_get(integer)
     ASN1_INTEGER_free(integer)
     
-    ptr.pointee = ptr.pointee?.advanced(by: length)
-    
     return value
 }
 
-func asn1ReadOctectString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, l: Int) -> Data
+func asn1ReadOctectString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int) -> Data
 {
     var pClass: Int32 = 0
     var tag: Int32 = 0
@@ -47,11 +55,11 @@ func asn1ReadOctectString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, l:
     
     let data = Data(bytes: ptr.pointee!, count: length)
     ptr.pointee = ptr.pointee?.advanced(by: length)
-    //note increment ptr?
+    
     return data
 }
 
-func asn1ReadString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int, _ expectedTag: Int32, encoding: String.Encoding) -> String
+func asn1ReadString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int, _ expectedTag: Int32, _ encoding: String.Encoding) -> String
 {
     var tag: Int32 = 0
     var pClass: Int32 = 0
@@ -66,19 +74,18 @@ func asn1ReadString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int
     
     let data = Data(bytes: ptr.pointee!, count: length)
     ptr.pointee = ptr.pointee?.advanced(by: length)
-    //*pp += length;
     
     return String(data: data, encoding: encoding)!
 }
 
 func asn1ReadUTF8String(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int) -> String
 {
-    return asn1ReadString(ptr, l, V_ASN1_UTF8STRING, encoding: .utf8)
+    return asn1ReadString(ptr, l, V_ASN1_UTF8STRING, .utf8)
 }
 
 func asn1ReadASCIIString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int) -> String
 {
-    return asn1ReadString(ptr, l, V_ASN1_IA5STRING, encoding: .ascii)
+    return asn1ReadString(ptr, l, V_ASN1_IA5STRING, .ascii)
 }
 
 //

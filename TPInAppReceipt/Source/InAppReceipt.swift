@@ -123,7 +123,7 @@ public struct InAppPurchase
                 switch field
                 {
                 case .quantity:
-                    quantity = asn1ReadInteger(&ptr, l: bytes.count)
+                    quantity = asn1ReadInteger(&ptr, bytes.count)
                 
                 case .productIdentifier:
                     productIdentifier = asn1ReadUTF8String(&ptr, bytes.count)
@@ -147,10 +147,10 @@ public struct InAppPurchase
                     cancellationDate = asn1ReadASCIIString(&ptr, bytes.count)
                 
                 case .webOrderLineItemID:
-                    webOrderLineItemID = asn1ReadInteger(&ptr, l: bytes.count)
+                    webOrderLineItemID = asn1ReadInteger(&ptr, bytes.count)
                 
                 default:
-                    break
+                    asn1ConsumeObject(&ptr, bytes.count)
                 }
             }
             

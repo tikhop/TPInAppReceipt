@@ -41,13 +41,13 @@ public extension Data
             let sequenceEnd = ptr!.advanced(by: length)
 
             // Parse the attribute type
-            let attributeType = asn1ReadInteger(&ptr, l: sequenceEnd - ptr!)
+            let attributeType = asn1ReadInteger(&ptr, sequenceEnd - ptr!)
         
             // Skip attribute version
-            let _ = asn1ReadInteger(&ptr, l: sequenceEnd - ptr!)
+            asn1ConsumeObject(&ptr, sequenceEnd - ptr!)
             
             // Check the attribute value
-            let data = asn1ReadOctectString(&ptr, l: sequenceEnd - ptr!)
+            let data = asn1ReadOctectString(&ptr, sequenceEnd - ptr!)
             block((data, attributeType))
             
             // Skip remaining fields
