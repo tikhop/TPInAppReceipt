@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "TPInAppReceipt"
-  s.version      = "0.0.1.2"
+  s.version      = "0.0.1.3"
   s.summary      = "Apple in-app receipt helper."
 
   s.description  = "Apple in-app receipt helper. Readable receipt." 
@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/tikhop/TPKit.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/tikhop/TPInAppReceipt.git", :tag => "#{s.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
