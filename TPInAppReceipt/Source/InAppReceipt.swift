@@ -20,7 +20,7 @@ public struct InAppReceipt
     public let opaqueValue: Data
     public let receiptHash: Data
     
-    init(ans1Data: Data)
+    public init(ans1Data: Data)
     {
         bundleIdentifier = ""
         appVersion = ""
