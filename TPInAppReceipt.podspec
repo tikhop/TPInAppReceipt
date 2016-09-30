@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "TPInAppReceipt"
-  s.version      = "0.0.1.3"
+  s.version      = "0.0.1.4"
   s.summary      = "Apple in-app receipt helper."
 
   s.description  = "Apple in-app receipt helper. Readable receipt." 
@@ -50,12 +50,12 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "TPReceiptValidator/**/*.{h,m}", "TPReceiptValidator/**/*.{swift}"
+  s.source_files  = "TPInAppReceipt/**/*.{h,m}", "TPInAppReceipt/**/*.{swift}"
   
-  s.public_header_files = "TPReceiptValidator/**/*.h", "TPReceiptValidator/openssl/include/*.h", "TPReceiptValidator/openssl/include/openssl/*.h"
-  s.vendored_libraries = "TPReceiptValidator/openssl/lib/libssl.a", "TPReceiptValidator/openssl/lib/libcrypto.a"
-  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SRCROOT)/TPReceiptValidator/openssl/include', 'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/TPReceiptValidator/openssl' }
-  s.preserve_paths = 'TPReceiptValidator/openssl/module.modulemap'
+  s.public_header_files = "TPInAppReceipt/**/*.h"
+  s.vendored_libraries = "Vendor/OpenSSL/lib/libssl.a", "Vendor/OpenSSL/lib/libcrypto.a"
+  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SRCROOT)/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/Vendor/OpenSSL' }
+  s.preserve_paths = 'Vendor/OpenSSL/module.modulemap'
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #

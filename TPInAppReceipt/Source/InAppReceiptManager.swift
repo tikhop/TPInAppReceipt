@@ -9,7 +9,7 @@
 import Foundation
 import openssl
 
-enum ReceiptValidatorError: Error
+public enum ReceiptValidatorError: Error
 {
     case appStoreReceiptNotFound
     case pkcs7ParsingError
