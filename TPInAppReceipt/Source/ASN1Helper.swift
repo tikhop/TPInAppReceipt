@@ -7,27 +7,28 @@
 //
 
 import Foundation
-//import openssl
+import openssl
 
-//func asn1ReadInteger(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, l: Int)
-//{
-//    var tag: Int32 = 0
-//    var asn1Class: Int32 = 0
-//    var value: Int32 = 0
-//    var length: Int = 0
-//    
-//    ASN1_get_object(ptr, &length, &tag, &asn1Class, l)
-//    
-//    if (tag == V_ASN1_INTEGER)
-//    {
-//        for i in 0..<length
-//        {
-//            value = value * 0x100 + Int32(ptr.pointee![i])
-//        }
-//    }
-//    
-//    return value
-//}
+func asn1ReadInteger(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, l: Int) -> Int
+{
+    var tag: Int32 = 0
+    var type: Int32 = 0
+    var value: Int = 0
+    var length: Int = 0
+    var integer: UnsafeMutablePointer<ASN1_INTEGER>
+    
+    ASN1_get_object(ptr, &length, &type, &tag, l)
+    if type != V_ASN1_INTEGER
+    {
+        print("ASN1 error: attribute not an integer")
+    }
+    
+    integer = c2i_ASN1_INTEGER(nil, ptr, length)
+    value = ASN1_INTEGER_get(integer)
+    ASN1_INTEGER_free(integer)
+    
+    return value
+}
 //
 //static int RM
 //{
