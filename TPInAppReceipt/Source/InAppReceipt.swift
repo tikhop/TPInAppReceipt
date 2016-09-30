@@ -133,11 +133,11 @@ public struct InAppPurchase
                 case .originalTransactionIdentifier:
                     originalTransactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)
                 case .originalPurchaseDate:
-                    originalPurchaseDate = asn1ReadUTF8String(&ptr, bytes.count)
+                    originalPurchaseDate = asn1ReadASCIIString(&ptr, bytes.count)
                 case .expirationDate:
-                    subscriptionExpirationDate = asn1ReadUTF8String(&ptr, bytes.count)
+                    subscriptionExpirationDate = asn1ReadASCIIString(&ptr, bytes.count)
                 case .cancellationDate:
-                    cancellationDate = asn1ReadUTF8String(&ptr, bytes.count)
+                    cancellationDate = asn1ReadASCIIString(&ptr, bytes.count)
                 case .webOrderLineItemID:
                     webOrderLineItemID = asn1ReadInteger(&ptr, l: bytes.count)
                 default:
