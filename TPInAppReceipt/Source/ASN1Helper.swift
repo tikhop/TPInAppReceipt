@@ -28,6 +28,8 @@ func asn1ReadInteger(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, l: Int)
     value = ASN1_INTEGER_get(integer)
     ASN1_INTEGER_free(integer)
     
+    ptr.pointee = ptr.pointee?.advanced(by: length)
+    
     return value
 }
 

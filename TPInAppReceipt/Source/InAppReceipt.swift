@@ -124,28 +124,37 @@ public struct InAppPurchase
                 {
                 case .quantity:
                     quantity = asn1ReadInteger(&ptr, l: bytes.count)
+                
                 case .productIdentifier:
                     productIdentifier = asn1ReadUTF8String(&ptr, bytes.count)
+                
                 case .transactionIdentifier:
                     transactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)
+                
                 case .purchaseDate:
                     purchaseDate = asn1ReadASCIIString(&ptr, bytes.count)
+                
                 case .originalTransactionIdentifier:
                     originalTransactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)
+                
                 case .originalPurchaseDate:
                     originalPurchaseDate = asn1ReadASCIIString(&ptr, bytes.count)
+                
                 case .expirationDate:
                     subscriptionExpirationDate = asn1ReadASCIIString(&ptr, bytes.count)
+                
                 case .cancellationDate:
                     cancellationDate = asn1ReadASCIIString(&ptr, bytes.count)
+                
                 case .webOrderLineItemID:
                     webOrderLineItemID = asn1ReadInteger(&ptr, l: bytes.count)
+                
                 default:
-                    print("attribute.type = \(attributes.type))")
+                    break
                 }
             }
             
-            
+            print("attribute.type = \(attributes.type))")
         }
     }
 }
