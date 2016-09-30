@@ -35,28 +35,19 @@ public extension Data
         
         while ptr! < end
         {
-            var integer: UnsafeMutablePointer<ASN1_INTEGER>
-            
             ASN1_get_object(&ptr, &length, &type, &tag, end - ptr!)
             if (type != V_ASN1_SEQUENCE) { break }
             
             let sequenceEnd = ptr!.advanced(by: length)
 
             // Parse the attribute type
-            var attributeType = 0
-            attributeType = asn1ReadInteger(&ptr, l: sequenceEnd - ptr!)
-            
+            let attributeType = asn1ReadInteger(&ptr, l: sequenceEnd - ptr!)
+        
             // Skip attribute version
             let _ = asn1ReadInteger(&ptr, l: sequenceEnd - ptr!)
             
             // Check the attribute value
-            ASN1_get_object(&ptr, &length, &type, &tag, sequenceEnd - ptr!)
-            if type != V_ASN1_OCTET_STRING
-            {
-                print("ASN1 error: value not an octet string")
-            }
-            
-            let data = Data(bytes: &ptr!, count: sequenceEnd - ptr!)
+            let data = asn1ReadOctectString(&ptr, l: sequenceEnd - ptr!)
             block((data, attributeType))
             
             // Skip remaining fields

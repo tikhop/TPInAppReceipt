@@ -13,8 +13,9 @@ func asn1ReadInteger(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, l: Int)
 {
     var tag: Int32 = 0
     var type: Int32 = 0
-    var value: Int = 0
     var length: Int = 0
+    
+    var value: Int = 0
     var integer: UnsafeMutablePointer<ASN1_INTEGER>
     
     ASN1_get_object(ptr, &length, &type, &tag, l)
@@ -29,37 +30,22 @@ func asn1ReadInteger(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, l: Int)
     
     return value
 }
-//
-//static int RM
-//{
-//    int tag, asn1Class;
-//    long length;
-//    int value = 0;
-//    
-//    if (tag == V_ASN1_INTEGER)
-//    {
-//        for (int i = 0; i < length; i++)
-//        {
-//            value = value * 0x100 + (*pp)[i];
-//        }
-//    }
-//    *pp += length;
-//    return value;
-//}
-//
-//static NSData* RMASN1ReadOctectString(const uint8_t **pp, long omax)
-//{
-//    int tag, asn1Class;
-//    long length;
-//    NSData *data = nil;
-//    ASN1_get_object(pp, &length, &tag, &asn1Class, omax);
-//    if (tag == V_ASN1_OCTET_STRING)
-//    {
-//        data = [NSData dataWithBytes:*pp length:length];
-//    }
-//    *pp += length;
-//    return data;
-//}
+
+func asn1ReadOctectString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, l: Int) -> Data
+{
+    var tag: Int32 = 0
+    var type: Int32 = 0
+    var length: Int = 0
+    
+    ASN1_get_object(ptr, &length, &type, &tag, l)
+    if type != V_ASN1_OCTET_STRING
+    {
+        print("ASN1 error: value not an octet string")
+    }
+    
+    return Data(bytes: ptr.pointee!, count: l)
+}
+
 //
 //static NSString* RMASN1ReadString(const uint8_t **pp, long omax, int expectedTag, NSStringEncoding encoding)
 //{
