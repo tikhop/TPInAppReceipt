@@ -53,10 +53,10 @@ Pod::Spec.new do |s|
   s.source_files  = "TPInAppReceipt/**/*.{h,m}", "TPInAppReceipt/**/*.{swift}", "Vendor/OpenSSL/include/**/*.h"
   
   s.public_header_files = "TPInAppReceipt/**/*.h"
-  s.vendored_libraries = "Vendor/OpenSSL/lib/libssl.a", "Vendor/OpenSSL/lib/libcrypto.a"
-  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SRCROOT)/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/Vendor/OpenSSL' }
+  # s.vendored_libraries = "Vendor/OpenSSL/lib/libssl.a", "Vendor/OpenSSL/lib/libcrypto.a"
+  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL', 'LIBRARY_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/lib' }
   s.preserve_paths = 'Vendor/OpenSSL/module.modulemap'
-
+  s.module_map = 'Vendor/OpenSSL/module.modulemap'
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
   #  A list of resources included with the Pod. These are copied into the
@@ -65,7 +65,7 @@ Pod::Spec.new do |s|
   #  non-essential files like tests, examples and documentation.
   #
 
-  # s.resources  = "Vendor/OpenSSL/include/**/*.h"
+  s.resources  = "TPInAppReceipt/AppleIncRootCertificate.cer"
   # s.resources = "Resources/*.png"
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
