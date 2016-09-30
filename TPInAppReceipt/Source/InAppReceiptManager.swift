@@ -68,7 +68,6 @@ public class InAppReceiptManager
         
         let appleRootData = try Data(contentsOf: appleRootURL)
         
-        
         if appleRootData.count == 0
         {
             throw ReceiptValidatorError.unableToLoadAppleIncRootCertificate
