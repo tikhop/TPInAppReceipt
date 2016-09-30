@@ -1,0 +1,5 @@
+explicit TPReceiptValidator.openssl [system][extern_c] 
+{
+ umbrella header "include/openssl/bio.h"
+ export *
+}
