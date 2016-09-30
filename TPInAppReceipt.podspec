@@ -50,7 +50,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "TPInAppReceipt/**/*.{h,m}", "TPInAppReceipt/**/*.{swift}"
+  s.source_files  = "TPInAppReceipt/**/*.{h,m}", "TPInAppReceipt/**/*.{swift}", "Vendor/OpenSSL/include/**/*.h"
   
   s.public_header_files = "TPInAppReceipt/**/*.h", "Vendor/OpenSSL/include/**/*.h"
   s.vendored_libraries = "Vendor/OpenSSL/lib/libssl.a", "Vendor/OpenSSL/lib/libcrypto.a"
