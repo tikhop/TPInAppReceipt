@@ -33,16 +33,18 @@ public extension Data
             return
         }
         
-        var integer: UnsafeMutablePointer<ASN1_INTEGER>
-        
         while ptr! < end
         {
+            var integer: UnsafeMutablePointer<ASN1_INTEGER>
+            
             ASN1_get_object(&ptr, &length, &type, &tag, end - ptr!)
             if (type != V_ASN1_SEQUENCE) { break }
             
+            let sequenceEnd = ptr!.advanced(by: length)
+
             // Parse the attribute type
             var attributeType = 0
-            ASN1_get_object(&ptr, &length, &type, &tag, end - ptr!)
+            ASN1_get_object(&ptr, &length, &type, &tag, sequenceEnd - ptr!)
             if type != V_ASN1_INTEGER
             {
                 print("ASN1 error: attribute not an integer")
@@ -53,19 +55,24 @@ public extension Data
             ASN1_INTEGER_free(integer)
             
             // Skip attribute version
-            ASN1_get_object(&ptr, &length, &type, &tag, end - ptr!)
+            ASN1_get_object(&ptr, &length, &type, &tag, sequenceEnd - ptr!)
             
             // Check the attribute value
-            ASN1_get_object(&ptr, &length, &type, &tag, end - ptr!)
+            ASN1_get_object(&ptr, &length, &type, &tag, sequenceEnd - ptr!)
             if type != V_ASN1_OCTET_STRING
             {
                 print("ASN1 error: value not an octet string")
             }
             
-            let data = Data(bytes: &ptr!, count: end - ptr!)
+            let data = Data(bytes: &ptr!, count: sequenceEnd - ptr!)
             block((data, attributeType))
             
-            ptr = ptr?.advanced(by: length)
+            // Skip remaining fields
+            while ptr! < sequenceEnd
+            {
+                ASN1_get_object(&ptr, &length, &type, &tag, sequenceEnd - ptr!)
+                ptr = ptr?.advanced(by: length)
+            }
         }
     }
 }
