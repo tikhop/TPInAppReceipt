@@ -52,7 +52,7 @@ Pod::Spec.new do |s|
 
   s.source_files  = "TPInAppReceipt/**/*.{h,m}", "TPInAppReceipt/**/*.{swift}", "Vendor/OpenSSL/include/**/*.h"
   
-  s.public_header_files = "TPInAppReceipt/**/*.h", "Vendor/OpenSSL/include/**/*.h"
+  s.public_header_files = "TPInAppReceipt/**/*.h"
   s.vendored_libraries = "Vendor/OpenSSL/lib/libssl.a", "Vendor/OpenSSL/lib/libcrypto.a"
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SRCROOT)/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/Vendor/OpenSSL' }
   s.preserve_paths = 'Vendor/OpenSSL/module.modulemap'
