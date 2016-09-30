@@ -40,8 +40,8 @@ public extension Data
             ASN1_get_object(&ptr, &length, &type, &tag, end - ptr!)
             if (type != V_ASN1_SEQUENCE) { break }
             
+            // Parse the attribute type
             var attributeType = 0
-            
             ASN1_get_object(&ptr, &length, &type, &tag, end - ptr!)
             if type != V_ASN1_INTEGER
             {
@@ -52,6 +52,10 @@ public extension Data
             attributeType = ASN1_INTEGER_get(integer)
             ASN1_INTEGER_free(integer)
             
+            // Skip attribute version
+            ASN1_get_object(&ptr, &length, &type, &tag, end - ptr!)
+            
+            // Check the attribute value
             ASN1_get_object(&ptr, &length, &type, &tag, end - ptr!)
             if type != V_ASN1_OCTET_STRING
             {
