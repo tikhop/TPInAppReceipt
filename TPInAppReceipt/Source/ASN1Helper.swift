@@ -43,8 +43,10 @@ func asn1ReadOctectString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, l:
         print("ASN1 error: value not an octet string")
     }
     
+    let data = Data(bytes: ptr.pointee!, count: length)
+    ptr.pointee = ptr.pointee?.advanced(by: length)
     //note increment ptr?
-    return Data(bytes: ptr.pointee!, count: length)
+    return data
 }
 
 func asn1ReadString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int, _ expectedTag: Int32, encoding: String.Encoding) -> String
@@ -61,7 +63,7 @@ func asn1ReadString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int
     }
     
     let data = Data(bytes: ptr.pointee!, count: length)
-    
+    ptr.pointee = ptr.pointee?.advanced(by: length)
     //*pp += length;
     
     return String(data: data, encoding: encoding)!
