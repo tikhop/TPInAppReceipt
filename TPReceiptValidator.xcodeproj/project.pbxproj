@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		472099A51D9DEC690010BCDE /* ASN1Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472099A41D9DEC690010BCDE /* ASN1Helper.swift */; };
+		472099C61D9E0C8D0010BCDE /* TPReceiptValidator.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 472099C51D9E0C8D0010BCDE /* TPReceiptValidator.podspec */; };
 		479FD2DB1D9C82B200E43871 /* TPReceiptValidator.h in Headers */ = {isa = PBXBuildFile; fileRef = 479FD2D91D9C82B200E43871 /* TPReceiptValidator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		479FD47B1D9CE05400E43871 /* aes.h in Headers */ = {isa = PBXBuildFile; fileRef = 479FD42B1D9CE05400E43871 /* aes.h */; };
 		479FD47C1D9CE05400E43871 /* asn1.h in Headers */ = {isa = PBXBuildFile; fileRef = 479FD42C1D9CE05400E43871 /* asn1.h */; };
@@ -95,6 +96,7 @@
 
 /* Begin PBXFileReference section */
 		472099A41D9DEC690010BCDE /* ASN1Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ASN1Helper.swift; path = Source/ASN1Helper.swift; sourceTree = "<group>"; };
+		472099C51D9E0C8D0010BCDE /* TPReceiptValidator.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TPReceiptValidator.podspec; sourceTree = SOURCE_ROOT; };
 		479FD2D61D9C82B200E43871 /* TPReceiptValidator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TPReceiptValidator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		479FD2D91D9C82B200E43871 /* TPReceiptValidator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPReceiptValidator.h; sourceTree = "<group>"; };
 		479FD2DA1D9C82B200E43871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 		479FD2D81D9C82B200E43871 /* TPReceiptValidator */ = {
 			isa = PBXGroup;
 			children = (
+				472099C51D9E0C8D0010BCDE /* TPReceiptValidator.podspec */,
 				479FD4CD1D9CF3AA00E43871 /* AppleIncRootCertificate.cer */,
 				479FD4281D9CE05400E43871 /* openssl */,
 				479FD3801D9CCDC200E43871 /* Source */,
@@ -491,6 +494,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				472099C61D9E0C8D0010BCDE /* TPReceiptValidator.podspec in Resources */,
 				479FD4CE1D9CF3AA00E43871 /* AppleIncRootCertificate.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -623,7 +627,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/TPReceiptValidator/openssl/include";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/TPReceiptValidator/openssl/include";
 				INFOPLIST_FILE = TPReceiptValidator/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -638,7 +642,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPReceiptValidator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/TPReceiptValidator/openssl";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/TPReceiptValidator/openssl";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -654,7 +658,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/TPReceiptValidator/openssl/include";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/TPReceiptValidator/openssl/include";
 				INFOPLIST_FILE = TPReceiptValidator/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -669,7 +673,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPReceiptValidator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_INCLUDE_PATHS = "$(PROJECT_DIR)/TPReceiptValidator/openssl";
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/TPReceiptValidator/openssl";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

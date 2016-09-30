@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "TPInAppReceipt"
-  s.version      = "0.0.1.1"
+  s.version      = "0.0.1.2"
   s.summary      = "Apple in-app receipt helper."
 
   s.description  = "Apple in-app receipt helper. Readable receipt." 
@@ -54,7 +54,7 @@ Pod::Spec.new do |s|
   
   s.public_header_files = "TPReceiptValidator/**/*.h", "TPReceiptValidator/openssl/include/*.h", "TPReceiptValidator/openssl/include/openssl/*.h"
   s.vendored_libraries = "TPReceiptValidator/openssl/lib/libssl.a", "TPReceiptValidator/openssl/lib/libcrypto.a"
-  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PROJECT_DIR)/TPReceiptValidator/openssl/include', 'SWIFT_INCLUDE_PATHS' => '$(PROJECT_DIR)/TPReceiptValidator/openssl' }
+  s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SRCROOT)/TPReceiptValidator/openssl/include', 'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/TPReceiptValidator/openssl' }
   s.preserve_paths = 'TPReceiptValidator/openssl/module.modulemap'
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
