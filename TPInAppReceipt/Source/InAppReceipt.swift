@@ -83,8 +83,6 @@ public struct InAppReceipt
                     print("attribute.type = \(attributes.type))")
                 }
             }
-            
-            
         }
     }
 }
@@ -95,10 +93,10 @@ public struct InAppPurchase
     public var productIdentifier: String
     public var transactionIdentifier: String
     public var originalTransactionIdentifier: String
-    public var purchaseDate: String
-    public var originalPurchaseDate: String
-    public var subscriptionExpirationDate: String? = nil
-    public var cancellationDate: String? = nil
+    public var purchaseDateString: String
+    public var originalPurchaseDateString: String
+    public var subscriptionExpirationDateString: String? = nil
+    public var cancellationDateString: String? = nil
     public var webOrderLineItemID: Int? = nil
     
     public init(ans1Data: Data)
@@ -106,8 +104,8 @@ public struct InAppPurchase
         originalTransactionIdentifier = ""
         productIdentifier = ""
         transactionIdentifier = ""
-        purchaseDate = ""
-        originalPurchaseDate = ""
+        purchaseDateString = ""
+        originalPurchaseDateString = ""
         quantity = 0
         
         ans1Data.enumerateASN1Attributes { (attributes) in
@@ -132,19 +130,19 @@ public struct InAppPurchase
                     transactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)
                 
                 case .purchaseDate:
-                    purchaseDate = asn1ReadASCIIString(&ptr, bytes.count)
+                    purchaseDateString = asn1ReadASCIIString(&ptr, bytes.count)
                 
                 case .originalTransactionIdentifier:
                     originalTransactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)
                 
                 case .originalPurchaseDate:
-                    originalPurchaseDate = asn1ReadASCIIString(&ptr, bytes.count)
+                    originalPurchaseDateString = asn1ReadASCIIString(&ptr, bytes.count)
                 
                 case .subscriptionExpirationDate:
-                    subscriptionExpirationDate = asn1ReadASCIIString(&ptr, bytes.count)
+                    subscriptionExpirationDateString = asn1ReadASCIIString(&ptr, bytes.count)
                 
                 case .cancellationDate:
-                    cancellationDate = asn1ReadASCIIString(&ptr, bytes.count)
+                    cancellationDateString = asn1ReadASCIIString(&ptr, bytes.count)
                 
                 case .webOrderLineItemID:
                     webOrderLineItemID = asn1ReadInteger(&ptr, bytes.count)
@@ -155,5 +153,93 @@ public struct InAppPurchase
                 }
             }
         }
+    }
+}
+
+public extension InAppReceipt
+{
+    public var hasPurchases: Bool
+    {
+        return purchases.count > 0
+    }
+    
+    public func originalTransactionIdentifier(ofProductIdentifier productIdentifier: String) -> String?
+    {
+        return purchases(ofProductIdentifier: productIdentifier).first?.originalTransactionIdentifier
+    }
+    
+    public func containsPurchase(ofProductIdentifier productIdentifier: String) -> Bool
+    {
+        for item in purchases
+        {
+            if item.productIdentifier == productIdentifier
+            {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    public func purchases(ofProductIdentifier productIdentifier: String, sortedBy sort: ((InAppPurchase, InAppPurchase) -> Bool)? = nil) -> [InAppPurchase]
+    {
+        let filtered: [InAppPurchase] = purchases.filter({ return $0.productIdentifier == productIdentifier })
+        
+        if let sort = sort
+        {
+            return filtered.sorted(by: {
+                return sort($0, $1)
+            })
+        }else{
+            return filtered.sorted(by: {
+                return $0.purchaseDate > $1.purchaseDate
+            })
+        }
+    }
+    
+    public func activeAutoRenewableSubscriptionPurchases(ofProductIdentifier productIdentifier: String, forDate date: Date) -> InAppPurchase?
+    {
+        let filtered = purchases(ofProductIdentifier: productIdentifier) {
+            return $0.subscriptionExpirationDate > $1.subscriptionExpirationDate
+        }
+        
+        guard let lastPurchase = filtered.first else
+        {
+            return nil
+        }
+        
+        return lastPurchase.isActiveAutoRenewableSubscription(forDate: date) ? lastPurchase : nil
+    }
+}
+
+public extension InAppPurchase
+{
+    public var purchaseDate: Date
+    {
+        return purchaseDateString.date()
+    }
+    
+    public var subscriptionExpirationDate: Date
+    {
+        assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
+        
+        return subscriptionExpirationDateString!.date()
+    }
+    
+    public var isRenewableSubscription: Bool
+    {
+        return self.subscriptionExpirationDateString != nil
+    }
+    
+    public func isActiveAutoRenewableSubscription(forDate date: Date) -> Bool
+    {
+        assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
+        
+        if(self.cancellationDateString != nil)
+        {
+            return false
+        }
+        
+        return purchaseDate.compare(date) == .orderedDescending && date.compare(subscriptionExpirationDate) != .orderedDescending
     }
 }
