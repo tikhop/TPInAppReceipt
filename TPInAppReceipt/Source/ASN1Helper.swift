@@ -59,7 +59,7 @@ func asn1ReadOctectString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ 
     return data
 }
 
-func asn1ReadString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int, _ expectedTag: Int32, _ encoding: String.Encoding) -> String
+func asn1ReadString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int, _ expectedTag: Int32, _ encoding: String.Encoding) -> String?
 {
     var tag: Int32 = 0
     var pClass: Int32 = 0
@@ -75,15 +75,15 @@ func asn1ReadString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int
     let data = Data(bytes: ptr.pointee!, count: length)
     ptr.pointee = ptr.pointee?.advanced(by: length)
     
-    return String(data: data, encoding: encoding)!
+    return String(data: data, encoding: encoding)
 }
 
-func asn1ReadUTF8String(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int) -> String
+func asn1ReadUTF8String(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int) -> String?
 {
     return asn1ReadString(ptr, l, V_ASN1_UTF8STRING, .utf8)
 }
 
-func asn1ReadASCIIString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int) -> String
+func asn1ReadASCIIString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int) -> String?
 {
     return asn1ReadString(ptr, l, V_ASN1_IA5STRING, .ascii)
 }

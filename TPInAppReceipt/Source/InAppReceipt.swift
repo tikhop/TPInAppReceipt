@@ -65,9 +65,9 @@ public struct InAppReceipt
                 {
                 case .bundleIdentifier:
                     bundleIdentifierData = Data(bytes: bytes, count: length)
-                    bundleIdentifier = asn1ReadUTF8String(&ptr, bytes.count)
+                    bundleIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
                 case .appVersion:
-                    appVersion = asn1ReadUTF8String(&ptr, bytes.count)
+                    appVersion = asn1ReadUTF8String(&ptr, bytes.count)!
                 case .opaqueValue:
                     opaqueValue = Data(bytes: bytes, count: length)
                 case .receiptHash:
@@ -75,7 +75,7 @@ public struct InAppReceipt
                 case .inAppPurchaseReceipt:
                     purchases.append(InAppPurchase(ans1Data: attributes.data))
                 case .originalAppVersion:
-                    originalAppVersion = asn1ReadUTF8String(&ptr, bytes.count)
+                    originalAppVersion = asn1ReadUTF8String(&ptr, bytes.count)!
                 case .expirationDate:
                     let str = asn1ReadASCIIString(&ptr, bytes.count)
                     expirationDate = str
@@ -124,19 +124,19 @@ public struct InAppPurchase
                     quantity = asn1ReadInteger(&ptr, bytes.count)
                 
                 case .productIdentifier:
-                    productIdentifier = asn1ReadUTF8String(&ptr, bytes.count)
+                    productIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
                 
                 case .transactionIdentifier:
-                    transactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)
+                    transactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
                 
                 case .purchaseDate:
-                    purchaseDateString = asn1ReadASCIIString(&ptr, bytes.count)
+                    purchaseDateString = asn1ReadASCIIString(&ptr, bytes.count)!
                 
                 case .originalTransactionIdentifier:
-                    originalTransactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)
+                    originalTransactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
                 
                 case .originalPurchaseDate:
-                    originalPurchaseDateString = asn1ReadASCIIString(&ptr, bytes.count)
+                    originalPurchaseDateString = asn1ReadASCIIString(&ptr, bytes.count)!
                 
                 case .subscriptionExpirationDate:
                     subscriptionExpirationDateString = asn1ReadASCIIString(&ptr, bytes.count)
