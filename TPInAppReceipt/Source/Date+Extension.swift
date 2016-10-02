@@ -10,7 +10,7 @@ import Foundation
 
 public extension Date
 {
-    public static func date(fromString string: String, dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z'", timeZone: TimeZone = TimeZone.autoupdatingCurrent) -> Date?
+    public static func date(fromString string: String, dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss'Z'", timeZone: TimeZone = TimeZone.autoupdatingCurrent) -> Date?
     {
         return string.date(withDateFormat: dateFormat, timeZone: timeZone)
     }
@@ -18,7 +18,7 @@ public extension Date
 
 public extension String
 {
-    public func date(withDateFormat dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z'", timeZone: TimeZone = TimeZone.autoupdatingCurrent) -> Date
+    public func date(withDateFormat dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss'Z'", timeZone: TimeZone = TimeZone.autoupdatingCurrent) -> Date
     {
         let formatter = DateFormatter()
         formatter.dateFormat = dateFormat
