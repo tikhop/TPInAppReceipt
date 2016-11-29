@@ -10,19 +10,20 @@ import Foundation
 
 public extension Date
 {
-    public static func date(fromString string: String, dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss'Z'", timeZone: TimeZone = TimeZone.autoupdatingCurrent) -> Date?
+    public static func rfc3339date(fromString string: String) -> Date?
     {
-        return string.date(withDateFormat: dateFormat, timeZone: timeZone)
+        return string.rfc3339date()
     }
 }
 
 public extension String
 {
-    public func date(withDateFormat dateFormat: String = "yyyy-MM-dd'T'HH:mm:ss'Z'", timeZone: TimeZone = TimeZone.autoupdatingCurrent) -> Date
+    public func rfc3339date() -> Date
     {
         let formatter = DateFormatter()
-        formatter.dateFormat = dateFormat
-        formatter.timeZone = timeZone
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        formatter.timeZone = TimeZone(abbreviation: "UTC")
+        formatter.locale = Locale(identifier: "en_US_POSIX")
         
         let date = formatter.date(from: self)
         return date!
