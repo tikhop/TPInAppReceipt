@@ -216,14 +216,14 @@ public extension InAppPurchase
 {
     public var purchaseDate: Date
     {
-        return purchaseDateString.date()
+        return purchaseDateString.rfc3339date()
     }
     
     public var subscriptionExpirationDate: Date
     {
         assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
         
-        return subscriptionExpirationDateString!.date()
+        return subscriptionExpirationDateString!.rfc3339date()
     }
     
     public var isRenewableSubscription: Bool
