@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "TPInAppReceipt"
-  s.version      = "0.0.7.5"
+  s.version      = "0.0.7.6"
   s.summary      = "Validates and parses Apple Store Receipt."
 
   s.description  = "This helper validates and parses the payload and the PKCS7 container itself. Pure swift, openssl+bitcode" 

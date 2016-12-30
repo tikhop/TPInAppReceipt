@@ -235,7 +235,7 @@ public extension InAppPurchase
     {
         assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
         
-        if(self.cancellationDateString != nil)
+        if(self.cancellationDateString != nil && self.cancellationDateString != "")
         {
             return false
         }
