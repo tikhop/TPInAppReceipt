@@ -240,6 +240,6 @@ public extension InAppPurchase
             return false
         }
         
-        return purchaseDate.compare(date) == .orderedDescending && date.compare(subscriptionExpirationDate) != .orderedDescending
+        return purchaseDate.compare(date) == .orderedAscending && date.compare(subscriptionExpirationDate) != .orderedDescending
     }
 }
