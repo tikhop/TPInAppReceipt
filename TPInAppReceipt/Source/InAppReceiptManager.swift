@@ -61,7 +61,7 @@ public class InAppReceiptManager
             try validatePKCS7(receiptPKCS7)
         }
         
-        guard let appleRootURL = Bundle.main.url(forResource: "AppleIncRootCertificate", withExtension: "cer") else
+        guard let appleRootURL = Bundle.init(for: type(of: self)).url(forResource: "AppleIncRootCertificate", withExtension: "cer") else
         {
             throw ReceiptValidatorError.appleIncRootCertificateNotFound
         }
