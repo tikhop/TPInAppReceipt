@@ -94,6 +94,8 @@
 		47209AC51D9E112C0010BCDE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */; };
 		47209AC61D9E112C0010BCDE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */; };
 		47589AE51E319A220047DFCD /* InAppReceiptValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE41E319A220047DFCD /* InAppReceiptValidator.swift */; };
+		47589AE71E31AE6F0047DFCD /* PKCS7Wrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE61E31AE6F0047DFCD /* PKCS7Wrapper.swift */; };
+		47589AE91E31B2F90047DFCD /* InAppPurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE81E31B2F90047DFCD /* InAppPurchase.swift */; };
 		479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -199,6 +201,8 @@
 		47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleIncRootCertificate.cer; sourceTree = "<group>"; };
 		47209ACD1D9E92CC0010BCDE /* TPInAppReceipt.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = TPInAppReceipt.podspec; sourceTree = "<group>"; };
 		47589AE41E319A220047DFCD /* InAppReceiptValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppReceiptValidator.swift; sourceTree = "<group>"; };
+		47589AE61E31AE6F0047DFCD /* PKCS7Wrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCS7Wrapper.swift; sourceTree = "<group>"; };
+		47589AE81E31B2F90047DFCD /* InAppPurchase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppPurchase.swift; sourceTree = "<group>"; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -383,12 +387,14 @@
 		47209ABB1D9E111C0010BCDE /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */,
 				47209ABF1D9E111C0010BCDE /* InAppReceiptManager.swift */,
 				47589AE41E319A220047DFCD /* InAppReceiptValidator.swift */,
+				47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */,
+				47589AE81E31B2F90047DFCD /* InAppPurchase.swift */,
 				47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */,
 				47209ABD1D9E111C0010BCDE /* Data+Extension.swift */,
 				479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */,
+				47589AE61E31AE6F0047DFCD /* PKCS7Wrapper.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -525,7 +531,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Pavel Tikhonenko";
 				TargetAttributes = {
 					47209A001D9E0FD60010BCDE = {
@@ -581,11 +587,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */,
+				47589AE91E31B2F90047DFCD /* InAppPurchase.swift in Sources */,
 				47209AC01D9E111C0010BCDE /* ASN1Helper.swift in Sources */,
 				47209AC11D9E111C0010BCDE /* Data+Extension.swift in Sources */,
 				47209AC21D9E111C0010BCDE /* InAppReceipt.swift in Sources */,
 				47589AE51E319A220047DFCD /* InAppReceiptValidator.swift in Sources */,
 				47209AC31D9E111C0010BCDE /* InAppReceiptManager.swift in Sources */,
+				47589AE71E31AE6F0047DFCD /* PKCS7Wrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,6 +634,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -679,6 +688,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

@@ -23,11 +23,11 @@ public enum ReceiptValidatorError: Error
 
 class InAppReceiptValidator
 {
-    func verifySignature(pkcs7: UnsafeMutablePointer<PKCS7>) throws
+    func verifySignature(pkcs7: PKCS7Wrapper) throws
     {
-        try checkSignatureExistance(pkcs7: pkcs7)
+        try checkSignatureExistance(pkcs7: pkcs7.raw)
         let appleCertificate = try appleCertificateData()
-        try verifySignature(pkcs7: pkcs7, withCertificateData: appleCertificate)
+        try verifySignature(pkcs7: pkcs7.raw, withCertificateData: appleCertificate)
     }
     
     fileprivate func verifySignature(pkcs7: UnsafeMutablePointer<PKCS7>, withCertificateData data: Data) throws

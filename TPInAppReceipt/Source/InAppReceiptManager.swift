@@ -19,11 +19,32 @@ public class InAppReceiptManager
 {
     fileprivate let validator = InAppReceiptValidator()
     
-    public func receipt() throws -> InAppReceipt
+    public func receipt(usingValidation: Bool = true) throws -> InAppReceipt
     {
-        let receipt = try receiptData()
-        let asn1Data = try extractASN1Data(fromReceipt: receipt)
-        return InAppReceipt(ans1Data: asn1Data)
+        let pkcs7container = try pkcs7()
+        
+        if usingValidation
+        {
+            try validate(pkcs7: pkcs7container)
+        }
+        
+        return InAppReceipt(asn1Data: pkcs7container.extractASN1Data())
+    }
+    
+    public static let shared: InAppReceiptManager = InAppReceiptManager()
+}
+
+fileprivate extension InAppReceiptManager
+{
+    fileprivate func validate(pkcs7: PKCS7Wrapper) throws
+    {
+        try validator.verifySignature(pkcs7: pkcs7)
+    }
+    
+    fileprivate func pkcs7() throws -> PKCS7Wrapper
+    {
+        let inAppData = try receiptData()
+        return try PKCS7Wrapper(receipt: inAppData)
     }
     
     fileprivate func receiptData() throws -> Data
@@ -36,42 +57,4 @@ public class InAppReceiptManager
         
         return try Data(contentsOf: receiptUrl)
     }
-    
-    fileprivate func extractASN1Data(fromReceipt receipt: Data) throws -> Data
-    {
-        var data: Data!
-        
-        let receiptBio = BIO_new(BIO_s_mem())
-        
-        var values = [UInt8](repeating:0, count:receipt.count)
-        receipt.copyBytes(to: &values, count: receipt.count)
-        
-        BIO_write(receiptBio, values, Int32(receipt.count))
-        
-        guard let receiptPKCS7 = d2i_PKCS7_bio(receiptBio, nil) else
-        {
-            throw ReceiptValidatorError.pkcs7ParsingError
-        }
-        
-        defer
-        {
-            PKCS7_free(receiptPKCS7)
-            BIO_free(receiptBio)
-        }
-        
-        do {
-            try validator.verifySignature(pkcs7: receiptPKCS7)
-        }
-        
-        let contents: UnsafeMutablePointer<pkcs7_st> = receiptPKCS7.pointee.d.sign.pointee.contents
-        let octets: UnsafeMutablePointer<ASN1_OCTET_STRING> = contents.pointee.d.data
-        
-        data = Data(bytes: octets.pointee.data, count: Int(octets.pointee.length))
-        
-        
-        
-        return data
-    }
-    
-    public static let shared: InAppReceiptManager = InAppReceiptManager()
 }
