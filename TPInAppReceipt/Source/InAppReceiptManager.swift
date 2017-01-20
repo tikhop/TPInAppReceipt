@@ -9,15 +9,9 @@
 import Foundation
 import openssl
 
-public enum ReceiptValidatorError: Error
+public enum InAppReceiptError: Error
 {
     case appStoreReceiptNotFound
-    case pkcs7ParsingError
-    case receiptIsNotSigned
-    case receiptSignedDataNotFound
-    case receiptSignatureVerificationFailed
-    case appleIncRootCertificateNotFound
-    case unableToLoadAppleIncRootCertificate
     case internalError
 }
 
@@ -59,6 +53,12 @@ public class InAppReceiptManager
             throw ReceiptValidatorError.pkcs7ParsingError
         }
         
+        defer
+        {
+            PKCS7_free(receiptPKCS7)
+            BIO_free(receiptBio)
+        }
+        
         do {
             try validator.verifySignature(pkcs7: receiptPKCS7)
         }
@@ -68,7 +68,7 @@ public class InAppReceiptManager
         
         data = Data(bytes: octets.pointee.data, count: Int(octets.pointee.length))
         
-        PKCS7_free(receiptPKCS7)
+        
         
         return data
     }

@@ -9,6 +9,18 @@
 import Foundation
 import openssl
 
+public enum ReceiptValidatorError: Error
+{
+    case appStoreReceiptNotFound
+    case pkcs7ParsingError
+    case receiptIsNotSigned
+    case receiptSignedDataNotFound
+    case receiptSignatureVerificationFailed
+    case appleIncRootCertificateNotFound
+    case unableToLoadAppleIncRootCertificate
+    case internalError
+}
+
 class InAppReceiptValidator
 {
     func verifySignature(pkcs7: UnsafeMutablePointer<PKCS7>) throws
@@ -36,6 +48,7 @@ class InAppReceiptValidator
         
         let result = PKCS7_verify(pkcs7, nil, store, nil, nil, 0)
         
+        BIO_free(appleRootBIO)
         X509_STORE_free(store)
         EVP_cleanup()
         
