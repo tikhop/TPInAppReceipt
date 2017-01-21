@@ -7,8 +7,7 @@
 //
 
 import XCTest
-@testable import TPInAppReceipt
-@testable import openssl
+
 
 class TPInAppReceiptTests: XCTestCase {
     

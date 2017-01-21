@@ -13,17 +13,25 @@ public typealias ASN1Attribute = (data: Data, type: Int)
 
 public extension Data
 {
+    public var pointer: UnsafePointer<UInt8>
+    {
+        var bytes = [UInt8](repeating:0, count: self.count)
+        copyBytes(to: &bytes, count: self.count)
+        return UnsafePointer<UInt8>(bytes)
+    }
+    
     public func enumerateASN1Attributes(withBlock block: (ASN1Attribute) -> ())
     {
         var type: Int32 = 0
         var tag: Int32 = 0
         var length = 0
     
-        var receiptBytes = [UInt8](repeating:0, count:self.count)
-        self.copyBytes(to: &receiptBytes, count: self.count)
+        let count = self.count
+        var receiptBytes = [UInt8](repeating:0, count: count)
+        self.copyBytes(to: &receiptBytes, count: count)
         
-        var ptr = UnsafePointer<UInt8>?(receiptBytes)
-        let end = ptr!.advanced(by: receiptBytes.count)
+        var ptr = pointer as UnsafePointer<UInt8>?
+        let end = ptr!.advanced(by: count)
         
         ASN1_get_object(&ptr, &length, &type, &tag, end - ptr!)
         

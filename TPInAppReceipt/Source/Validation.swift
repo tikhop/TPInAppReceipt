@@ -18,16 +18,39 @@ public enum ReceiptValidatorError: Error
     case receiptSignatureVerificationFailed
     case appleIncRootCertificateNotFound
     case unableToLoadAppleIncRootCertificate
+    case hashValidationFaied
     case internalError
 }
 
-class InAppReceiptValidator
+public extension InAppReceipt
 {
-    func verifySignature(pkcs7: PKCS7Wrapper) throws
+    public func verify() throws
     {
-        try checkSignatureExistance(pkcs7: pkcs7.raw)
+        try verifySignature()
+        try verifyHash()
+    }
+    
+    public func verifySignature() throws
+    {
+        try pkcs7Container.verifySignature()
+    }
+    
+    public func verifyHash() throws
+    {
+        if (computedHashData != receiptHash)
+        {
+            throw ReceiptValidatorError.hashValidationFaied
+        }
+    }
+}
+
+extension PKCS7Wrapper
+{
+    func verifySignature() throws
+    {
+        try checkSignatureExistance(pkcs7: raw)
         let appleCertificate = try appleCertificateData()
-        try verifySignature(pkcs7: pkcs7.raw, withCertificateData: appleCertificate)
+        try verifySignature(pkcs7: raw, withCertificateData: appleCertificate)
     }
     
     fileprivate func verifySignature(pkcs7: UnsafeMutablePointer<PKCS7>, withCertificateData data: Data) throws

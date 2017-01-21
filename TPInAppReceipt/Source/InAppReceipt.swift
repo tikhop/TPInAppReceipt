@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import openssl
 
 public enum InAppReceiptField: Int
 {
@@ -31,78 +32,64 @@ public enum InAppReceiptField: Int
 
 public struct InAppReceipt
 {
-    /// The app’s bundle identifier
-    public var bundleIdentifier: String
+    /// Raw pkcs7 container
+    internal var pkcs7Container: PKCS7Wrapper
     
-    /// The app’s version number
-    public var appVersion: String
+    /// Payload of the receipt.
+    /// Payload object contains all meta information.
+    internal var payload: InAppReceiptPayload
     
-    /// The version of the app that was originally purchased.
-    public var originalAppVersion: String
-    
-    /// In-app purchase's receipts
-    public var purchases: [InAppPurchase]
-    
-    /// The date that the app receipt expires
-    public var expirationDate: String? = nil
-    
-    /// Used to validate the receipt
-    public var bundleIdentifierData: Data
-    
-    /// An opaque value used, with other data, to compute the SHA-1 hash during validation.
-    public var opaqueValue: Data
-    
-    /// A SHA-1 hash, used to validate the receipt.
-    public var receiptHash: Data
-    
-    init(asn1Data: Data)
+    /// Initialize a `InAppReceipt` with asn1 payload
+    ///
+    /// - parameter receiptData: `Data` object that represents receipt
+    public init(receiptData: Data) throws
     {
-        bundleIdentifier = ""
-        appVersion = ""
-        originalAppVersion = ""
-        purchases = []
-        bundleIdentifierData = Data()
-        opaqueValue = Data()
-        receiptHash = Data()
-        
-        asn1Data.enumerateASN1Attributes { (attributes) in
-            if let field = InAppReceiptField(rawValue: attributes.type)
-            {
-                let length = attributes.data.count
-                
-                var bytes = [UInt8](repeating:0, count: length)
-                attributes.data.copyBytes(to: &bytes, count: length)
-                
-                var ptr = UnsafePointer<UInt8>?(bytes)
-                
-                switch field
-                {
-                case .bundleIdentifier:
-                    bundleIdentifierData = Data(bytes: bytes, count: length)
-                    bundleIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
-                case .appVersion:
-                    appVersion = asn1ReadUTF8String(&ptr, bytes.count)!
-                case .opaqueValue:
-                    opaqueValue = Data(bytes: bytes, count: length)
-                case .receiptHash:
-                    receiptHash = Data(bytes: bytes, count: length)
-                case .inAppPurchaseReceipt:
-                    purchases.append(InAppPurchase(asn1Data: attributes.data))
-                case .originalAppVersion:
-                    originalAppVersion = asn1ReadUTF8String(&ptr, bytes.count)!
-                case .expirationDate:
-                    let str = asn1ReadASCIIString(&ptr, bytes.count)
-                    expirationDate = str
-                default:
-                    print("attribute.type = \(attributes.type))")
-                }
-            }
-        }
+        let pkcs7 = try PKCS7Wrapper(receipt: receiptData)
+        self.init(pkcs7: pkcs7)
+    }
+    
+    /// Initialize a `InAppReceipt` with asn1 payload
+    ///
+    /// - parameter pkcs7: `PKCS7Wrapper` pkcs7 container of the receipt 
+    init(pkcs7: PKCS7Wrapper)
+    {
+        self.pkcs7Container = pkcs7
+        self.payload = InAppReceiptPayload(asn1Data: pkcs7.extractASN1Data())
     }
 }
 
 public extension InAppReceipt
 {
+    /// The app’s bundle identifier
+    public var bundleIdentifier: String
+    {
+        return payload.bundleIdentifier
+    }
+    
+    /// The app’s version number
+    public var appVersion: String
+    {
+        return payload.appVersion
+    }
+    
+    /// The version of the app that was originally purchased.
+    public var originalAppVersion: String
+    {
+        return payload.originalAppVersion
+    }
+    
+    /// In-app purchase's receipts
+    public var purchases: [InAppPurchase]
+    {
+        return payload.purchases
+    }
+    
+    /// The date that the app receipt expires
+    public var expirationDate: String?
+    {
+        return payload.expirationDate
+    }
+    
     /// Returns `true` if any purchases exist, `false` otherwise
     public var hasPurchases: Bool
     {
@@ -172,3 +159,43 @@ public extension InAppReceipt
     }
 }
 
+internal extension InAppReceipt
+{
+    /// Used to validate the receipt
+    internal var bundleIdentifierData: Data
+    {
+        return payload.bundleIdentifierData
+    }
+    
+    /// An opaque value used, with other data, to compute the SHA-1 hash during validation.
+    internal var opaqueValue: Data
+    {
+        return payload.opaqueValue
+    }
+    
+    /// A SHA-1 hash, used to validate the receipt.
+    internal var receiptHash: Data
+    {
+        return payload.receiptHash
+    }
+    
+    /// Computed SHA-1 hash, used to validate the receipt.
+    /// Should be equal to `receiptHash` value
+    internal var computedHashData: Data
+    {
+        let uuidData = TPInAppReceipt.UIDevice.current.uuidData
+        let opaqueData = opaqueValue
+        let bundleIdData = bundleIdentifierData
+        
+        var hash = Array<CUnsignedChar>(repeating: 0, count: 20)
+        var ctx = SHA_CTX()
+        
+        SHA1_Init(&ctx)
+        SHA1_Update(&ctx, uuidData.pointer, uuidData.count)
+        SHA1_Update(&ctx, opaqueData.pointer, opaqueData.count)
+        SHA1_Update(&ctx, bundleIdData.pointer, bundleIdData.count)
+        SHA1_Final(&hash, &ctx);
+        
+        return Data(bytes: &hash, count: hash.count)
+    }
+}

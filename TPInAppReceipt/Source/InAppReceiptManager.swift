@@ -17,18 +17,10 @@ public enum InAppReceiptError: Error
 
 public class InAppReceiptManager
 {
-    fileprivate let validator = InAppReceiptValidator()
-    
-    public func receipt(usingValidation: Bool = true) throws -> InAppReceipt
+    public func receipt() throws -> InAppReceipt
     {
-        let pkcs7container = try pkcs7()
-        
-        if usingValidation
-        {
-            try validate(pkcs7: pkcs7container)
-        }
-        
-        return InAppReceipt(asn1Data: pkcs7container.extractASN1Data())
+        let receipt = try receiptData()
+        return try InAppReceipt(receiptData: receipt)
     }
     
     public static let shared: InAppReceiptManager = InAppReceiptManager()
@@ -36,17 +28,6 @@ public class InAppReceiptManager
 
 fileprivate extension InAppReceiptManager
 {
-    fileprivate func validate(pkcs7: PKCS7Wrapper) throws
-    {
-        try validator.verifySignature(pkcs7: pkcs7)
-    }
-    
-    fileprivate func pkcs7() throws -> PKCS7Wrapper
-    {
-        let inAppData = try receiptData()
-        return try PKCS7Wrapper(receipt: inAppData)
-    }
-    
     fileprivate func receiptData() throws -> Data
     {
         guard let receiptUrl = Bundle.main.appStoreReceiptURL,
