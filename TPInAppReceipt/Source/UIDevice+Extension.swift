@@ -10,7 +10,7 @@ import Foundation
 
 extension TPInAppReceipt.UIDevice
 {
-    var uuidData: Data
+    var guidData: Data
     {
         let uuid = identifierForVendor!
         var uuidBytes = uuid.uuid

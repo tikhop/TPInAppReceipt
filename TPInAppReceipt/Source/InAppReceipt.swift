@@ -183,7 +183,7 @@ internal extension InAppReceipt
     /// Should be equal to `receiptHash` value
     internal var computedHashData: Data
     {
-        let uuidData = TPInAppReceipt.UIDevice.current.uuidData
+        let uuidData = DeviceGUIDRetriever.guid()
         let opaqueData = opaqueValue
         let bundleIdData = bundleIdentifierData
         
