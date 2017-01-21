@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "TPInAppReceipt"
-s.version      = "1.1"
+s.version      = "1.1.1"
 s.summary      = "Validates and parses Apple Store Receipt."
 
 s.description  = "This helper validates and parses the payload and the PKCS7 container itself. Pure swift, openssl+bitcode"
@@ -38,17 +38,19 @@ s.source       = { :git => "https://github.com/tikhop/TPInAppReceipt.git", :tag 
 #  Not including the public_header_files will make all headers public.
 #
 
-s.source_files  = "TPInAppReceipt/**/*.{h,m}", "TPInAppReceipt/**/*.{swift}", "Vendor/OpenSSL/include/**/*.h"
-
-s.public_header_files = "TPInAppReceipt/**/*.h"
+s.ios.source_files  = "TPInAppReceipt/**/*.{h,m}", "TPInAppReceipt/Source/*.{swift}", "TPInAppReceipt/Source/iOS/*.{swift}", "Vendor/OpenSSL/include/**/*.h"
+s.ios.public_header_files = "TPInAppReceipt/**/*.h"
 s.ios.vendored_libraries = "Vendor/OpenSSL/iOS/libssl.a", "Vendor/OpenSSL/iOS/libcrypto.a"
 s.ios.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL', 'LIBRARY_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/iOS' }
 s.ios.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL', 'LIBRARY_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/iOS' }
+s.ios.preserve_paths = 'TPInAppReceipt/*', 'Vendor/OpenSSL/module.modulemap', 'TPInAppReceipt/**/*'
+
+s.osx.source_files  = "TPInAppReceipt/**/*.{h,m}", "TPInAppReceipt/Source/*.{swift}", "Vendor/OpenSSL/include/**/*.h"
+s.osx.public_header_files = "TPInAppReceipt/**/*.h"
 s.osx.vendored_libraries = "Vendor/OpenSSL/Mac/libssl.a", "Vendor/OpenSSL/Mac/libcrypto.a"
 s.osx.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL', 'LIBRARY_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/Mac' }
 s.osx.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL', 'LIBRARY_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/Mac' }
-s.preserve_paths = 'TPInAppReceipt/*', 'Vendor/OpenSSL/module.modulemap', 'TPInAppReceipt/**/*'
-
+s.osx.preserve_paths = 'TPInAppReceipt/*', 'Vendor/OpenSSL/module.modulemap', 'TPInAppReceipt/**/*'
 # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
 s.resources  = "TPInAppReceipt/AppleIncRootCertificate.cer"
