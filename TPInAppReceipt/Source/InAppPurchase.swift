@@ -10,7 +10,6 @@ import Foundation
 
 public struct InAppPurchase
 {
-    public var quantity: Int
     public var productIdentifier: String
     public var transactionIdentifier: String
     public var originalTransactionIdentifier: String
@@ -19,6 +18,7 @@ public struct InAppPurchase
     public var subscriptionExpirationDateString: String? = nil
     public var cancellationDateString: String? = nil
     public var webOrderLineItemID: Int? = nil
+    public var quantity: Int
     
     public init(asn1Data: Data)
     {

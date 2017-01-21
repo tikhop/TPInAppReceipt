@@ -12,6 +12,9 @@ import Foundation
 
 struct InAppReceiptPayload
 {
+    /// In-app purchase's receipts
+    public let purchases: [InAppPurchase]
+    
     /// The app’s bundle identifier
     public let bundleIdentifier: String
     
@@ -20,9 +23,6 @@ struct InAppReceiptPayload
     
     /// The version of the app that was originally purchased.
     public let originalAppVersion: String
-    
-    /// In-app purchase's receipts
-    public let purchases: [InAppPurchase]
     
     /// The date that the app receipt expires
     public let expirationDate: String?
