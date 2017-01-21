@@ -1,5 +1,5 @@
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TPInAppReceipt.svg)](https://img.shields.io/cocoapods/v/TPInAppReceipt.svg)
-[![Platform](https://img.shields.io/cocoapods/p/TPInAppReceipt.svg?style=flat)]
+[![Platform](https://img.shields.io/cocoapods/p/TPInAppReceipt.svg?style=flat)]()
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tikhop/TPInAppReceipt/master/LICENSE)
 # TPInAppReceipt
 
