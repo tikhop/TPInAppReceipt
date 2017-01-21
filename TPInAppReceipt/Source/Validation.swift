@@ -9,18 +9,7 @@
 import Foundation
 import openssl
 
-public enum ReceiptValidatorError: Error
-{
-    case appStoreReceiptNotFound
-    case pkcs7ParsingError
-    case receiptIsNotSigned
-    case receiptSignedDataNotFound
-    case receiptSignatureVerificationFailed
-    case appleIncRootCertificateNotFound
-    case unableToLoadAppleIncRootCertificate
-    case hashValidationFaied
-    case internalError
-}
+
 
 public extension InAppReceipt
 {
@@ -39,7 +28,7 @@ public extension InAppReceipt
     {
         if (computedHashData != receiptHash)
         {
-            throw ReceiptValidatorError.hashValidationFaied
+            throw IARError.validationFailed(reason: .hashValidationFailed)
         }
     }
 }
@@ -77,7 +66,7 @@ extension PKCS7Wrapper
         
         if verified != result
         {
-            throw ReceiptValidatorError.receiptSignatureVerificationFailed
+            throw IARError.validationFailed(reason: .signatureValidationFailed(.invalidSignature))
         }
     }
     
@@ -85,12 +74,12 @@ extension PKCS7Wrapper
     {
         if OBJ_obj2nid(pkcs7.pointee.type) != NID_pkcs7_signed
         {
-            throw ReceiptValidatorError.receiptIsNotSigned
+            throw IARError.validationFailed(reason: .signatureValidationFailed(.receiptIsNotSigned))
         }
         
         if OBJ_obj2nid(pkcs7.pointee.d.sign.pointee.contents.pointee.type) != NID_pkcs7_data
         {
-            throw ReceiptValidatorError.receiptSignedDataNotFound
+            throw IARError.validationFailed(reason: .signatureValidationFailed(.receiptSignedDataNotFound))
         }
     }
     
@@ -98,14 +87,14 @@ extension PKCS7Wrapper
     {
         guard let appleRootURL = Bundle.init(for: type(of: self)).url(forResource: "AppleIncRootCertificate", withExtension: "cer") else
         {
-            throw ReceiptValidatorError.appleIncRootCertificateNotFound
+            throw IARError.validationFailed(reason: .signatureValidationFailed(.appleIncRootCertificateNotFound))
         }
         
         let appleRootData = try Data(contentsOf: appleRootURL)
         
         if appleRootData.count == 0
         {
-            throw ReceiptValidatorError.unableToLoadAppleIncRootCertificate
+            throw IARError.validationFailed(reason: .signatureValidationFailed(.unableToLoadAppleIncRootCertificate))
         }
         
         return appleRootData

@@ -29,7 +29,7 @@ class PKCS7Wrapper
         
         guard let receiptPKCS7 = d2i_PKCS7_bio(receiptBio, nil) else
         {
-            throw ReceiptValidatorError.pkcs7ParsingError
+            throw IARError.initializationFailed(reason: .pkcs7ParsingError)
         }
         
         raw = receiptPKCS7

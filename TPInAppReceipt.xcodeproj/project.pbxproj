@@ -98,6 +98,7 @@
 		47589AE91E31B2F90047DFCD /* InAppPurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE81E31B2F90047DFCD /* InAppPurchase.swift */; };
 		47589AEB1E32D6BB0047DFCD /* InAppReceiptPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AEA1E32D6BB0047DFCD /* InAppReceiptPayload.swift */; };
 		47589AED1E32E9D40047DFCD /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AEC1E32E9D30047DFCD /* UIDevice+Extension.swift */; };
+		47589AEF1E332D5E0047DFCD /* IARError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AEE1E332D5D0047DFCD /* IARError.swift */; };
 		479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -207,6 +208,7 @@
 		47589AE81E31B2F90047DFCD /* InAppPurchase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppPurchase.swift; sourceTree = "<group>"; };
 		47589AEA1E32D6BB0047DFCD /* InAppReceiptPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppReceiptPayload.swift; sourceTree = "<group>"; };
 		47589AEC1E32E9D30047DFCD /* UIDevice+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
+		47589AEE1E332D5D0047DFCD /* IARError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IARError.swift; sourceTree = "<group>"; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -398,6 +400,7 @@
 				47589AE81E31B2F90047DFCD /* InAppPurchase.swift */,
 				47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */,
 				47589AE61E31AE6F0047DFCD /* PKCS7Wrapper.swift */,
+				47589AEE1E332D5D0047DFCD /* IARError.swift */,
 				47209ABD1D9E111C0010BCDE /* Data+Extension.swift */,
 				479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */,
 				47589AEC1E32E9D30047DFCD /* UIDevice+Extension.swift */,
@@ -593,6 +596,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				47589AEB1E32D6BB0047DFCD /* InAppReceiptPayload.swift in Sources */,
+				47589AEF1E332D5E0047DFCD /* IARError.swift in Sources */,
 				479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */,
 				47589AE91E31B2F90047DFCD /* InAppPurchase.swift in Sources */,
 				47589AED1E32E9D40047DFCD /* UIDevice+Extension.swift in Sources */,

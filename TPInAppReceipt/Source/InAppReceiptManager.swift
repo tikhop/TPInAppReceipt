@@ -9,12 +9,6 @@
 import Foundation
 import openssl
 
-public enum InAppReceiptError: Error
-{
-    case appStoreReceiptNotFound
-    case internalError
-}
-
 public class InAppReceiptManager
 {
     public func receipt() throws -> InAppReceipt
@@ -33,7 +27,7 @@ fileprivate extension InAppReceiptManager
         guard let receiptUrl = Bundle.main.appStoreReceiptURL,
             FileManager.default.fileExists(atPath: receiptUrl.path) else
         {
-            throw ReceiptValidatorError.appStoreReceiptNotFound
+            throw IARError.initializationFailed(reason: .appStoreReceiptNotFound)
         }
         
         return try Data(contentsOf: receiptUrl)
