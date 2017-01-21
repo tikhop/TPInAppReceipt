@@ -10,6 +10,9 @@ import Foundation
 
 /// `IARError` is the error type returned by InAppReceipt.
 /// It encompasses a few different types of errors, each with their own associated reasons.
+///
+/// - initializationFailed:                 Error occurs during initialization step
+/// - validationFailed:                     Error occurs during the receipt validation process
 public enum IARError: Error
 {
     case initializationFailed(reason: ReceiptInitializationFailureReason)
@@ -21,12 +24,23 @@ public enum IARError: Error
         case pkcs7ParsingError
     }
     
+    /// The underlying reason the receipt validation error occurred.
+    ///
+    /// - hashValidation:          Computed hash doesn't match the hash from the receipt's payload
+    /// - signatureValidation:     Error occurs during signature validation. It has several reasons to failure
     public enum ValidationFailureReason
     {
-        case hashValidationFailed
-        case signatureValidationFailed(SignatureValidationFailureReason)
+        case hashValidation
+        case signatureValidation(SignatureValidationFailureReason)
     }
     
+    /// The underlying reason the signature validation error occurred.
+    ///
+    /// - appleIncRootCertificateNotFound:          Apple Inc Root Certificate Not Found
+    /// - unableToLoadAppleIncRootCertificate:      Unable To Load Apple Inc Root Certificate
+    /// - receiptIsNotSigned:                       The receipt doesn't contain a signature
+    /// - receiptSignedDataNotFound:                The receipt does contain somr signature, but there is an error while creating a signature object
+    /// - invalidSignature:                         The receipt contains invalid signature
     public enum SignatureValidationFailureReason
     {
         case appleIncRootCertificateNotFound
@@ -35,6 +49,4 @@ public enum IARError: Error
         case receiptSignedDataNotFound
         case invalidSignature
     }
-    
-    
 }
