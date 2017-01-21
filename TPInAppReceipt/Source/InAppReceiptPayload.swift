@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 struct InAppReceiptPayload
 {
     /// In-app purchase's receipts

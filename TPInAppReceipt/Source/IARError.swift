@@ -18,6 +18,10 @@ public enum IARError: Error
     case initializationFailed(reason: ReceiptInitializationFailureReason)
     case validationFailed(reason: ValidationFailureReason)
     
+    /// The underlying reason the receipt initialization error occurred.
+    ///
+    /// - appStoreReceiptNotFound:         In-App Receipt not found
+    /// - pkcs7ParsingError:               PKCS7 Container can't be extracted from in-app receipt data
     public enum ReceiptInitializationFailureReason
     {
         case appStoreReceiptNotFound

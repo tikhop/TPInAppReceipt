@@ -87,28 +87,3 @@ func asn1ReadASCIIString(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l
 {
     return asn1ReadString(ptr, l, V_ASN1_IA5STRING, .ascii)
 }
-
-//
-//static NSString* RMASN1ReadString(const uint8_t **pp, long omax, int expectedTag, NSStringEncoding encoding)
-//{
-//    int tag, asn1Class;
-//    long length;
-//    NSString *value = nil;
-//    ASN1_get_object(pp, &length, &tag, &asn1Class, omax);
-//    if (tag == expectedTag)
-//    {
-//        value = [[NSString alloc] initWithBytes:*pp length:length encoding:encoding];
-//    }
-//    *pp += length;
-//    return value;
-//}
-//
-//static NSString* RMASN1ReadUTF8String(const uint8_t **pp, long omax)
-//{
-//    return RMASN1ReadString(pp, omax, V_ASN1_UTF8STRING, NSUTF8StringEncoding);
-//}
-//
-//static NSString* RMASN1ReadIA5SString(const uint8_t **pp, long omax)
-//{
-//    return RMASN1ReadString(pp, omax, V_ASN1_IA5STRING, NSASCIIStringEncoding);
-//}

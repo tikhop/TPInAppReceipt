@@ -10,14 +10,31 @@ import Foundation
 
 public struct InAppPurchase
 {
+    /// The product identifier which purchase related to
     public var productIdentifier: String
+    
+    /// Transaction identifier
     public var transactionIdentifier: String
+    
+    /// Original Transaction identifier
     public var originalTransactionIdentifier: String
+    
+    /// Purchase Date in string format
     public var purchaseDateString: String
+    
+    /// Original Purchase Date in string format
     public var originalPurchaseDateString: String
+    
+    /// Subscription Expiration Date in string format. Returns `nil` if the purchase is not a renewable subscription
     public var subscriptionExpirationDateString: String? = nil
+    
+    /// Cancellation Date in string format. Returns `nil` if the purchase is not a renewable subscription
     public var cancellationDateString: String? = nil
+    
+    ///
     public var webOrderLineItemID: Int? = nil
+    
+    /// Quantity
     public var quantity: Int
     
     public init(asn1Data: Data)
@@ -79,11 +96,13 @@ public struct InAppPurchase
 
 public extension InAppPurchase
 {
+    /// Purchase Date representation as a 'Date' object
     public var purchaseDate: Date
     {
         return purchaseDateString.rfc3339date()
     }
     
+    /// Subscription Expiration Date representation as a 'Date' object
     public var subscriptionExpirationDate: Date
     {
         assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
@@ -91,11 +110,16 @@ public extension InAppPurchase
         return subscriptionExpirationDateString!.rfc3339date()
     }
     
+    /// A Boolean value indicating whether the purchase is renewable subscription.
     public var isRenewableSubscription: Bool
     {
         return self.subscriptionExpirationDateString != nil
     }
     
+    /// Check whether the subscription is active for a specific date
+    ///
+    /// - Parameter date: The date in which the auto-renewable subscription should be active.
+    /// - Returns: true if the latest auto-renewable subscription is active for the given date, false otherwise.
     public func isActiveAutoRenewableSubscription(forDate date: Date) -> Bool
     {
         assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
