@@ -138,6 +138,8 @@ public extension InAppReceipt
                 return $0.purchaseDate > $1.purchaseDate
             })
         }
+        
+        
     }
     
     /// Returns `InAppPurchase` if there is a purchase for a specific product identifier,

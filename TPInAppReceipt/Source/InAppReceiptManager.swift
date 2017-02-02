@@ -43,3 +43,4 @@ fileprivate extension InAppReceiptManager
         return try Data(contentsOf: receiptUrl)
     }
 }
+

@@ -10,6 +10,8 @@ import Foundation
 
 #if os(macOS)
 import IOKit
+#else
+import UIKit
 #endif
 
 class DeviceGUIDRetriever
@@ -17,7 +19,8 @@ class DeviceGUIDRetriever
     static func guid() -> Data
     {
         #if os(iOS) || os(watchOS) || os(tvOS)
-            return TPInAppReceipt.UIDevice.current.guidData
+            var uuidBytes = UIDevice.current.identifierForVendor!.uuid
+            return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
         #elseif os(macOS)
             var masterPort = mach_port_t()
             var kernResult: kern_return_t = IOMasterPort(mach_port_t(MACH_PORT_NULL), &masterPort)
