@@ -7,14 +7,15 @@
 //
 
 import Foundation
+import openssl
 
 public enum InAppReceiptField: Int
 {
     case bundleIdentifier = 2
     case appVersion = 3
     case opaqueValue = 4
-    case receiptHash = 5 //SHA-1 Hash
-    case inAppPurchaseReceipt = 17
+    case receiptHash = 5 // SHA-1 Hash
+    case inAppPurchaseReceipt = 17 // The receipt for an in-app purchase.
     case originalAppVersion = 19
     case expirationDate = 21
     
@@ -31,143 +32,81 @@ public enum InAppReceiptField: Int
 
 public struct InAppReceipt
 {
-    public var bundleIdentifier: String
-    public var appVersion: String
-    public var originalAppVersion: String
-    public var purchases: [InAppPurchase]
-    public var expirationDate: String? = nil
+    /// Raw pkcs7 container
+    internal var pkcs7Container: PKCS7Wrapper
     
-    public var bundleIdentifierData: Data
-    public var opaqueValue: Data
-    public var receiptHash: Data
+    /// Payload of the receipt.
+    /// Payload object contains all meta information.
+    internal var payload: InAppReceiptPayload
     
-    public init(ans1Data: Data)
+    /// Initialize a `InAppReceipt` with asn1 payload
+    ///
+    /// - parameter receiptData: `Data` object that represents receipt
+    public init(receiptData: Data) throws
     {
-        bundleIdentifier = ""
-        appVersion = ""
-        originalAppVersion = ""
-        purchases = []
-        bundleIdentifierData = Data()
-        opaqueValue = Data()
-        receiptHash = Data()
-        
-        ans1Data.enumerateASN1Attributes { (attributes) in
-            if let field = InAppReceiptField(rawValue: attributes.type)
-            {
-                let length = attributes.data.count
-                
-                var bytes = [UInt8](repeating:0, count: length)
-                attributes.data.copyBytes(to: &bytes, count: length)
-                
-                var ptr = UnsafePointer<UInt8>?(bytes)
-                
-                switch field
-                {
-                case .bundleIdentifier:
-                    bundleIdentifierData = Data(bytes: bytes, count: length)
-                    bundleIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
-                case .appVersion:
-                    appVersion = asn1ReadUTF8String(&ptr, bytes.count)!
-                case .opaqueValue:
-                    opaqueValue = Data(bytes: bytes, count: length)
-                case .receiptHash:
-                    receiptHash = Data(bytes: bytes, count: length)
-                case .inAppPurchaseReceipt:
-                    purchases.append(InAppPurchase(ans1Data: attributes.data))
-                case .originalAppVersion:
-                    originalAppVersion = asn1ReadUTF8String(&ptr, bytes.count)!
-                case .expirationDate:
-                    let str = asn1ReadASCIIString(&ptr, bytes.count)
-                    expirationDate = str
-                default:
-                    print("attribute.type = \(attributes.type))")
-                }
-            }
-        }
+        let pkcs7 = try PKCS7Wrapper(receipt: receiptData)
+        self.init(pkcs7: pkcs7)
     }
-}
-
-public struct InAppPurchase
-{
-    public var quantity: Int
-    public var productIdentifier: String
-    public var transactionIdentifier: String
-    public var originalTransactionIdentifier: String
-    public var purchaseDateString: String
-    public var originalPurchaseDateString: String
-    public var subscriptionExpirationDateString: String? = nil
-    public var cancellationDateString: String? = nil
-    public var webOrderLineItemID: Int? = nil
     
-    public init(ans1Data: Data)
+    /// Initialize a `InAppReceipt` with asn1 payload
+    ///
+    /// - parameter pkcs7: `PKCS7Wrapper` pkcs7 container of the receipt 
+    init(pkcs7: PKCS7Wrapper)
     {
-        originalTransactionIdentifier = ""
-        productIdentifier = ""
-        transactionIdentifier = ""
-        purchaseDateString = ""
-        originalPurchaseDateString = ""
-        quantity = 0
-        
-        ans1Data.enumerateASN1Attributes { (attributes) in
-            if let field = InAppReceiptField(rawValue: attributes.type)
-            {
-                let length = attributes.data.count
-                
-                var bytes = [UInt8](repeating:0, count: length)
-                attributes.data.copyBytes(to: &bytes, count: length)
-                
-                var ptr = UnsafePointer<UInt8>?(bytes)
-                
-                switch field
-                {
-                case .quantity:
-                    quantity = asn1ReadInteger(&ptr, bytes.count)
-                
-                case .productIdentifier:
-                    productIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
-                
-                case .transactionIdentifier:
-                    transactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
-                
-                case .purchaseDate:
-                    purchaseDateString = asn1ReadASCIIString(&ptr, bytes.count)!
-                
-                case .originalTransactionIdentifier:
-                    originalTransactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
-                
-                case .originalPurchaseDate:
-                    originalPurchaseDateString = asn1ReadASCIIString(&ptr, bytes.count)!
-                
-                case .subscriptionExpirationDate:
-                    subscriptionExpirationDateString = asn1ReadASCIIString(&ptr, bytes.count)
-                
-                case .cancellationDate:
-                    cancellationDateString = asn1ReadASCIIString(&ptr, bytes.count)
-                
-                case .webOrderLineItemID:
-                    webOrderLineItemID = asn1ReadInteger(&ptr, bytes.count)
-                
-                default:
-                    print("attribute.type = \(attributes.type))")
-                    asn1ConsumeObject(&ptr, bytes.count)
-                }
-            }
-        }
+        self.pkcs7Container = pkcs7
+        self.payload = InAppReceiptPayload(asn1Data: pkcs7.extractASN1Data())
     }
 }
 
 public extension InAppReceipt
 {
+    /// The app’s bundle identifier
+    public var bundleIdentifier: String
+    {
+        return payload.bundleIdentifier
+    }
+    
+    /// The app’s version number
+    public var appVersion: String
+    {
+        return payload.appVersion
+    }
+    
+    /// The version of the app that was originally purchased.
+    public var originalAppVersion: String
+    {
+        return payload.originalAppVersion
+    }
+    
+    /// In-app purchase's receipts
+    public var purchases: [InAppPurchase]
+    {
+        return payload.purchases
+    }
+    
+    /// The date that the app receipt expires
+    public var expirationDate: String?
+    {
+        return payload.expirationDate
+    }
+    
+    /// Returns `true` if any purchases exist, `false` otherwise
     public var hasPurchases: Bool
     {
         return purchases.count > 0
     }
     
+    /// Return original transaction identifier if there is a purchase for a specific product identifier
+    ///
+    /// - parameter productIdentifier: Product name
     public func originalTransactionIdentifier(ofProductIdentifier productIdentifier: String) -> String?
     {
         return purchases(ofProductIdentifier: productIdentifier).first?.originalTransactionIdentifier
     }
     
+    /// Returns `true` if there is a purchase for a specific product identifier, `false` otherwise
+    ///
+    /// - parameter productIdentifier: Product name
     public func containsPurchase(ofProductIdentifier productIdentifier: String) -> Bool
     {
         for item in purchases
@@ -181,6 +120,10 @@ public extension InAppReceipt
         return false
     }
     
+    /// Returns `[InAppPurchase]` if there are purchases for a specific product identifier,
+    /// empty array otherwise
+    ///
+    /// - parameter productIdentifier: Product name
     public func purchases(ofProductIdentifier productIdentifier: String, sortedBy sort: ((InAppPurchase, InAppPurchase) -> Bool)? = nil) -> [InAppPurchase]
     {
         let filtered: [InAppPurchase] = purchases.filter({ return $0.productIdentifier == productIdentifier })
@@ -197,6 +140,10 @@ public extension InAppReceipt
         }
     }
     
+    /// Returns `InAppPurchase` if there is a purchase for a specific product identifier,
+    /// `nil` otherwise
+    ///
+    /// - parameter productIdentifier: Product name
     public func activeAutoRenewableSubscriptionPurchases(ofProductIdentifier productIdentifier: String, forDate date: Date) -> InAppPurchase?
     {
         let filtered = purchases(ofProductIdentifier: productIdentifier) {
@@ -212,34 +159,43 @@ public extension InAppReceipt
     }
 }
 
-public extension InAppPurchase
+internal extension InAppReceipt
 {
-    public var purchaseDate: Date
+    /// Used to validate the receipt
+    internal var bundleIdentifierData: Data
     {
-        return purchaseDateString.rfc3339date()
+        return payload.bundleIdentifierData
     }
     
-    public var subscriptionExpirationDate: Date
+    /// An opaque value used, with other data, to compute the SHA-1 hash during validation.
+    internal var opaqueValue: Data
     {
-        assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
-        
-        return subscriptionExpirationDateString!.rfc3339date()
+        return payload.opaqueValue
     }
     
-    public var isRenewableSubscription: Bool
+    /// A SHA-1 hash, used to validate the receipt.
+    internal var receiptHash: Data
     {
-        return self.subscriptionExpirationDateString != nil
+        return payload.receiptHash
     }
     
-    public func isActiveAutoRenewableSubscription(forDate date: Date) -> Bool
+    /// Computed SHA-1 hash, used to validate the receipt.
+    /// Should be equal to `receiptHash` value
+    internal var computedHashData: Data
     {
-        assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
+        let uuidData = DeviceGUIDRetriever.guid()
+        let opaqueData = opaqueValue
+        let bundleIdData = bundleIdentifierData
         
-        if(self.cancellationDateString != nil && self.cancellationDateString != "")
-        {
-            return false
-        }
+        var hash = Array<CUnsignedChar>(repeating: 0, count: 20)
+        var ctx = SHA_CTX()
         
-        return purchaseDate.compare(date) == .orderedAscending && date.compare(subscriptionExpirationDate) != .orderedDescending
+        SHA1_Init(&ctx)
+        SHA1_Update(&ctx, uuidData.pointer, uuidData.count)
+        SHA1_Update(&ctx, opaqueData.pointer, opaqueData.count)
+        SHA1_Update(&ctx, bundleIdData.pointer, bundleIdData.count)
+        SHA1_Final(&hash, &ctx);
+        
+        return Data(bytes: &hash, count: hash.count)
     }
 }

@@ -85,14 +85,111 @@
 		47209AB61D9E11140010BCDE /* x509.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A671D9E11140010BCDE /* x509.h */; };
 		47209AB71D9E11140010BCDE /* x509_vfy.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A681D9E11140010BCDE /* x509_vfy.h */; };
 		47209AB81D9E11140010BCDE /* x509v3.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A691D9E11140010BCDE /* x509v3.h */; };
-		47209AB91D9E11140010BCDE /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47209A6B1D9E11140010BCDE /* libcrypto.a */; };
-		47209ABA1D9E11140010BCDE /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47209A6C1D9E11140010BCDE /* libssl.a */; };
 		47209AC01D9E111C0010BCDE /* ASN1Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */; };
 		47209AC11D9E111C0010BCDE /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABD1D9E111C0010BCDE /* Data+Extension.swift */; };
 		47209AC21D9E111C0010BCDE /* InAppReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */; };
 		47209AC31D9E111C0010BCDE /* InAppReceiptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABF1D9E111C0010BCDE /* InAppReceiptManager.swift */; };
 		47209AC51D9E112C0010BCDE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */; };
 		47209AC61D9E112C0010BCDE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */; };
+		47589AE51E319A220047DFCD /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE41E319A220047DFCD /* Validation.swift */; };
+		47589AE71E31AE6F0047DFCD /* PKCS7Wrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE61E31AE6F0047DFCD /* PKCS7Wrapper.swift */; };
+		47589AE91E31B2F90047DFCD /* InAppPurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE81E31B2F90047DFCD /* InAppPurchase.swift */; };
+		47589AEB1E32D6BB0047DFCD /* InAppReceiptPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AEA1E32D6BB0047DFCD /* InAppReceiptPayload.swift */; };
+		47589AED1E32E9D40047DFCD /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AEC1E32E9D30047DFCD /* UIDevice+Extension.swift */; };
+		47589AEF1E332D5E0047DFCD /* IARError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AEE1E332D5D0047DFCD /* IARError.swift */; };
+		47589AF31E333F450047DFCD /* InAppReceiptPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AEA1E32D6BB0047DFCD /* InAppReceiptPayload.swift */; };
+		47589AF41E333F450047DFCD /* IARError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AEE1E332D5D0047DFCD /* IARError.swift */; };
+		47589AF51E333F450047DFCD /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
+		47589AF61E333F450047DFCD /* InAppPurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE81E31B2F90047DFCD /* InAppPurchase.swift */; };
+		47589AF81E333F450047DFCD /* ASN1Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */; };
+		47589AF91E333F450047DFCD /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABD1D9E111C0010BCDE /* Data+Extension.swift */; };
+		47589AFA1E333F450047DFCD /* InAppReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */; };
+		47589AFB1E333F450047DFCD /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE41E319A220047DFCD /* Validation.swift */; };
+		47589AFC1E333F450047DFCD /* InAppReceiptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABF1D9E111C0010BCDE /* InAppReceiptManager.swift */; };
+		47589AFD1E333F450047DFCD /* PKCS7Wrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE61E31AE6F0047DFCD /* PKCS7Wrapper.swift */; };
+		47589B021E333F450047DFCD /* ssl3.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A5E1D9E11140010BCDE /* ssl3.h */; };
+		47589B031E333F450047DFCD /* pem2.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A4D1D9E11140010BCDE /* pem2.h */; };
+		47589B041E333F450047DFCD /* mdc2.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A441D9E11140010BCDE /* mdc2.h */; };
+		47589B051E333F450047DFCD /* stack.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A5F1D9E11140010BCDE /* stack.h */; };
+		47589B061E333F450047DFCD /* err.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A3B1D9E11140010BCDE /* err.h */; };
+		47589B071E333F450047DFCD /* pkcs7.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A4F1D9E11140010BCDE /* pkcs7.h */; };
+		47589B081E333F450047DFCD /* asn1t.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A221D9E11140010BCDE /* asn1t.h */; };
+		47589B091E333F450047DFCD /* ui.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A641D9E11140010BCDE /* ui.h */; };
+		47589B0A1E333F450047DFCD /* asn1.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A201D9E11140010BCDE /* asn1.h */; };
+		47589B0B1E333F450047DFCD /* buffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A261D9E11140010BCDE /* buffer.h */; };
+		47589B0C1E333F450047DFCD /* x509.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A671D9E11140010BCDE /* x509.h */; };
+		47589B0D1E333F450047DFCD /* opensslv.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A4A1D9E11140010BCDE /* opensslv.h */; };
+		47589B0E1E333F450047DFCD /* crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A2E1D9E11140010BCDE /* crypto.h */; };
+		47589B0F1E333F450047DFCD /* kssl.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A401D9E11140010BCDE /* kssl.h */; };
+		47589B101E333F450047DFCD /* cast.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A281D9E11140010BCDE /* cast.h */; };
+		47589B111E333F450047DFCD /* ssl.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A5B1D9E11140010BCDE /* ssl.h */; };
+		47589B121E333F450047DFCD /* bn.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A251D9E11140010BCDE /* bn.h */; };
+		47589B131E333F450047DFCD /* rc4.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A531D9E11140010BCDE /* rc4.h */; };
+		47589B141E333F450047DFCD /* tls1.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A611D9E11140010BCDE /* tls1.h */; };
+		47589B151E333F450047DFCD /* camellia.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A271D9E11140010BCDE /* camellia.h */; };
+		47589B161E333F450047DFCD /* rand.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A511D9E11140010BCDE /* rand.h */; };
+		47589B171E333F450047DFCD /* des_old.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A301D9E11140010BCDE /* des_old.h */; };
+		47589B181E333F450047DFCD /* x509_vfy.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A681D9E11140010BCDE /* x509_vfy.h */; };
+		47589B191E333F450047DFCD /* pkcs12.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A4E1D9E11140010BCDE /* pkcs12.h */; };
+		47589B1A1E333F450047DFCD /* evp.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A3C1D9E11140010BCDE /* evp.h */; };
+		47589B1B1E333F450047DFCD /* engine.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A3A1D9E11140010BCDE /* engine.h */; };
+		47589B1C1E333F450047DFCD /* ssl23.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A5D1D9E11140010BCDE /* ssl23.h */; };
+		47589B1D1E333F450047DFCD /* modes.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A451D9E11140010BCDE /* modes.h */; };
+		47589B1E1E333F450047DFCD /* idea.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A3E1D9E11140010BCDE /* idea.h */; };
+		47589B1F1E333F450047DFCD /* x509v3.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A691D9E11140010BCDE /* x509v3.h */; };
+		47589B201E333F450047DFCD /* blowfish.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A241D9E11140010BCDE /* blowfish.h */; };
+		47589B211E333F450047DFCD /* aes.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A1F1D9E11140010BCDE /* aes.h */; };
+		47589B221E333F450047DFCD /* cmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A291D9E11140010BCDE /* cmac.h */; };
+		47589B231E333F450047DFCD /* txt_db.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A631D9E11140010BCDE /* txt_db.h */; };
+		47589B241E333F450047DFCD /* dso.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A331D9E11140010BCDE /* dso.h */; };
+		47589B251E333F450047DFCD /* objects.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A471D9E11140010BCDE /* objects.h */; };
+		47589B261E333F450047DFCD /* dtls1.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A341D9E11140010BCDE /* dtls1.h */; };
+		47589B271E333F450047DFCD /* cms.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A2A1D9E11140010BCDE /* cms.h */; };
+		47589B281E333F450047DFCD /* dsa.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A321D9E11140010BCDE /* dsa.h */; };
+		47589B291E333F450047DFCD /* ssl2.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A5C1D9E11140010BCDE /* ssl2.h */; };
+		47589B2A1E333F450047DFCD /* ripemd.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A541D9E11140010BCDE /* ripemd.h */; };
+		47589B2B1E333F450047DFCD /* ts.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A621D9E11140010BCDE /* ts.h */; };
+		47589B2C1E333F450047DFCD /* conf.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A2C1D9E11140010BCDE /* conf.h */; };
+		47589B2D1E333F450047DFCD /* lhash.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A411D9E11140010BCDE /* lhash.h */; };
+		47589B2E1E333F450047DFCD /* obj_mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A461D9E11140010BCDE /* obj_mac.h */; };
+		47589B2F1E333F450047DFCD /* ui_compat.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A651D9E11140010BCDE /* ui_compat.h */; };
+		47589B301E333F450047DFCD /* rsa.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A551D9E11140010BCDE /* rsa.h */; };
+		47589B311E333F450047DFCD /* ec.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A371D9E11140010BCDE /* ec.h */; };
+		47589B321E333F450047DFCD /* ecdsa.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A391D9E11140010BCDE /* ecdsa.h */; };
+		47589B331E333F450047DFCD /* hmac.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A3D1D9E11140010BCDE /* hmac.h */; };
+		47589B341E333F450047DFCD /* seed.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A571D9E11140010BCDE /* seed.h */; };
+		47589B351E333F450047DFCD /* whrlpool.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A661D9E11140010BCDE /* whrlpool.h */; };
+		47589B361E333F450047DFCD /* bio.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A231D9E11140010BCDE /* bio.h */; };
+		47589B371E333F450047DFCD /* ebcdic.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A361D9E11140010BCDE /* ebcdic.h */; };
+		47589B381E333F450047DFCD /* dh.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A311D9E11140010BCDE /* dh.h */; };
+		47589B391E333F450047DFCD /* TPInAppReceipt.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A041D9E0FD60010BCDE /* TPInAppReceipt.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		47589B3A1E333F450047DFCD /* asn1_mac.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A211D9E11140010BCDE /* asn1_mac.h */; };
+		47589B3B1E333F450047DFCD /* des.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A2F1D9E11140010BCDE /* des.h */; };
+		47589B3C1E333F450047DFCD /* krb5_asn.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A3F1D9E11140010BCDE /* krb5_asn.h */; };
+		47589B3D1E333F450047DFCD /* pqueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A501D9E11140010BCDE /* pqueue.h */; };
+		47589B3E1E333F450047DFCD /* rc2.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A521D9E11140010BCDE /* rc2.h */; };
+		47589B3F1E333F450047DFCD /* ossl_typ.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A4B1D9E11140010BCDE /* ossl_typ.h */; };
+		47589B401E333F450047DFCD /* srtp.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A5A1D9E11140010BCDE /* srtp.h */; };
+		47589B411E333F450047DFCD /* srp.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A591D9E11140010BCDE /* srp.h */; };
+		47589B421E333F450047DFCD /* e_os2.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A351D9E11140010BCDE /* e_os2.h */; };
+		47589B431E333F450047DFCD /* opensslconf.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A491D9E11140010BCDE /* opensslconf.h */; };
+		47589B441E333F450047DFCD /* md4.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A421D9E11140010BCDE /* md4.h */; };
+		47589B451E333F450047DFCD /* ecdh.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A381D9E11140010BCDE /* ecdh.h */; };
+		47589B461E333F450047DFCD /* comp.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A2B1D9E11140010BCDE /* comp.h */; };
+		47589B471E333F450047DFCD /* safestack.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A561D9E11140010BCDE /* safestack.h */; };
+		47589B481E333F450047DFCD /* symhacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A601D9E11140010BCDE /* symhacks.h */; };
+		47589B491E333F450047DFCD /* conf_api.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A2D1D9E11140010BCDE /* conf_api.h */; };
+		47589B4A1E333F450047DFCD /* ocsp.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A481D9E11140010BCDE /* ocsp.h */; };
+		47589B4B1E333F450047DFCD /* sha.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A581D9E11140010BCDE /* sha.h */; };
+		47589B4C1E333F450047DFCD /* pem.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A4C1D9E11140010BCDE /* pem.h */; };
+		47589B4D1E333F450047DFCD /* md5.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A431D9E11140010BCDE /* md5.h */; };
+		47589B4F1E333F450047DFCD /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */; };
+		47589B561E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */; };
+		47589B571E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */; };
+		47589B5B1E33590F0047DFCD /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47589B591E33590F0047DFCD /* libcrypto.a */; };
+		47589B5C1E33590F0047DFCD /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47589B5A1E33590F0047DFCD /* libssl.a */; };
+		47589B601E3359160047DFCD /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47589B5E1E3359160047DFCD /* libcrypto.a */; };
+		47589B611E3359160047DFCD /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47589B5F1E3359160047DFCD /* libssl.a */; };
 		479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -188,8 +285,6 @@
 		47209A671D9E11140010BCDE /* x509.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x509.h; sourceTree = "<group>"; };
 		47209A681D9E11140010BCDE /* x509_vfy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x509_vfy.h; sourceTree = "<group>"; };
 		47209A691D9E11140010BCDE /* x509v3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x509v3.h; sourceTree = "<group>"; };
-		47209A6B1D9E11140010BCDE /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		47209A6C1D9E11140010BCDE /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		47209A6D1D9E11140010BCDE /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASN1Helper.swift; sourceTree = "<group>"; };
 		47209ABD1D9E111C0010BCDE /* Data+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
@@ -197,6 +292,18 @@
 		47209ABF1D9E111C0010BCDE /* InAppReceiptManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppReceiptManager.swift; sourceTree = "<group>"; };
 		47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleIncRootCertificate.cer; sourceTree = "<group>"; };
 		47209ACD1D9E92CC0010BCDE /* TPInAppReceipt.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = TPInAppReceipt.podspec; sourceTree = "<group>"; };
+		47589AE41E319A220047DFCD /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		47589AE61E31AE6F0047DFCD /* PKCS7Wrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCS7Wrapper.swift; sourceTree = "<group>"; };
+		47589AE81E31B2F90047DFCD /* InAppPurchase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppPurchase.swift; sourceTree = "<group>"; };
+		47589AEA1E32D6BB0047DFCD /* InAppReceiptPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppReceiptPayload.swift; sourceTree = "<group>"; };
+		47589AEC1E32E9D30047DFCD /* UIDevice+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
+		47589AEE1E332D5D0047DFCD /* IARError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IARError.swift; sourceTree = "<group>"; };
+		47589B531E333F450047DFCD /* TPInAppReceipt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TPInAppReceipt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceGUIDRetriever.swift; sourceTree = "<group>"; };
+		47589B591E33590F0047DFCD /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		47589B5A1E33590F0047DFCD /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
+		47589B5E1E3359160047DFCD /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		47589B5F1E3359160047DFCD /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,8 +312,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47209ABA1D9E11140010BCDE /* libssl.a in Frameworks */,
-				47209AB91D9E11140010BCDE /* libcrypto.a in Frameworks */,
+				47589B5C1E33590F0047DFCD /* libssl.a in Frameworks */,
+				47589B5B1E33590F0047DFCD /* libcrypto.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +322,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				47209A0B1D9E0FD60010BCDE /* TPInAppReceipt.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		47589AFE1E333F450047DFCD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47589B611E3359160047DFCD /* libssl.a in Frameworks */,
+				47589B601E3359160047DFCD /* libcrypto.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +352,7 @@
 			children = (
 				47209A011D9E0FD60010BCDE /* TPInAppReceipt.framework */,
 				47209A0A1D9E0FD60010BCDE /* TPInAppReceiptTests.xctest */,
+				47589B531E333F450047DFCD /* TPInAppReceipt.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -273,7 +390,6 @@
 			isa = PBXGroup;
 			children = (
 				47209A1D1D9E11140010BCDE /* include */,
-				47209A6A1D9E11140010BCDE /* lib */,
 				47209A6D1D9E11140010BCDE /* module.modulemap */,
 			);
 			path = OpenSSL;
@@ -282,6 +398,8 @@
 		47209A1D1D9E11140010BCDE /* include */ = {
 			isa = PBXGroup;
 			children = (
+				47589B5D1E3359160047DFCD /* Mac */,
+				47589B581E33590F0047DFCD /* iOS */,
 				47209A1E1D9E11140010BCDE /* openssl */,
 			);
 			path = include;
@@ -369,25 +487,41 @@
 			path = openssl;
 			sourceTree = "<group>";
 		};
-		47209A6A1D9E11140010BCDE /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				47209A6B1D9E11140010BCDE /* libcrypto.a */,
-				47209A6C1D9E11140010BCDE /* libssl.a */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
 		47209ABB1D9E111C0010BCDE /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */,
-				47209ABD1D9E111C0010BCDE /* Data+Extension.swift */,
-				47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */,
 				47209ABF1D9E111C0010BCDE /* InAppReceiptManager.swift */,
+				47589AE41E319A220047DFCD /* Validation.swift */,
+				47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */,
+				47589AEA1E32D6BB0047DFCD /* InAppReceiptPayload.swift */,
+				47589AE81E31B2F90047DFCD /* InAppPurchase.swift */,
+				47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */,
+				47589AE61E31AE6F0047DFCD /* PKCS7Wrapper.swift */,
+				47589AEE1E332D5D0047DFCD /* IARError.swift */,
+				47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */,
+				47209ABD1D9E111C0010BCDE /* Data+Extension.swift */,
 				479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */,
+				47589AEC1E32E9D30047DFCD /* UIDevice+Extension.swift */,
 			);
 			path = Source;
+			sourceTree = "<group>";
+		};
+		47589B581E33590F0047DFCD /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				47589B591E33590F0047DFCD /* libcrypto.a */,
+				47589B5A1E33590F0047DFCD /* libssl.a */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		47589B5D1E3359160047DFCD /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				47589B5E1E3359160047DFCD /* libcrypto.a */,
+				47589B5F1E3359160047DFCD /* libssl.a */,
+			);
+			path = Mac;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -476,12 +610,95 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		47589B011E333F450047DFCD /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47589B021E333F450047DFCD /* ssl3.h in Headers */,
+				47589B031E333F450047DFCD /* pem2.h in Headers */,
+				47589B041E333F450047DFCD /* mdc2.h in Headers */,
+				47589B051E333F450047DFCD /* stack.h in Headers */,
+				47589B061E333F450047DFCD /* err.h in Headers */,
+				47589B071E333F450047DFCD /* pkcs7.h in Headers */,
+				47589B081E333F450047DFCD /* asn1t.h in Headers */,
+				47589B091E333F450047DFCD /* ui.h in Headers */,
+				47589B0A1E333F450047DFCD /* asn1.h in Headers */,
+				47589B0B1E333F450047DFCD /* buffer.h in Headers */,
+				47589B0C1E333F450047DFCD /* x509.h in Headers */,
+				47589B0D1E333F450047DFCD /* opensslv.h in Headers */,
+				47589B0E1E333F450047DFCD /* crypto.h in Headers */,
+				47589B0F1E333F450047DFCD /* kssl.h in Headers */,
+				47589B101E333F450047DFCD /* cast.h in Headers */,
+				47589B111E333F450047DFCD /* ssl.h in Headers */,
+				47589B121E333F450047DFCD /* bn.h in Headers */,
+				47589B131E333F450047DFCD /* rc4.h in Headers */,
+				47589B141E333F450047DFCD /* tls1.h in Headers */,
+				47589B151E333F450047DFCD /* camellia.h in Headers */,
+				47589B161E333F450047DFCD /* rand.h in Headers */,
+				47589B171E333F450047DFCD /* des_old.h in Headers */,
+				47589B181E333F450047DFCD /* x509_vfy.h in Headers */,
+				47589B191E333F450047DFCD /* pkcs12.h in Headers */,
+				47589B1A1E333F450047DFCD /* evp.h in Headers */,
+				47589B1B1E333F450047DFCD /* engine.h in Headers */,
+				47589B1C1E333F450047DFCD /* ssl23.h in Headers */,
+				47589B1D1E333F450047DFCD /* modes.h in Headers */,
+				47589B1E1E333F450047DFCD /* idea.h in Headers */,
+				47589B1F1E333F450047DFCD /* x509v3.h in Headers */,
+				47589B201E333F450047DFCD /* blowfish.h in Headers */,
+				47589B211E333F450047DFCD /* aes.h in Headers */,
+				47589B221E333F450047DFCD /* cmac.h in Headers */,
+				47589B231E333F450047DFCD /* txt_db.h in Headers */,
+				47589B241E333F450047DFCD /* dso.h in Headers */,
+				47589B251E333F450047DFCD /* objects.h in Headers */,
+				47589B261E333F450047DFCD /* dtls1.h in Headers */,
+				47589B271E333F450047DFCD /* cms.h in Headers */,
+				47589B281E333F450047DFCD /* dsa.h in Headers */,
+				47589B291E333F450047DFCD /* ssl2.h in Headers */,
+				47589B2A1E333F450047DFCD /* ripemd.h in Headers */,
+				47589B2B1E333F450047DFCD /* ts.h in Headers */,
+				47589B2C1E333F450047DFCD /* conf.h in Headers */,
+				47589B2D1E333F450047DFCD /* lhash.h in Headers */,
+				47589B2E1E333F450047DFCD /* obj_mac.h in Headers */,
+				47589B2F1E333F450047DFCD /* ui_compat.h in Headers */,
+				47589B301E333F450047DFCD /* rsa.h in Headers */,
+				47589B311E333F450047DFCD /* ec.h in Headers */,
+				47589B321E333F450047DFCD /* ecdsa.h in Headers */,
+				47589B331E333F450047DFCD /* hmac.h in Headers */,
+				47589B341E333F450047DFCD /* seed.h in Headers */,
+				47589B351E333F450047DFCD /* whrlpool.h in Headers */,
+				47589B361E333F450047DFCD /* bio.h in Headers */,
+				47589B371E333F450047DFCD /* ebcdic.h in Headers */,
+				47589B381E333F450047DFCD /* dh.h in Headers */,
+				47589B391E333F450047DFCD /* TPInAppReceipt.h in Headers */,
+				47589B3A1E333F450047DFCD /* asn1_mac.h in Headers */,
+				47589B3B1E333F450047DFCD /* des.h in Headers */,
+				47589B3C1E333F450047DFCD /* krb5_asn.h in Headers */,
+				47589B3D1E333F450047DFCD /* pqueue.h in Headers */,
+				47589B3E1E333F450047DFCD /* rc2.h in Headers */,
+				47589B3F1E333F450047DFCD /* ossl_typ.h in Headers */,
+				47589B401E333F450047DFCD /* srtp.h in Headers */,
+				47589B411E333F450047DFCD /* srp.h in Headers */,
+				47589B421E333F450047DFCD /* e_os2.h in Headers */,
+				47589B431E333F450047DFCD /* opensslconf.h in Headers */,
+				47589B441E333F450047DFCD /* md4.h in Headers */,
+				47589B451E333F450047DFCD /* ecdh.h in Headers */,
+				47589B461E333F450047DFCD /* comp.h in Headers */,
+				47589B471E333F450047DFCD /* safestack.h in Headers */,
+				47589B481E333F450047DFCD /* symhacks.h in Headers */,
+				47589B491E333F450047DFCD /* conf_api.h in Headers */,
+				47589B4A1E333F450047DFCD /* ocsp.h in Headers */,
+				47589B4B1E333F450047DFCD /* sha.h in Headers */,
+				47589B4C1E333F450047DFCD /* pem.h in Headers */,
+				47589B4D1E333F450047DFCD /* md5.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		47209A001D9E0FD60010BCDE /* TPInAppReceipt */ = {
+		47209A001D9E0FD60010BCDE /* TPInAppReceipt iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 47209A151D9E0FD60010BCDE /* Build configuration list for PBXNativeTarget "TPInAppReceipt" */;
+			buildConfigurationList = 47209A151D9E0FD60010BCDE /* Build configuration list for PBXNativeTarget "TPInAppReceipt iOS" */;
 			buildPhases = (
 				472099FC1D9E0FD60010BCDE /* Sources */,
 				472099FD1D9E0FD60010BCDE /* Frameworks */,
@@ -492,7 +709,7 @@
 			);
 			dependencies = (
 			);
-			name = TPInAppReceipt;
+			name = "TPInAppReceipt iOS";
 			productName = TPInAppReceipt;
 			productReference = 47209A011D9E0FD60010BCDE /* TPInAppReceipt.framework */;
 			productType = "com.apple.product-type.framework";
@@ -515,6 +732,24 @@
 			productReference = 47209A0A1D9E0FD60010BCDE /* TPInAppReceiptTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		47589AF11E333F450047DFCD /* TPInAppReceipt macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 47589B501E333F450047DFCD /* Build configuration list for PBXNativeTarget "TPInAppReceipt macOS" */;
+			buildPhases = (
+				47589AF21E333F450047DFCD /* Sources */,
+				47589AFE1E333F450047DFCD /* Frameworks */,
+				47589B011E333F450047DFCD /* Headers */,
+				47589B4E1E333F450047DFCD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "TPInAppReceipt macOS";
+			productName = TPInAppReceipt;
+			productReference = 47589B531E333F450047DFCD /* TPInAppReceipt.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -522,7 +757,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Pavel Tikhonenko";
 				TargetAttributes = {
 					47209A001D9E0FD60010BCDE = {
@@ -547,7 +782,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				47209A001D9E0FD60010BCDE /* TPInAppReceipt */,
+				47209A001D9E0FD60010BCDE /* TPInAppReceipt iOS */,
+				47589AF11E333F450047DFCD /* TPInAppReceipt macOS */,
 				47209A091D9E0FD60010BCDE /* TPInAppReceiptTests */,
 			);
 		};
@@ -570,6 +806,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		47589B4E1E333F450047DFCD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47589B4F1E333F450047DFCD /* AppleIncRootCertificate.cer in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -577,11 +821,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47589AEB1E32D6BB0047DFCD /* InAppReceiptPayload.swift in Sources */,
+				47589AEF1E332D5E0047DFCD /* IARError.swift in Sources */,
 				479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */,
+				47589AE91E31B2F90047DFCD /* InAppPurchase.swift in Sources */,
+				47589AED1E32E9D40047DFCD /* UIDevice+Extension.swift in Sources */,
 				47209AC01D9E111C0010BCDE /* ASN1Helper.swift in Sources */,
 				47209AC11D9E111C0010BCDE /* Data+Extension.swift in Sources */,
 				47209AC21D9E111C0010BCDE /* InAppReceipt.swift in Sources */,
+				47589AE51E319A220047DFCD /* Validation.swift in Sources */,
+				47589B561E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */,
 				47209AC31D9E111C0010BCDE /* InAppReceiptManager.swift in Sources */,
+				47589AE71E31AE6F0047DFCD /* PKCS7Wrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,12 +844,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		47589AF21E333F450047DFCD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47589AF31E333F450047DFCD /* InAppReceiptPayload.swift in Sources */,
+				47589AF41E333F450047DFCD /* IARError.swift in Sources */,
+				47589AF51E333F450047DFCD /* Date+Extension.swift in Sources */,
+				47589AF61E333F450047DFCD /* InAppPurchase.swift in Sources */,
+				47589B571E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */,
+				47589AF81E333F450047DFCD /* ASN1Helper.swift in Sources */,
+				47589AF91E333F450047DFCD /* Data+Extension.swift in Sources */,
+				47589AFA1E333F450047DFCD /* InAppReceipt.swift in Sources */,
+				47589AFB1E333F450047DFCD /* Validation.swift in Sources */,
+				47589AFC1E333F450047DFCD /* InAppReceiptManager.swift in Sources */,
+				47589AFD1E333F450047DFCD /* PKCS7Wrapper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		47209A0D1D9E0FD60010BCDE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 47209A001D9E0FD60010BCDE /* TPInAppReceipt */;
+			target = 47209A001D9E0FD60010BCDE /* TPInAppReceipt iOS */;
 			targetProxy = 47209A0C1D9E0FD60010BCDE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -622,6 +891,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -675,6 +945,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -718,9 +989,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Vendor/OpenSSL/lib",
+					"$(PROJECT_DIR)/Vendor/OpenSSL/include/iOS",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = TPInAppReceipt;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Vendor/OpenSSL";
 				SWIFT_VERSION = 3.0;
@@ -742,9 +1014,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Vendor/OpenSSL/lib",
+					"$(PROJECT_DIR)/Vendor/OpenSSL/include/iOS",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = TPInAppReceipt;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Vendor/OpenSSL";
 				SWIFT_VERSION = 3.0;
@@ -775,6 +1048,58 @@
 			};
 			name = Release;
 		};
+		47589B511E333F450047DFCD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Vendor/OpenSSL/include";
+				INFOPLIST_FILE = "$(SRCROOT)/TPInAppReceipt/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/OpenSSL/lib",
+					"$(PROJECT_DIR)/Vendor/OpenSSL/include/Mac",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
+				PRODUCT_NAME = TPInAppReceipt;
+				SDKROOT = macosx10.12;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Vendor/OpenSSL";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		47589B521E333F450047DFCD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Vendor/OpenSSL/include";
+				INFOPLIST_FILE = "$(SRCROOT)/TPInAppReceipt/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/OpenSSL/lib",
+					"$(PROJECT_DIR)/Vendor/OpenSSL/include/Mac",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
+				PRODUCT_NAME = TPInAppReceipt;
+				SDKROOT = macosx10.12;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Vendor/OpenSSL";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -787,7 +1112,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		47209A151D9E0FD60010BCDE /* Build configuration list for PBXNativeTarget "TPInAppReceipt" */ = {
+		47209A151D9E0FD60010BCDE /* Build configuration list for PBXNativeTarget "TPInAppReceipt iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				47209A161D9E0FD60010BCDE /* Debug */,
@@ -801,6 +1126,15 @@
 			buildConfigurations = (
 				47209A191D9E0FD60010BCDE /* Debug */,
 				47209A1A1D9E0FD60010BCDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		47589B501E333F450047DFCD /* Build configuration list for PBXNativeTarget "TPInAppReceipt macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47589B511E333F450047DFCD /* Debug */,
+				47589B521E333F450047DFCD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
