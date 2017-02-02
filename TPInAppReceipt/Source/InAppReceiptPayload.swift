@@ -95,6 +95,5 @@ struct InAppReceiptPayload
         self.bundleIdentifierData = bundleIdentifierData
         self.opaqueValue = opaqueValue
         self.receiptHash = receiptHash
-        
     }
 }

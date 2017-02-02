@@ -27,10 +27,11 @@ public extension Data
         var length = 0
     
         let count = self.count
+        
         var receiptBytes = [UInt8](repeating:0, count: count)
         self.copyBytes(to: &receiptBytes, count: count)
         
-        var ptr = pointer as UnsafePointer<UInt8>?
+        var ptr = UnsafePointer<UInt8>?(receiptBytes)
         let end = ptr!.advanced(by: count)
         
         ASN1_get_object(&ptr, &length, &type, &tag, end - ptr!)
