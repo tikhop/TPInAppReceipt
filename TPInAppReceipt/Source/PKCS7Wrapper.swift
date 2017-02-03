@@ -9,11 +9,11 @@
 import Foundation
 import openssl
 
-class PKCS7Wrapper
+class PKCS7Wrapper: PKCS7WrapperProtocol
 {
     var raw: UnsafeMutablePointer<PKCS7>
     
-    init(receipt: Data) throws
+    required init(receipt: Data) throws
     {
         let receiptBio = BIO_new(BIO_s_mem())
         
@@ -50,4 +50,10 @@ extension PKCS7Wrapper
         
         return Data(bytes: octets.pointee.data, count: Int(octets.pointee.length))
     }
+}
+
+protocol PKCS7WrapperProtocol {
+    init(receipt: Data) throws
+    func extractASN1Data() -> Data
+    func verifySignature() throws
 }

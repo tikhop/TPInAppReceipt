@@ -129,6 +129,6 @@ public extension InAppPurchase
             return false
         }
         
-        return purchaseDate.compare(date) == .orderedAscending && date.compare(subscriptionExpirationDate) != .orderedDescending
+        return date >= purchaseDate && date < subscriptionExpirationDate
     }
 }

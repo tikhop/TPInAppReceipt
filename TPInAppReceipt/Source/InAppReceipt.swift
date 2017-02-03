@@ -33,7 +33,7 @@ public enum InAppReceiptField: Int
 public struct InAppReceipt
 {
     /// Raw pkcs7 container
-    internal var pkcs7Container: PKCS7Wrapper
+    internal var pkcs7Container: PKCS7WrapperProtocol
     
     /// Payload of the receipt.
     /// Payload object contains all meta information.
@@ -51,7 +51,7 @@ public struct InAppReceipt
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
     /// - parameter pkcs7: `PKCS7Wrapper` pkcs7 container of the receipt 
-    init(pkcs7: PKCS7Wrapper)
+    init(pkcs7: PKCS7WrapperProtocol)
     {
         self.pkcs7Container = pkcs7
         self.payload = InAppReceiptPayload(asn1Data: pkcs7.extractASN1Data())
@@ -152,12 +152,23 @@ public extension InAppReceipt
             return $0.subscriptionExpirationDate > $1.subscriptionExpirationDate
         }
         
-        guard let lastPurchase = filtered.first else
-        {
-            return nil
+        for purchase in filtered {
+            if purchase.isActiveAutoRenewableSubscription(forDate: date) {
+                return purchase
+            }
         }
-        
-        return lastPurchase.isActiveAutoRenewableSubscription(forDate: date) ? lastPurchase : nil
+
+        return nil
+
+    }
+
+    /// Returns true if there is an active subscription for a specific product identifier on the date specified,
+    /// false otherwise
+    ///
+    /// - parameter productIdentifier: Product name
+    /// - parameter date: Date to check subscription against
+    public func hasActiveAutoRenewableSubscription(ofProductIdentifier productIdentifier: String, forDate date: Date) -> Bool {
+        return self.activeAutoRenewableSubscriptionPurchases(ofProductIdentifier: productIdentifier, forDate: date) != nil
     }
 }
 

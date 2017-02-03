@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		47209A0B1D9E0FD60010BCDE /* TPInAppReceipt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47209A011D9E0FD60010BCDE /* TPInAppReceipt.framework */; };
-		47209A101D9E0FD60010BCDE /* TPInAppReceiptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209A0F1D9E0FD60010BCDE /* TPInAppReceiptTests.swift */; };
 		47209A121D9E0FD60010BCDE /* TPInAppReceipt.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A041D9E0FD60010BCDE /* TPInAppReceipt.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		47209A6E1D9E11140010BCDE /* aes.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A1F1D9E11140010BCDE /* aes.h */; };
 		47209A6F1D9E11140010BCDE /* asn1.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A201D9E11140010BCDE /* asn1.h */; };
@@ -190,6 +189,7 @@
 		47589B601E3359160047DFCD /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47589B5E1E3359160047DFCD /* libcrypto.a */; };
 		47589B611E3359160047DFCD /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47589B5F1E3359160047DFCD /* libssl.a */; };
 		479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
+		F7B797AC1E43C0FB008A2619 /* InAppReceiptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10738491DC109D48ABBBDEAE /* InAppReceiptTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -203,11 +203,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		10738491DC109D48ABBBDEAE /* InAppReceiptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppReceiptTests.swift; sourceTree = "<group>"; };
 		47209A011D9E0FD60010BCDE /* TPInAppReceipt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TPInAppReceipt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47209A041D9E0FD60010BCDE /* TPInAppReceipt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPInAppReceipt.h; sourceTree = "<group>"; };
 		47209A051D9E0FD60010BCDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47209A0A1D9E0FD60010BCDE /* TPInAppReceiptTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TPInAppReceiptTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		47209A0F1D9E0FD60010BCDE /* TPInAppReceiptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TPInAppReceiptTests.swift; sourceTree = "<group>"; };
 		47209A111D9E0FD60010BCDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47209A1F1D9E11140010BCDE /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		47209A201D9E11140010BCDE /* asn1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1.h; sourceTree = "<group>"; };
@@ -372,8 +372,8 @@
 		47209A0E1D9E0FD60010BCDE /* TPInAppReceiptTests */ = {
 			isa = PBXGroup;
 			children = (
-				47209A0F1D9E0FD60010BCDE /* TPInAppReceiptTests.swift */,
 				47209A111D9E0FD60010BCDE /* Info.plist */,
+				10738491DC109D48ABBBDEAE /* InAppReceiptTests.swift */,
 			);
 			path = TPInAppReceiptTests;
 			sourceTree = "<group>";
@@ -838,7 +838,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47209A101D9E0FD60010BCDE /* TPInAppReceiptTests.swift in Sources */,
+				F7B797AC1E43C0FB008A2619 /* InAppReceiptTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
