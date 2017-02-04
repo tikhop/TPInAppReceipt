@@ -298,7 +298,6 @@
 		47589AEE1E332D5D0047DFCD /* IARError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IARError.swift; sourceTree = "<group>"; };
 		47589B531E333F450047DFCD /* TPInAppReceipt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TPInAppReceipt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceGUIDRetriever.swift; sourceTree = "<group>"; };
-		47589B621E3368680047DFCD /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		47D2132E1E4588CF00994B00 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = Vendor/OpenSSL/Mac/libcrypto.a; sourceTree = SOURCE_ROOT; };
 		47D2132F1E4588CF00994B00 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = Vendor/OpenSSL/Mac/libssl.a; sourceTree = SOURCE_ROOT; };
@@ -359,12 +358,11 @@
 		47209A031D9E0FD60010BCDE /* TPInAppReceipt */ = {
 			isa = PBXGroup;
 			children = (
-				47589B621E3368680047DFCD /* Package.swift */,
-				47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */,
 				47209ABB1D9E111C0010BCDE /* Source */,
 				47209A1B1D9E11140010BCDE /* Vendor */,
 				47209A041D9E0FD60010BCDE /* TPInAppReceipt.h */,
 				47209A051D9E0FD60010BCDE /* Info.plist */,
+				47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */,
 			);
 			path = TPInAppReceipt;
 			sourceTree = "<group>";
