@@ -184,11 +184,11 @@
 		47589B4F1E333F450047DFCD /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */; };
 		47589B561E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */; };
 		47589B571E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */; };
-		47589B5B1E33590F0047DFCD /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47589B591E33590F0047DFCD /* libcrypto.a */; };
-		47589B5C1E33590F0047DFCD /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47589B5A1E33590F0047DFCD /* libssl.a */; };
-		47589B601E3359160047DFCD /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47589B5E1E3359160047DFCD /* libcrypto.a */; };
-		47589B611E3359160047DFCD /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47589B5F1E3359160047DFCD /* libssl.a */; };
 		479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
+		47D213301E4588CF00994B00 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2132E1E4588CF00994B00 /* libcrypto.a */; };
+		47D213311E4588CF00994B00 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2132F1E4588CF00994B00 /* libssl.a */; };
+		47D213341E4588D800994B00 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D213321E4588D800994B00 /* libcrypto.a */; };
+		47D213351E4588D800994B00 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D213331E4588D800994B00 /* libssl.a */; };
 		F7B797AC1E43C0FB008A2619 /* InAppReceiptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10738491DC109D48ABBBDEAE /* InAppReceiptTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -298,12 +298,12 @@
 		47589AEE1E332D5D0047DFCD /* IARError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IARError.swift; sourceTree = "<group>"; };
 		47589B531E333F450047DFCD /* TPInAppReceipt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TPInAppReceipt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceGUIDRetriever.swift; sourceTree = "<group>"; };
-		47589B591E33590F0047DFCD /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		47589B5A1E33590F0047DFCD /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
-		47589B5E1E3359160047DFCD /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		47589B5F1E3359160047DFCD /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		47589B621E3368680047DFCD /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		47D2132E1E4588CF00994B00 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = Vendor/OpenSSL/Mac/libcrypto.a; sourceTree = SOURCE_ROOT; };
+		47D2132F1E4588CF00994B00 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = Vendor/OpenSSL/Mac/libssl.a; sourceTree = SOURCE_ROOT; };
+		47D213321E4588D800994B00 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = Vendor/OpenSSL/iOS/libcrypto.a; sourceTree = SOURCE_ROOT; };
+		47D213331E4588D800994B00 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = Vendor/OpenSSL/iOS/libssl.a; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -311,8 +311,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47589B5C1E33590F0047DFCD /* libssl.a in Frameworks */,
-				47589B5B1E33590F0047DFCD /* libcrypto.a in Frameworks */,
+				47D213351E4588D800994B00 /* libssl.a in Frameworks */,
+				47D213341E4588D800994B00 /* libcrypto.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,8 +328,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47589B611E3359160047DFCD /* libssl.a in Frameworks */,
-				47589B601E3359160047DFCD /* libcrypto.a in Frameworks */,
+				47D213311E4588CF00994B00 /* libssl.a in Frameworks */,
+				47D213301E4588CF00994B00 /* libcrypto.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,8 +508,8 @@
 		47589B581E33590F0047DFCD /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				47589B591E33590F0047DFCD /* libcrypto.a */,
-				47589B5A1E33590F0047DFCD /* libssl.a */,
+				47D213321E4588D800994B00 /* libcrypto.a */,
+				47D213331E4588D800994B00 /* libssl.a */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -517,8 +517,8 @@
 		47589B5D1E3359160047DFCD /* Mac */ = {
 			isa = PBXGroup;
 			children = (
-				47589B5E1E3359160047DFCD /* libcrypto.a */,
-				47589B5F1E3359160047DFCD /* libssl.a */,
+				47D2132E1E4588CF00994B00 /* libcrypto.a */,
+				47D2132F1E4588CF00994B00 /* libssl.a */,
 			);
 			path = Mac;
 			sourceTree = "<group>";
@@ -986,8 +986,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Vendor/OpenSSL/lib",
-					"$(PROJECT_DIR)/Vendor/OpenSSL/include/iOS",
+					"$(PROJECT_DIR)/Vendor/OpenSSL/iOS",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = TPInAppReceipt;
@@ -1011,8 +1010,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Vendor/OpenSSL/lib",
-					"$(PROJECT_DIR)/Vendor/OpenSSL/include/iOS",
+					"$(PROJECT_DIR)/Vendor/OpenSSL/iOS",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = TPInAppReceipt;
@@ -1060,8 +1058,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Vendor/OpenSSL/lib",
-					"$(PROJECT_DIR)/Vendor/OpenSSL/include/Mac",
+					"$(PROJECT_DIR)/Vendor/OpenSSL/Mac",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = TPInAppReceipt;
@@ -1086,8 +1083,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Vendor/OpenSSL/lib",
-					"$(PROJECT_DIR)/Vendor/OpenSSL/include/Mac",
+					"$(PROJECT_DIR)/Vendor/OpenSSL/Mac",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = TPInAppReceipt;

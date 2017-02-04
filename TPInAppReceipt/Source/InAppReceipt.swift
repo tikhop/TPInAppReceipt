@@ -33,7 +33,7 @@ public enum InAppReceiptField: Int
 public struct InAppReceipt
 {
     /// Raw pkcs7 container
-    internal var pkcs7Container: PKCS7WrapperProtocol
+    internal var pkcs7Container: PKCS7Wrapper
     
     /// Payload of the receipt.
     /// Payload object contains all meta information.
@@ -51,7 +51,7 @@ public struct InAppReceipt
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
     /// - parameter pkcs7: `PKCS7Wrapper` pkcs7 container of the receipt 
-    init(pkcs7: PKCS7WrapperProtocol)
+    init(pkcs7: PKCS7Wrapper)
     {
         self.pkcs7Container = pkcs7
         self.payload = InAppReceiptPayload(asn1Data: pkcs7.extractASN1Data())
@@ -148,12 +148,15 @@ public extension InAppReceipt
     /// - parameter productIdentifier: Product name
     public func activeAutoRenewableSubscriptionPurchases(ofProductIdentifier productIdentifier: String, forDate date: Date) -> InAppPurchase?
     {
-        let filtered = purchases(ofProductIdentifier: productIdentifier) {
+        let filtered = purchases(ofProductIdentifier: productIdentifier)
+        {
             return $0.subscriptionExpirationDate > $1.subscriptionExpirationDate
         }
         
-        for purchase in filtered {
-            if purchase.isActiveAutoRenewableSubscription(forDate: date) {
+        for purchase in filtered
+        {
+            if purchase.isActiveAutoRenewableSubscription(forDate: date)
+            {
                 return purchase
             }
         }
@@ -167,8 +170,9 @@ public extension InAppReceipt
     ///
     /// - parameter productIdentifier: Product name
     /// - parameter date: Date to check subscription against
-    public func hasActiveAutoRenewableSubscription(ofProductIdentifier productIdentifier: String, forDate date: Date) -> Bool {
-        return self.activeAutoRenewableSubscriptionPurchases(ofProductIdentifier: productIdentifier, forDate: date) != nil
+    public func hasActiveAutoRenewableSubscription(ofProductIdentifier productIdentifier: String, forDate date: Date) -> Bool
+    {
+        return activeAutoRenewableSubscriptionPurchases(ofProductIdentifier: productIdentifier, forDate: date) != nil
     }
 }
 

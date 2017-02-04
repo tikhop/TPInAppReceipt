@@ -82,8 +82,10 @@ class InAppReceiptTests: XCTestCase {
 
 }
 
-fileprivate extension InAppPurchase {
-    init(webOrderLineItemID: Int, originalPurchaseDateString: String, purchaseDateString: String, subscriptionExpirationDateString: String, cancellationDateString: String) {
+fileprivate extension InAppPurchase
+{
+    init(webOrderLineItemID: Int, originalPurchaseDateString: String, purchaseDateString: String, subscriptionExpirationDateString: String, cancellationDateString: String)
+    {
         self.productIdentifier = "test-product-identifier"
         self.transactionIdentifier = "test-transaction-identifier"
         self.originalTransactionIdentifier = originalPurchaseDateString
@@ -96,15 +98,19 @@ fileprivate extension InAppPurchase {
     }
 }
 
-fileprivate extension InAppReceipt {
-    init(payload: InAppReceiptPayload) {
+fileprivate extension InAppReceipt
+{
+    init(payload: InAppReceiptPayload)
+    {
         self.payload = payload
-        self.pkcs7Container = try! PKCS7WrapperMock(receipt: Data())
+        self.pkcs7Container = try! PKCS7WrapperMock()
     }
 }
 
-fileprivate extension InAppReceiptPayload {
-    init(purchases: [InAppPurchase]) {
+fileprivate extension InAppReceiptPayload
+{
+    init(purchases: [InAppPurchase])
+    {
         self.purchases = purchases
         self.bundleIdentifier = "test-bundle-identifier"
         self.appVersion = ""
@@ -116,18 +122,20 @@ fileprivate extension InAppReceiptPayload {
     }
 }
 
-fileprivate class PKCS7WrapperMock: PKCS7WrapperProtocol {
-    required init(receipt: Data) throws {
+
+fileprivate class PKCS7WrapperMock: PKCS7Wrapper
+{
+    init() throws
+    {
+        try super.init(receipt: Data(base64Encoded: "MCcGCSqGSIb3DQEHAqAaMBgCAQExADALBgkqhkiG9w0BBwGgAKEAMQA=")!)
     }
-    func extractASN1Data() -> Data {
-        return Data()
-    }
-    func verifySignature() throws {
-    }
+
 }
 
-fileprivate extension Date {
-    static let iso8601Formatter: DateFormatter = {
+fileprivate extension Date
+{
+    static let iso8601Formatter: DateFormatter =
+    {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .iso8601)
         formatter.locale = Locale(identifier: "en_US_POSIX")
@@ -135,13 +143,17 @@ fileprivate extension Date {
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
         return formatter
     }()
-    var iso8601: String {
+    
+    var iso8601: String
+    {
         return Date.iso8601Formatter.string(from: self)
     }
 }
 
-fileprivate extension String {
-    var dateFromISO8601: Date? {
+fileprivate extension String
+{
+    var dateFromISO8601: Date?
+    {
         return Date.iso8601Formatter.date(from: self)
     }
 }
