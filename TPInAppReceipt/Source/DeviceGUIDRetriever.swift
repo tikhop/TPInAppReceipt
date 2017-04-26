@@ -42,8 +42,8 @@ class DeviceGUIDRetriever
                 assertionFailure("Failed to retrieve guid")
             }
             
-            // Iterate over the result
-            var guidCFData: CFData!
+ // Iterate over the result
+            var guidCFData: Data?
             var service = IOIteratorNext(iterator)
             var parentService = io_object_t()
             
@@ -56,18 +56,20 @@ class DeviceGUIDRetriever
                 kernResult = IORegistryEntryGetParentEntry(service, kIOServicePlane, &parentService);
                 if (kernResult == KERN_SUCCESS)
                 {
-                    guidCFData = IORegistryEntryCreateCFProperty(parentService, "IOMACAddress" as CFString, nil, 0) as! CFData?
+                    if let retrievedGuidCFData = IORegistryEntryCreateCFProperty(parentService, "IOMACAddress" as CFString, nil, 0).takeRetainedValue() as? Data {
+                        guidCFData = retrievedGuidCFData
+                    }
                     IOObjectRelease(parentService)
                 }
                 IOObjectRelease(service)
                 
-                if let _ = guidCFData
-                {
+                if  guidCFData != nil {
                     break
                 }
             }
             
-            return guidCFData as Data
+            return guidCFData ?? Data()
+
         #endif
     }
 }
