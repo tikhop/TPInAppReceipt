@@ -4,5 +4,7 @@ module openssl [system][extern_c]
  header "include/openssl/pkcs7.h"
  header "include/openssl/objects.h"
  header "include/openssl/x509.h"
+ link "ssl"
+ link "crypto"
  export *
 }
