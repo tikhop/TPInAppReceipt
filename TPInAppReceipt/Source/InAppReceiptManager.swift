@@ -26,13 +26,13 @@ public class InAppReceiptManager
     public static let shared: InAppReceiptManager = InAppReceiptManager()
 }
 
-fileprivate extension InAppReceiptManager
+public extension InAppReceiptManager
 {
     /// Creates and returns the 'Data' object
     ///
     /// - Returns: 'Data' object that represents local receipt
     /// - throws: An error if receipt file not found or 'Data' can't be created
-    fileprivate func receiptData() throws -> Data
+    public func receiptData() throws -> Data
     {
         guard let receiptUrl = Bundle.main.appStoreReceiptURL,
             FileManager.default.fileExists(atPath: receiptUrl.path) else
