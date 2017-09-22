@@ -40,6 +40,26 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .hashValidation)
         }
     }
+    
+    /// Computed SHA-1 hash, used to validate the receipt.
+    /// Should be equal to `receiptHash` value
+    internal var computedHashData: Data
+    {
+        let uuidData = DeviceGUIDRetriever.guid()
+        let opaqueData = opaqueValue
+        let bundleIdData = bundleIdentifierData
+        
+        var hash = Array<CUnsignedChar>(repeating: 0, count: 20)
+        var ctx = SHA_CTX()
+        
+        SHA1_Init(&ctx)
+        SHA1_Update(&ctx, uuidData.pointer, uuidData.count)
+        SHA1_Update(&ctx, opaqueData.pointer, opaqueData.count)
+        SHA1_Update(&ctx, bundleIdData.pointer, bundleIdData.count)
+        SHA1_Final(&hash, &ctx);
+        
+        return Data(bytes: &hash, count: hash.count)
+    }
 }
 
 /// A PKCS7Wrapper extension helps to validate the receipt's signature
