@@ -124,9 +124,13 @@ public extension InAppReceipt
     /// empty array otherwise
     ///
     /// - parameter productIdentifier: Product name
-    public func purchases(ofProductIdentifier productIdentifier: String, sortedBy sort: ((InAppPurchase, InAppPurchase) -> Bool)? = nil) -> [InAppPurchase]
+    /// - parameter sort: Sorting block
+    public func purchases(ofProductIdentifier productIdentifier: String,
+                          sortedBy sort: ((InAppPurchase, InAppPurchase) -> Bool)? = nil) -> [InAppPurchase]
     {
-        let filtered: [InAppPurchase] = purchases.filter({ return $0.productIdentifier == productIdentifier })
+        let filtered: [InAppPurchase] = purchases.filter({
+            return $0.productIdentifier == productIdentifier
+        })
         
         if let sort = sort
         {
@@ -149,9 +153,6 @@ public extension InAppReceipt
     public func activeAutoRenewableSubscriptionPurchases(ofProductIdentifier productIdentifier: String, forDate date: Date) -> InAppPurchase?
     {
         let filtered = purchases(ofProductIdentifier: productIdentifier)
-        {
-            return $0.subscriptionExpirationDate > $1.subscriptionExpirationDate
-        }
         
         for purchase in filtered
         {

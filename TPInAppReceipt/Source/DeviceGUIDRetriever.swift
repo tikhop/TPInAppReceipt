@@ -42,7 +42,6 @@ class DeviceGUIDRetriever
                 assertionFailure("Failed to retrieve guid")
             }
             
- // Iterate over the result
             var guidData: Data!
             var service = IOIteratorNext(iterator)
             var parentService = io_object_t()

@@ -33,6 +33,15 @@ class InAppReceiptTests: XCTestCase {
 
     }
 
+    func testEmptyAutoRenewableSubscriptionExpirationDate()
+    {
+        
+        // Given
+        let purchase1 = InAppPurchase(webOrderLineItemID: 1, originalPurchaseDateString: "2017-02-01T07:03:18Z", purchaseDateString: "2017-02-01T07:03:16Z", subscriptionExpirationDateString: "", cancellationDateString: "")
+        
+        XCTAssertNil(purchase1.subscriptionExpirationDate)
+    }
+    
     func testActiveAutoRenewableSubscriptionPurchasesWithCancellation() {
 
         // Given

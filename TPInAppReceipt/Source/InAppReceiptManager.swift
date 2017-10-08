@@ -15,6 +15,7 @@ public class InAppReceiptManager
     ///
     /// - Returns: 'InAppReceipt' instance
     /// - throws: An error in the InAppReceipt domain, if `InAppReceipt` cannot be created.
+    @available(*, deprecated, message: "Use InAppReceipt.localReceipt() instead")
     public func receipt() throws -> InAppReceipt
     {
         return try InAppReceipt.localReceipt()
