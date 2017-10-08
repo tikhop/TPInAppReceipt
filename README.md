@@ -55,7 +55,10 @@ Usage
 
 ```swift
 do {
-  let receipt = try InAppReceiptManager.shared.receipt()
+  let receipt = try InAppReceipt.localReceipt() 
+  
+  //let receiptData: Data = ...
+  //let receipt = try InAppReceipt.receipt(from: receiptData)
 } catch {
   print(error)
 }
