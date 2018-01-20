@@ -38,7 +38,7 @@ $ pod install
 
 ### Requirements
 
-- iOS 8.3+
+- iOS 8.3+ / OSX 10.11+
 - Xcode 8.0+
 - Swift 3.0+
 
