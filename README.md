@@ -17,8 +17,6 @@ Installation
 
 ### CocoaPods
 
-> CocoaPods 1.1.0.rc.2 is required to build MAPSDK.
-
 To integrate TPInAppReceipt into your project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
