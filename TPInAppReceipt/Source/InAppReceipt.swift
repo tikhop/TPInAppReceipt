@@ -124,9 +124,13 @@ public extension InAppReceipt
     /// empty array otherwise
     ///
     /// - parameter productIdentifier: Product name
-    public func purchases(ofProductIdentifier productIdentifier: String, sortedBy sort: ((InAppPurchase, InAppPurchase) -> Bool)? = nil) -> [InAppPurchase]
+    /// - parameter sort: Sorting block
+    public func purchases(ofProductIdentifier productIdentifier: String,
+                          sortedBy sort: ((InAppPurchase, InAppPurchase) -> Bool)? = nil) -> [InAppPurchase]
     {
-        let filtered: [InAppPurchase] = purchases.filter({ return $0.productIdentifier == productIdentifier })
+        let filtered: [InAppPurchase] = purchases.filter({
+            return $0.productIdentifier == productIdentifier
+        })
         
         if let sort = sort
         {
@@ -149,9 +153,6 @@ public extension InAppReceipt
     public func activeAutoRenewableSubscriptionPurchases(ofProductIdentifier productIdentifier: String, forDate date: Date) -> InAppPurchase?
     {
         let filtered = purchases(ofProductIdentifier: productIdentifier)
-        {
-            return $0.subscriptionExpirationDate > $1.subscriptionExpirationDate
-        }
         
         for purchase in filtered
         {
@@ -196,23 +197,5 @@ internal extension InAppReceipt
         return payload.receiptHash
     }
     
-    /// Computed SHA-1 hash, used to validate the receipt.
-    /// Should be equal to `receiptHash` value
-    internal var computedHashData: Data
-    {
-        let uuidData = DeviceGUIDRetriever.guid()
-        let opaqueData = opaqueValue
-        let bundleIdData = bundleIdentifierData
-        
-        var hash = Array<CUnsignedChar>(repeating: 0, count: 20)
-        var ctx = SHA_CTX()
-        
-        SHA1_Init(&ctx)
-        SHA1_Update(&ctx, uuidData.pointer, uuidData.count)
-        SHA1_Update(&ctx, opaqueData.pointer, opaqueData.count)
-        SHA1_Update(&ctx, bundleIdData.pointer, bundleIdData.count)
-        SHA1_Final(&hash, &ctx);
-        
-        return Data(bytes: &hash, count: hash.count)
-    }
+    
 }

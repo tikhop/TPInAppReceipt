@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import openssl
 
 /// A InAppReceiptManager instance coordinates access to a local receipt.
 public class InAppReceiptManager
@@ -16,31 +15,12 @@ public class InAppReceiptManager
     ///
     /// - Returns: 'InAppReceipt' instance
     /// - throws: An error in the InAppReceipt domain, if `InAppReceipt` cannot be created.
+    @available(*, deprecated, message: "Use InAppReceipt.localReceipt() instead")
     public func receipt() throws -> InAppReceipt
     {
-        let receipt = try receiptData()
-        return try InAppReceipt(receiptData: receipt)
+        return try InAppReceipt.localReceipt()
     }
     
     /// Returns the default singleton instance.
     public static let shared: InAppReceiptManager = InAppReceiptManager()
 }
-
-fileprivate extension InAppReceiptManager
-{
-    /// Creates and returns the 'Data' object
-    ///
-    /// - Returns: 'Data' object that represents local receipt
-    /// - throws: An error if receipt file not found or 'Data' can't be created
-    fileprivate func receiptData() throws -> Data
-    {
-        guard let receiptUrl = Bundle.main.appStoreReceiptURL,
-            FileManager.default.fileExists(atPath: receiptUrl.path) else
-        {
-            throw IARError.initializationFailed(reason: .appStoreReceiptNotFound)
-        }
-        
-        return try Data(contentsOf: receiptUrl)
-    }
-}
-

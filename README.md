@@ -17,8 +17,6 @@ Installation
 
 ### CocoaPods
 
-> CocoaPods 1.1.0.rc.2 is required to build MAPSDK.
-
 To integrate TPInAppReceipt into your project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
@@ -40,7 +38,7 @@ $ pod install
 
 ### Requirements
 
-- iOS 8.3+
+- iOS 8.3+ / OSX 10.11+
 - Xcode 8.0+
 - Swift 3.0+
 
@@ -55,7 +53,10 @@ Usage
 
 ```swift
 do {
-  let receipt = try InAppReceiptManager.shared.receipt()
+  let receipt = try InAppReceipt.localReceipt() 
+  
+  //let receiptData: Data = ...
+  //let receipt = try InAppReceipt.receipt(from: receiptData)
 } catch {
   print(error)
 }

@@ -86,7 +86,6 @@ public struct InAppPurchase
                     webOrderLineItemID = asn1ReadInteger(&ptr, bytes.count)
                     
                 default:
-                    print("attribute.type = \(attributes.type))")
                     asn1ConsumeObject(&ptr, bytes.count)
                 }
             }
@@ -99,15 +98,15 @@ public extension InAppPurchase
     /// Purchase Date representation as a 'Date' object
     public var purchaseDate: Date
     {
-        return purchaseDateString.rfc3339date()
+        return purchaseDateString.rfc3339date()!
     }
     
-    /// Subscription Expiration Date representation as a 'Date' object
-    public var subscriptionExpirationDate: Date
+    /// Subscription Expiration Date representation as a 'Date' object. Returns `nil` if the purchase has been expired (in some cases)
+    public var subscriptionExpirationDate: Date?
     {
         assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
-        
-        return subscriptionExpirationDateString!.rfc3339date()
+       
+        return subscriptionExpirationDateString?.rfc3339date()
     }
     
     /// A Boolean value indicating whether the purchase is renewable subscription.
@@ -129,6 +128,11 @@ public extension InAppPurchase
             return false
         }
         
-        return date >= purchaseDate && date < subscriptionExpirationDate
+        guard let expirationDate = subscriptionExpirationDate else
+        {
+            return false
+        }
+        
+        return date >= purchaseDate && date < expirationDate
     }
 }

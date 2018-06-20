@@ -17,7 +17,7 @@ public enum IARError: Error
 {
     case initializationFailed(reason: ReceiptInitializationFailureReason)
     case validationFailed(reason: ValidationFailureReason)
-    
+    case purchaseExpired
     /// The underlying reason the receipt initialization error occurred.
     ///
     /// - appStoreReceiptNotFound:         In-App Receipt not found
@@ -53,4 +53,6 @@ public enum IARError: Error
         case receiptSignedDataNotFound
         case invalidSignature
     }
+    
+    
 }

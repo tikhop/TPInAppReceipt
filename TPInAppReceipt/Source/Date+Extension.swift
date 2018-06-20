@@ -18,7 +18,7 @@ public extension Date
 
 public extension String
 {
-    public func rfc3339date() -> Date
+    public func rfc3339date() -> Date?
     {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
@@ -26,6 +26,6 @@ public extension String
         formatter.locale = Locale(identifier: "en_US_POSIX")
         
         let date = formatter.date(from: self)
-        return date!
+        return date
     }
 }
