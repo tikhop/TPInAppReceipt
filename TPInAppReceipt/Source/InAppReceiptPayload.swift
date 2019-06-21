@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct InAppReceiptPayload
+public struct InAppReceiptPayload
 {
     /// In-app purchase's receipts
     public let purchases: [InAppPurchase]
