@@ -15,19 +15,12 @@ class PKCS7Wrapper
     
     init(receipt: Data) throws
     {
-        let receiptBio = BIO_new(BIO_s_mem())
-        
-        defer
-        {
-            BIO_free(receiptBio)
-        }
-        
         var values = [UInt8](repeating:0, count:receipt.count)
         receipt.copyBytes(to: &values, count: receipt.count)
         
-        BIO_write(receiptBio, values, Int32(receipt.count))
+        var p: UnsafePointer<UInt8>? = UnsafePointer(values)
         
-        guard let receiptPKCS7 = d2i_PKCS7_bio(receiptBio, nil) else
+        guard let receiptPKCS7 = d2i_PKCS7(nil, &p, values.count) else
         {
             throw IARError.initializationFailed(reason: .pkcs7ParsingError)
         }

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import openssl
 
 public enum InAppReceiptField: Int
 {

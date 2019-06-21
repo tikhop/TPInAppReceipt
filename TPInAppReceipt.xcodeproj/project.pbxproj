@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		470D079D203B4FC700F3335F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 470D079C203B4FC700F3335F /* Security.framework */; };
 		47209A0B1D9E0FD60010BCDE /* TPInAppReceipt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47209A011D9E0FD60010BCDE /* TPInAppReceipt.framework */; };
 		47209A121D9E0FD60010BCDE /* TPInAppReceipt.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A041D9E0FD60010BCDE /* TPInAppReceipt.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		47209A6E1D9E11140010BCDE /* aes.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A1F1D9E11140010BCDE /* aes.h */; };
@@ -191,8 +192,6 @@
 		47D213351E4588D800994B00 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D213331E4588D800994B00 /* libssl.a */; };
 		47D2133A1E4738AB00994B00 /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D213391E4738AB00994B00 /* Initialization.swift */; };
 		47D2133B1E4738AB00994B00 /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D213391E4738AB00994B00 /* Initialization.swift */; };
-		47D2133D1E473A3000994B00 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D2133C1E473A3000994B00 /* Bundle+Extension.swift */; };
-		47D2133E1E473A3000994B00 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D2133C1E473A3000994B00 /* Bundle+Extension.swift */; };
 		F7B797AC1E43C0FB008A2619 /* InAppReceiptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10738491DC109D48ABBBDEAE /* InAppReceiptTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -208,6 +207,7 @@
 
 /* Begin PBXFileReference section */
 		10738491DC109D48ABBBDEAE /* InAppReceiptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppReceiptTests.swift; sourceTree = "<group>"; };
+		470D079C203B4FC700F3335F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		47209A011D9E0FD60010BCDE /* TPInAppReceipt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TPInAppReceipt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		47209A041D9E0FD60010BCDE /* TPInAppReceipt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPInAppReceipt.h; sourceTree = "<group>"; };
 		47209A051D9E0FD60010BCDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -308,7 +308,6 @@
 		47D213321E4588D800994B00 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = Vendor/OpenSSL/iOS/libcrypto.a; sourceTree = SOURCE_ROOT; };
 		47D213331E4588D800994B00 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = Vendor/OpenSSL/iOS/libssl.a; sourceTree = SOURCE_ROOT; };
 		47D213391E4738AB00994B00 /* Initialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Initialization.swift; sourceTree = "<group>"; };
-		47D2133C1E473A3000994B00 /* Bundle+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,6 +315,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				470D079D203B4FC700F3335F /* Security.framework in Frameworks */,
 				47D213351E4588D800994B00 /* libssl.a in Frameworks */,
 				47D213341E4588D800994B00 /* libcrypto.a in Frameworks */,
 			);
@@ -341,6 +341,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		470D079B203B4FC600F3335F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				470D079C203B4FC700F3335F /* Security.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		472099F71D9E0FD60010BCDE = {
 			isa = PBXGroup;
 			children = (
@@ -348,6 +356,7 @@
 				47209A031D9E0FD60010BCDE /* TPInAppReceipt */,
 				47209A0E1D9E0FD60010BCDE /* TPInAppReceiptTests */,
 				47209A021D9E0FD60010BCDE /* Products */,
+				470D079B203B4FC600F3335F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -506,7 +515,6 @@
 				47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */,
 				47209ABD1D9E111C0010BCDE /* Data+Extension.swift */,
 				479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */,
-				47D2133C1E473A3000994B00 /* Bundle+Extension.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -762,27 +770,28 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Pavel Tikhonenko";
 				TargetAttributes = {
 					47209A001D9E0FD60010BCDE = {
 						CreatedOnToolsVersion = 8.0;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 					47209A091D9E0FD60010BCDE = {
 						CreatedOnToolsVersion = 8.0;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = 472099FB1D9E0FD60010BCDE /* Build configuration list for PBXProject "TPInAppReceipt" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 472099F71D9E0FD60010BCDE;
 			productRefGroup = 47209A021D9E0FD60010BCDE /* Products */;
@@ -831,7 +840,6 @@
 				47589AEB1E32D6BB0047DFCD /* InAppReceiptPayload.swift in Sources */,
 				47589AEF1E332D5E0047DFCD /* IARError.swift in Sources */,
 				479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */,
-				47D2133D1E473A3000994B00 /* Bundle+Extension.swift in Sources */,
 				47D2133A1E4738AB00994B00 /* Initialization.swift in Sources */,
 				47589AE91E31B2F90047DFCD /* InAppPurchase.swift in Sources */,
 				47209AC01D9E111C0010BCDE /* ASN1Helper.swift in Sources */,
@@ -859,7 +867,6 @@
 				47589AF31E333F450047DFCD /* InAppReceiptPayload.swift in Sources */,
 				47589AF41E333F450047DFCD /* IARError.swift in Sources */,
 				47589AF51E333F450047DFCD /* Date+Extension.swift in Sources */,
-				47D2133E1E473A3000994B00 /* Bundle+Extension.swift in Sources */,
 				47D2133B1E4738AB00994B00 /* Initialization.swift in Sources */,
 				47589AF61E333F450047DFCD /* InAppPurchase.swift in Sources */,
 				47589B571E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */,
@@ -887,6 +894,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -896,6 +904,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -903,6 +912,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -947,6 +957,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -956,6 +967,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -963,6 +975,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1016,8 +1029,7 @@
 				PRODUCT_NAME = TPInAppReceipt;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Vendor/OpenSSL";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1041,8 +1053,7 @@
 				PRODUCT_NAME = TPInAppReceipt;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Vendor/OpenSSL";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1054,8 +1065,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceiptTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1067,8 +1077,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceiptTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -1094,7 +1103,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Vendor/OpenSSL";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1120,7 +1129,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/Vendor/OpenSSL";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
