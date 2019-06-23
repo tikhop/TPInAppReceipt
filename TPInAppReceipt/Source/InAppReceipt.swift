@@ -17,6 +17,7 @@ public enum InAppReceiptField: Int
     case inAppPurchaseReceipt = 17 // The receipt for an in-app purchase.
     case originalAppVersion = 19
     case expirationDate = 21
+    case receiptCreationDate = 12
     
     case quantity = 1701
     case productIdentifier = 1702
@@ -52,45 +53,50 @@ public struct InAppReceipt
     /// - parameter pkcs7: `PKCS7Wrapper` pkcs7 container of the receipt 
     init(pkcs7: PKCS7Wrapper)
     {
+        self.init(pkcs7: pkcs7, payload: InAppReceiptPayload(asn1Data: pkcs7.extractASN1Data()))
+    }
+    
+    init(pkcs7: PKCS7Wrapper, payload: InAppReceiptPayload)
+    {
         self.pkcs7Container = pkcs7
-        self.payload = InAppReceiptPayload(asn1Data: pkcs7.extractASN1Data())
+        self.payload = payload
     }
 }
 
 public extension InAppReceipt
 {
     /// The app’s bundle identifier
-    public var bundleIdentifier: String
+    var bundleIdentifier: String
     {
         return payload.bundleIdentifier
     }
     
     /// The app’s version number
-    public var appVersion: String
+    var appVersion: String
     {
         return payload.appVersion
     }
     
     /// The version of the app that was originally purchased.
-    public var originalAppVersion: String
+    var originalAppVersion: String
     {
         return payload.originalAppVersion
     }
     
     /// In-app purchase's receipts
-    public var purchases: [InAppPurchase]
+    var purchases: [InAppPurchase]
     {
         return payload.purchases
     }
     
     /// The date that the app receipt expires
-    public var expirationDate: String?
+    var expirationDate: String?
     {
         return payload.expirationDate
     }
     
     /// Returns `true` if any purchases exist, `false` otherwise
-    public var hasPurchases: Bool
+    var hasPurchases: Bool
     {
         return purchases.count > 0
     }
@@ -98,7 +104,7 @@ public extension InAppReceipt
     /// Return original transaction identifier if there is a purchase for a specific product identifier
     ///
     /// - parameter productIdentifier: Product name
-    public func originalTransactionIdentifier(ofProductIdentifier productIdentifier: String) -> String?
+    func originalTransactionIdentifier(ofProductIdentifier productIdentifier: String) -> String?
     {
         return purchases(ofProductIdentifier: productIdentifier).first?.originalTransactionIdentifier
     }
@@ -106,7 +112,7 @@ public extension InAppReceipt
     /// Returns `true` if there is a purchase for a specific product identifier, `false` otherwise
     ///
     /// - parameter productIdentifier: Product name
-    public func containsPurchase(ofProductIdentifier productIdentifier: String) -> Bool
+    func containsPurchase(ofProductIdentifier productIdentifier: String) -> Bool
     {
         for item in purchases
         {
@@ -124,7 +130,7 @@ public extension InAppReceipt
     ///
     /// - parameter productIdentifier: Product name
     /// - parameter sort: Sorting block
-    public func purchases(ofProductIdentifier productIdentifier: String,
+    func purchases(ofProductIdentifier productIdentifier: String,
                           sortedBy sort: ((InAppPurchase, InAppPurchase) -> Bool)? = nil) -> [InAppPurchase]
     {
         let filtered: [InAppPurchase] = purchases.filter({
@@ -149,7 +155,7 @@ public extension InAppReceipt
     /// `nil` otherwise
     ///
     /// - parameter productIdentifier: Product name
-    public func activeAutoRenewableSubscriptionPurchases(ofProductIdentifier productIdentifier: String, forDate date: Date) -> InAppPurchase?
+    func activeAutoRenewableSubscriptionPurchases(ofProductIdentifier productIdentifier: String, forDate date: Date) -> InAppPurchase?
     {
         let filtered = purchases(ofProductIdentifier: productIdentifier)
         
@@ -170,7 +176,7 @@ public extension InAppReceipt
     ///
     /// - parameter productIdentifier: Product name
     /// - parameter date: Date to check subscription against
-    public func hasActiveAutoRenewableSubscription(ofProductIdentifier productIdentifier: String, forDate date: Date) -> Bool
+    func hasActiveAutoRenewableSubscription(ofProductIdentifier productIdentifier: String, forDate date: Date) -> Bool
     {
         return activeAutoRenewableSubscriptionPurchases(ofProductIdentifier: productIdentifier, forDate: date) != nil
     }
@@ -179,22 +185,20 @@ public extension InAppReceipt
 internal extension InAppReceipt
 {
     /// Used to validate the receipt
-    internal var bundleIdentifierData: Data
+    var bundleIdentifierData: Data
     {
         return payload.bundleIdentifierData
     }
     
     /// An opaque value used, with other data, to compute the SHA-1 hash during validation.
-    internal var opaqueValue: Data
+    var opaqueValue: Data
     {
         return payload.opaqueValue
     }
     
     /// A SHA-1 hash, used to validate the receipt.
-    internal var receiptHash: Data
+    var receiptHash: Data
     {
         return payload.receiptHash
     }
-    
-    
 }

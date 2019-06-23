@@ -53,6 +53,4 @@ public enum IARError: Error
         case receiptSignedDataNotFound
         case invalidSignature
     }
-    
-    
 }

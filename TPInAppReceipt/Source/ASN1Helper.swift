@@ -9,6 +9,14 @@
 import Foundation
 import openssl
 
+public struct InAppReceiptAttribute
+{
+    var type: Int!
+    var version: Int!
+    var value: ASN1Object!
+}
+
+
 func asn1ConsumeObject(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int)
 {
     var pClass: Int32 = 0
