@@ -11,28 +11,31 @@ class InAppReceiptTests: XCTestCase {
 
     func testNoOpenssl()
     {
-        //self.measure
-        //{
+        self.measure
+        {
         let p = try! PKCS7WrapperMock()
-        let receipt = InAppReceipt(pkcs7: p, payload: InAppReceiptPayload(noOpenSslData: p.extractASN1Data()))
-        
+        let asn1 = p.extractASN1Data()
+        print(asn1.pointer)
+        let receipt = InAppReceipt(pkcs7: p, payload: InAppReceiptPayload(noOpenSslData: asn1))
+        print(receipt.creationDate)
 //            let mock = try! PKCS7WrapperMock()
 //            mock.extractASN1Data().enumerateASN1AttributesNoOpenssl(withBlock: { (item) in
 //
 //            })
         
-        //}
+        }
     }
-    
-    func test()
-    {
+//    
+//    func test()
+//    {
 //        self.measure
 //            {
-        let p = try! PKCS7WrapperMock()
-        let receipt = InAppReceipt(pkcs7: p, payload: InAppReceiptPayload(asn1Data: p.extractASN1Data()))
-
+//        let p = try! PKCS7WrapperMock()
+//        let receipt = InAppReceipt(pkcs7: p, payload: InAppReceiptPayload(asn1Data: p.extractASN1Data()))
+//                print(receipt.creationDate)
+//
 //        }
-    }
+//    }
     
 //    func testActiveAutoRenewableSubscriptionPurchasesWithoutCancellation() {
 //
@@ -148,7 +151,7 @@ fileprivate extension InAppReceiptPayload
 {
     init(purchases: [InAppPurchase])
     {
-        self.init(bundleIdentifier: "test-bundle-identifier", appVersion: "", originalAppVersion: "", purchases: purchases, expirationDate: "", bundleIdentifierData: Data(), opaqueValue: Data(), receiptHash: Data(), receiptCreationDate: "")
+        self.init(bundleIdentifier: "test-bundle-identifier", appVersion: "", originalAppVersion: "", purchases: purchases, expirationDate: "", bundleIdentifierData: Data(), opaqueValue: Data(), receiptHash: Data(), creationDate: "")
     }
 }
 

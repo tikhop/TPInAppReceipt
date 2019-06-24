@@ -109,7 +109,7 @@ struct ASN1Object
             self.raw = raw
             self.tagNumber = raw & 0b11111
             
-            guard let c = Class(rawValue: (raw >> 5) & 0b11), let e = EncodingType(rawValue: (raw >> 4) & 0b1) else
+            guard let c = Class(rawValue: (raw >> 6) & 0b11), let e = EncodingType(rawValue: (raw >> 5) & 0b1) else
             {
                 throw ASN1Error.initializationFailed(reason: .dataIsInvalid)
             }
@@ -132,7 +132,7 @@ extension ASN1Object
     {
         rawData = data
         bytesCount = 1
-        pointer = rawData.pointer
+        pointer = rawData.pointee
         identifier = try! Identifier(data: data)
         length = .short(value: 0)
         length = ASN1Object.extractLenght(from: pointer.advanced(by: 1))

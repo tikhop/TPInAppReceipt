@@ -40,7 +40,7 @@ extension PKCS7Wrapper
     {
         let contents: UnsafeMutablePointer<pkcs7_st> = raw.pointee.d.sign.pointee.contents
         let octets: UnsafeMutablePointer<ASN1_OCTET_STRING> = contents.pointee.d.data
-        
-        return Data(bytes: octets.pointee.data, count: Int(octets.pointee.length))
+        let d = Data(bytes: octets.pointee.data, count: Int(octets.pointee.length))
+        return d
     }
 }

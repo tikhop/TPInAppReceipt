@@ -35,7 +35,7 @@ public struct InAppReceiptPayload
     public let receiptHash: Data
     
     /// The date when the app receipt was created.
-    public let receiptCreationDate: String
+    public let creationDate: String
     
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
@@ -74,7 +74,7 @@ public struct InAppReceiptPayload
                 case .receiptHash:
                     receiptHash = Data(bytes: bytes, count: length)
                 case .inAppPurchaseReceipt:
-                    break //purchases.append(InAppPurchase(asn1Data: attributes.data))
+                    purchases.append(InAppPurchase(asn1Data: attributes.data))
                 case .originalAppVersion:
                     originalAppVersion = asn1ReadUTF8String(&ptr, bytes.count)!
                 case .expirationDate:
@@ -88,10 +88,10 @@ public struct InAppReceiptPayload
             }
         }
         
-        self.init(bundleIdentifier: bundleIdentifier, appVersion: appVersion, originalAppVersion: originalAppVersion, purchases: purchases, expirationDate: expirationDate, bundleIdentifierData: bundleIdentifierData, opaqueValue: opaqueValue, receiptHash: receiptHash, receiptCreationDate: receiptCreationDate)
+        self.init(bundleIdentifier: bundleIdentifier, appVersion: appVersion, originalAppVersion: originalAppVersion, purchases: purchases, expirationDate: expirationDate, bundleIdentifierData: bundleIdentifierData, opaqueValue: opaqueValue, receiptHash: receiptHash, creationDate: receiptCreationDate)
     }
     
-    init(bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: String?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, receiptCreationDate: String)
+    init(bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: String?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, creationDate: String)
     {
         self.bundleIdentifier = bundleIdentifier
         self.appVersion = appVersion
@@ -101,7 +101,7 @@ public struct InAppReceiptPayload
         self.bundleIdentifierData = bundleIdentifierData
         self.opaqueValue = opaqueValue
         self.receiptHash = receiptHash
-        self.receiptCreationDate = receiptCreationDate
+        self.creationDate = creationDate
     }
 }
 
@@ -124,8 +124,9 @@ public extension InAppReceiptPayload
             if let field = InAppReceiptField(rawValue: attribute.type)
             {
                 var value = attribute.value.extractValue()
+                var fValue = value
                 
-                if let v = value as? ASN1Object
+                if let v = value as? ASN1Object, v.identifier.encodingType != .constructed
                 {
                     value = v.extractValue()
                 }
@@ -142,6 +143,9 @@ public extension InAppReceiptPayload
                 case .receiptHash:
                     receiptHash = value as! Data
                 case .inAppPurchaseReceipt:
+//                    let set = value as! ASN1Object
+//                    let data = Data(bytes: set.pointer, count: set.bytesCount)
+//                    purchases.append(InAppPurchase(noOpenSSL: data))
                     break
                 case .originalAppVersion:
                     originalAppVersion = value as! String
@@ -149,12 +153,14 @@ public extension InAppReceiptPayload
                     expirationDate = value as? String
                 case .receiptCreationDate:
                     receiptCreationDate = value as! String
+                    print(receiptCreationDate)
+                    print(12)
                 default:
                     print("attribute.type = \(String(describing: attribute.type)))")
                 }
             }
         }
         
-        self.init(bundleIdentifier: bundleIdentifier, appVersion: appVersion, originalAppVersion: originalAppVersion, purchases: purchases, expirationDate: expirationDate, bundleIdentifierData: bundleIdentifierData, opaqueValue: opaqueValue, receiptHash: receiptHash, receiptCreationDate: receiptCreationDate)
+        self.init(bundleIdentifier: bundleIdentifier, appVersion: appVersion, originalAppVersion: originalAppVersion, purchases: purchases, expirationDate: expirationDate, bundleIdentifierData: bundleIdentifierData, opaqueValue: opaqueValue, receiptHash: receiptHash, creationDate: receiptCreationDate)
     }
 }

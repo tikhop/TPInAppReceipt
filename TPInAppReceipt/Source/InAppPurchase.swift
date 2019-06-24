@@ -91,6 +91,52 @@ public struct InAppPurchase
             }
         }
     }
+    
+    public init(noOpenSSL asn1Data: Data)
+    {
+        originalTransactionIdentifier = ""
+        productIdentifier = ""
+        transactionIdentifier = ""
+        purchaseDateString = ""
+        originalPurchaseDateString = ""
+        quantity = 0
+        
+        asn1Data.enumerateASN1AttributesNoOpenssl { (attribute) in
+            if let field = InAppReceiptField(rawValue: attribute.type)
+            {
+                var value = attribute.value.extractValue()
+                
+                if let v = value as? ASN1Object
+                {
+                    value = v.extractValue()
+                }
+                
+                switch field
+                {
+                case .quantity:
+                    quantity = value as! Int
+                case .productIdentifier:
+                    productIdentifier = value as! String
+                case .transactionIdentifier:
+                    transactionIdentifier = value as! String
+                case .purchaseDate:
+                    purchaseDateString = value as! String
+                case .originalTransactionIdentifier:
+                    originalTransactionIdentifier = value as! String
+                case .originalPurchaseDate:
+                    originalPurchaseDateString = value as! String
+                case .subscriptionExpirationDate:
+                    subscriptionExpirationDateString = value as! String
+                case .cancellationDate:
+                    cancellationDateString = value as! String
+                case .webOrderLineItemID:
+                    webOrderLineItemID = value as! Int
+                default:
+                    break
+                }
+            }
+        }
+    }
 }
 
 public extension InAppPurchase

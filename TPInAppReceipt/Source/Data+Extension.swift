@@ -20,18 +20,27 @@ public extension Data
         return UnsafePointer<UInt8>(bytes)
     }
     
+    var pointee: UnsafeRawPointer
+    {
+        let p: UnsafeRawPointer = self.withUnsafeBytes { rawBufferPointer in
+            return rawBufferPointer.baseAddress!
+        }
+        
+        return p
+    }
+    
     func enumerateASN1AttributesNoOpenssl(withBlock block: (InAppReceiptAttribute) -> ())
     {
         let asn1Object = ASN1Object(data: self)
         
-        var i = 0
         for item in asn1Object.enumerated()
         {
             var attr = InAppReceiptAttribute()
-            i += 1
+            
             for i in item.element.enumerated()
             {
-                let type = i.element.identifier.type
+                let elmnt = i.element
+                let type = elmnt.identifier.type
                 
                 guard type != .unknown else
                 {
@@ -41,7 +50,7 @@ public extension Data
                 switch type
                 {
                 case .integer:
-                    if let value = i.element.extractValue() as? Int
+                    if let value = elmnt.extractValue() as? Int
                     {
                         if attr.type == nil
                         {
@@ -49,10 +58,12 @@ public extension Data
                         }else{
                             attr.version = value
                         }
+                        
+           
                     }
                     break
                 case .octetString:
-                    attr.value = i.element
+                    attr.value = elmnt
                 default:
                     continue
                 }

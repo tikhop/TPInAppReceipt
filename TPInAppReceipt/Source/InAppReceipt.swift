@@ -101,6 +101,12 @@ public extension InAppReceipt
         return purchases.count > 0
     }
     
+    /// The date when the app receipt was created.
+    var creationDate: String
+    {
+        return payload.creationDate
+    }
+    
     /// Return original transaction identifier if there is a purchase for a specific product identifier
     ///
     /// - parameter productIdentifier: Product name
