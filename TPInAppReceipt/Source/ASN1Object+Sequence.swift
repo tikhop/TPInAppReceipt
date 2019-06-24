@@ -15,6 +15,7 @@ struct ASN1Iterator: IteratorProtocol
     let asn1: ASN1Object
     var lastItem: ASN1Object
     var bytesLeft: Int = 0
+    var offset: Int = 0
     
     init(_ asn1: ASN1Object)
     {
@@ -30,7 +31,7 @@ struct ASN1Iterator: IteratorProtocol
             return nil
         }
         
-        var contents: UnsafePointer<UInt8> = lastItem.pointer
+        var contents: Data = lastItem.rawData
         contents = contents.advanced(by: 1) //Identifier
         contents = contents.advanced(by: lastItem.length.offset)
         
@@ -39,7 +40,7 @@ struct ASN1Iterator: IteratorProtocol
             contents = contents.advanced(by: lastItem.length.value)
         }
         
-        let asn1 = ASN1Object(bytes: contents)
+        let asn1 = ASN1Object(data: contents)
         lastItem = asn1
         
         bytesLeft -= asn1.bytesCount

@@ -13,14 +13,14 @@ public typealias ASN1Attribute = (data: Data, type: Int)
 
 public extension Data
 {
-    var pointer: UnsafePointer<UInt8>
+    @inlinable var pointer: UnsafePointer<UInt8>
     {
         var bytes = [UInt8](repeating:0, count: self.count)
         copyBytes(to: &bytes, count: self.count)
         return UnsafePointer<UInt8>(bytes)
     }
     
-    var pointee: UnsafeRawPointer
+    @inlinable var pointee: UnsafeRawPointer
     {
         let p: UnsafeRawPointer = self.withUnsafeBytes { rawBufferPointer in
             return rawBufferPointer.baseAddress!

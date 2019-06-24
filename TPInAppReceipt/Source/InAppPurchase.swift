@@ -37,8 +37,12 @@ public struct InAppPurchase
     /// Quantity
     public var quantity: Int
     
+    /// Raw Data
+    fileprivate var raw: Data
+    
     public init(asn1Data: Data)
     {
+        raw = asn1Data
         originalTransactionIdentifier = ""
         productIdentifier = ""
         transactionIdentifier = ""
@@ -46,7 +50,7 @@ public struct InAppPurchase
         originalPurchaseDateString = ""
         quantity = 0
         
-        asn1Data.enumerateASN1Attributes { (attributes) in
+        raw.enumerateASN1Attributes { (attributes) in
             if let field = InAppReceiptField(rawValue: attributes.type)
             {
                 let length = attributes.data.count
@@ -94,6 +98,7 @@ public struct InAppPurchase
     
     public init(noOpenSSL asn1Data: Data)
     {
+        raw = asn1Data
         originalTransactionIdentifier = ""
         productIdentifier = ""
         transactionIdentifier = ""
@@ -101,7 +106,7 @@ public struct InAppPurchase
         originalPurchaseDateString = ""
         quantity = 0
         
-        asn1Data.enumerateASN1AttributesNoOpenssl { (attribute) in
+        raw.enumerateASN1AttributesNoOpenssl { (attribute) in
             if let field = InAppReceiptField(rawValue: attribute.type)
             {
                 var value = attribute.value.extractValue()
@@ -126,11 +131,11 @@ public struct InAppPurchase
                 case .originalPurchaseDate:
                     originalPurchaseDateString = value as! String
                 case .subscriptionExpirationDate:
-                    subscriptionExpirationDateString = value as! String
+                    subscriptionExpirationDateString = value as? String
                 case .cancellationDate:
-                    cancellationDateString = value as! String
+                    cancellationDateString = value as? String
                 case .webOrderLineItemID:
-                    webOrderLineItemID = value as! Int
+                    webOrderLineItemID = value as? Int
                 default:
                     break
                 }

@@ -37,11 +37,16 @@ public struct InAppReceiptPayload
     /// The date when the app receipt was created.
     public let creationDate: String
     
+    ///
+    fileprivate var raw: Data
+    
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
     /// - parameter asn1Data: `Data` object that represents receipt's payload
     init(asn1Data: Data)
     {
+        raw = asn1Data
+        
         var bundleIdentifier = ""
         var appVersion = ""
         var originalAppVersion = ""
@@ -52,7 +57,7 @@ public struct InAppReceiptPayload
         var expirationDate: String? = ""
         var receiptCreationDate: String = ""
         
-        asn1Data.enumerateASN1Attributes { (attributes) in
+        raw.enumerateASN1Attributes { (attributes) in
             if let field = InAppReceiptField(rawValue: attributes.type)
             {
                 let length = attributes.data.count
@@ -88,11 +93,20 @@ public struct InAppReceiptPayload
             }
         }
         
-        self.init(bundleIdentifier: bundleIdentifier, appVersion: appVersion, originalAppVersion: originalAppVersion, purchases: purchases, expirationDate: expirationDate, bundleIdentifierData: bundleIdentifierData, opaqueValue: opaqueValue, receiptHash: receiptHash, creationDate: receiptCreationDate)
+        self.bundleIdentifier = bundleIdentifier
+        self.appVersion = appVersion
+        self.originalAppVersion = originalAppVersion
+        self.purchases = purchases
+        self.expirationDate = expirationDate
+        self.bundleIdentifierData = bundleIdentifierData
+        self.opaqueValue = opaqueValue
+        self.receiptHash = receiptHash
+        self.creationDate = receiptCreationDate
     }
     
-    init(bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: String?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, creationDate: String)
+    init(data: Data, bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: String?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, creationDate: String)
     {
+        self.raw = data
         self.bundleIdentifier = bundleIdentifier
         self.appVersion = appVersion
         self.originalAppVersion = originalAppVersion
@@ -110,6 +124,8 @@ public extension InAppReceiptPayload
 {
     init(noOpenSslData asn1Data: Data)
     {
+        self.raw = asn1Data
+        
         var bundleIdentifier = ""
         var appVersion = ""
         var originalAppVersion = ""
@@ -120,7 +136,7 @@ public extension InAppReceiptPayload
         var expirationDate: String? = ""
         var receiptCreationDate: String = ""
         
-        asn1Data.enumerateASN1AttributesNoOpenssl { (attribute) in
+        raw.enumerateASN1AttributesNoOpenssl { (attribute) in
             if let field = InAppReceiptField(rawValue: attribute.type)
             {
                 var value = attribute.value.extractValue()
@@ -143,9 +159,8 @@ public extension InAppReceiptPayload
                 case .receiptHash:
                     receiptHash = value as! Data
                 case .inAppPurchaseReceipt:
-//                    let set = value as! ASN1Object
-//                    let data = Data(bytes: set.pointer, count: set.bytesCount)
-//                    purchases.append(InAppPurchase(noOpenSSL: data))
+                    let set = value as! ASN1Object
+                    purchases.append(InAppPurchase(noOpenSSL: set.rawData))
                     break
                 case .originalAppVersion:
                     originalAppVersion = value as! String
@@ -153,14 +168,20 @@ public extension InAppReceiptPayload
                     expirationDate = value as? String
                 case .receiptCreationDate:
                     receiptCreationDate = value as! String
-                    print(receiptCreationDate)
-                    print(12)
                 default:
                     print("attribute.type = \(String(describing: attribute.type)))")
                 }
-            }
+            }            
         }
         
-        self.init(bundleIdentifier: bundleIdentifier, appVersion: appVersion, originalAppVersion: originalAppVersion, purchases: purchases, expirationDate: expirationDate, bundleIdentifierData: bundleIdentifierData, opaqueValue: opaqueValue, receiptHash: receiptHash, creationDate: receiptCreationDate)
+        self.bundleIdentifier = bundleIdentifier
+        self.appVersion = appVersion
+        self.originalAppVersion = originalAppVersion
+        self.purchases = purchases
+        self.expirationDate = expirationDate
+        self.bundleIdentifierData = bundleIdentifierData
+        self.opaqueValue = opaqueValue
+        self.receiptHash = receiptHash
+        self.creationDate = receiptCreationDate
     }
 }

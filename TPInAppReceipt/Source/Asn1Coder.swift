@@ -16,8 +16,6 @@ class ASN1Coder
     }
 }
 
-
-
 extension ASN1Object
 {
     var type: ASN1Object.Identifier.`Type`
@@ -32,7 +30,7 @@ struct ASN1Object
     var length: Length
     
     var rawData: Data! //Might be nil in this case use pointer
-    var pointer: UnsafePointer<UInt8> //Always awailable
+    //var pointer: UnsafePointer<UInt8> //Always awailable
     var bytesCount: Int
     
     enum Length
@@ -132,23 +130,24 @@ extension ASN1Object
     {
         rawData = data
         bytesCount = 1
-        pointer = rawData.pointee
-        identifier = try! Identifier(data: data)
+        //pointer = rawData.pointer
+        identifier = try! Identifier(data: rawData)
         length = .short(value: 0)
-        length = ASN1Object.extractLenght(from: pointer.advanced(by: 1))
+        length = ASN1Object.extractLenght(from: rawData.advanced(by: 1))
         bytesCount += (length.offset + length.value)
     }
     
     //Using this initialization method we assume that pointer to asn1 object containt a proper asn1 object as defined by ITU-T X.690
-    init(bytes: UnsafePointer<UInt8>)
-    {
-        pointer = bytes
-        bytesCount = 1
-        identifier = try! Identifier(raw: pointer[0])
-        length = .short(value: 0)
-        length = ASN1Object.extractLenght(from: pointer.advanced(by: 1))
-        bytesCount += (length.offset + length.value)
-    }
+//    init(bytes: UnsafePointer<UInt8>)
+//    {
+//        s
+////        pointer = bytes
+////        bytesCount = 1
+////        identifier = try! Identifier(raw: pointer[0])
+////        length = .short(value: 0)
+////        length = ASN1Object.extractLenght(from: pointer.advanced(by: 1))
+////        bytesCount += (length.offset + length.value)
+//    }
 }
 
 

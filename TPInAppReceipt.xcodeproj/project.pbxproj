@@ -194,12 +194,16 @@
 		476C64CE22BFCCB400D973F9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 470D079C203B4FC700F3335F /* Security.framework */; };
 		476C64CF22BFCCD500D973F9 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2132E1E4588CF00994B00 /* libcrypto.a */; };
 		476C64D022BFCCD500D973F9 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2132F1E4588CF00994B00 /* libssl.a */; };
-		476C64D122BFCCDE00D973F9 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2132E1E4588CF00994B00 /* libcrypto.a */; };
-		476C64D222BFCCDE00D973F9 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D2132F1E4588CF00994B00 /* libssl.a */; };
 		476C64D422C028D300D973F9 /* ASN1Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D322C028D300D973F9 /* ASN1Object.swift */; };
 		476C64D622C028F800D973F9 /* ASN1Object+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D522C028F800D973F9 /* ASN1Object+Helper.swift */; };
 		476C64D822C0298000D973F9 /* ASN1Object+ValueReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D722C0298000D973F9 /* ASN1Object+ValueReading.swift */; };
 		476C64DA22C0330500D973F9 /* ASN1Object+Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D922C0330500D973F9 /* ASN1Object+Sequence.swift */; };
+		476C64DB22C0EF1B00D973F9 /* ASN1Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D322C028D300D973F9 /* ASN1Object.swift */; };
+		476C64DC22C0EF1B00D973F9 /* ASN1Object+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D522C028F800D973F9 /* ASN1Object+Helper.swift */; };
+		476C64DD22C0EF1B00D973F9 /* ASN1Object+ValueReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D722C0298000D973F9 /* ASN1Object+ValueReading.swift */; };
+		476C64DE22C0EF1B00D973F9 /* ASN1Object+Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D922C0330500D973F9 /* ASN1Object+Sequence.swift */; };
+		476C64E122C0F19700D973F9 /* shim.h in Headers */ = {isa = PBXBuildFile; fileRef = 476C64E022C0F06D00D973F9 /* shim.h */; };
+		476C64E222C0F19900D973F9 /* shim.h in Headers */ = {isa = PBXBuildFile; fileRef = 476C64E022C0F06D00D973F9 /* shim.h */; };
 		479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
 		47D213341E4588D800994B00 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D213321E4588D800994B00 /* libcrypto.a */; };
 		47D213351E4588D800994B00 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D213331E4588D800994B00 /* libssl.a */; };
@@ -335,6 +339,7 @@
 		476C64D522C028F800D973F9 /* ASN1Object+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASN1Object+Helper.swift"; sourceTree = "<group>"; };
 		476C64D722C0298000D973F9 /* ASN1Object+ValueReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASN1Object+ValueReading.swift"; sourceTree = "<group>"; };
 		476C64D922C0330500D973F9 /* ASN1Object+Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASN1Object+Sequence.swift"; sourceTree = "<group>"; };
+		476C64E022C0F06D00D973F9 /* shim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shim.h; sourceTree = "<group>"; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		47D2132E1E4588CF00994B00 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = Vendor/OpenSSL/Mac/libcrypto.a; sourceTree = SOURCE_ROOT; };
 		47D2132F1E4588CF00994B00 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = Vendor/OpenSSL/Mac/libssl.a; sourceTree = SOURCE_ROOT; };
@@ -377,8 +382,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				476C64CD22BFC9AA00D973F9 /* TPInAppReceipt.framework in Frameworks */,
-				476C64D122BFCCDE00D973F9 /* libcrypto.a in Frameworks */,
-				476C64D222BFCCDE00D973F9 /* libssl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,6 +453,7 @@
 			children = (
 				47209A1D1D9E11140010BCDE /* include */,
 				47209A6D1D9E11140010BCDE /* module.modulemap */,
+				476C64E022C0F06D00D973F9 /* shim.h */,
 			);
 			path = OpenSSL;
 			sourceTree = "<group>";
@@ -562,6 +566,7 @@
 				47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */,
 				47209ABD1D9E111C0010BCDE /* Data+Extension.swift */,
 				479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */,
+				47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -570,7 +575,6 @@
 			isa = PBXGroup;
 			children = (
 				4728B65822BE3DB900607E5E /* Asn1Coder.swift */,
-				47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */,
 				476C64D322C028D300D973F9 /* ASN1Object.swift */,
 				476C64D522C028F800D973F9 /* ASN1Object+Helper.swift */,
 				476C64D722C0298000D973F9 /* ASN1Object+ValueReading.swift */,
@@ -678,6 +682,7 @@
 				47209A121D9E0FD60010BCDE /* TPInAppReceipt.h in Headers */,
 				47209A701D9E11140010BCDE /* asn1_mac.h in Headers */,
 				47209A7E1D9E11140010BCDE /* des.h in Headers */,
+				476C64E222C0F19900D973F9 /* shim.h in Headers */,
 				47209A8E1D9E11140010BCDE /* krb5_asn.h in Headers */,
 				47209A9F1D9E11140010BCDE /* pqueue.h in Headers */,
 				47209AA11D9E11140010BCDE /* rc2.h in Headers */,
@@ -761,6 +766,7 @@
 				47589B391E333F450047DFCD /* TPInAppReceipt.h in Headers */,
 				47589B3A1E333F450047DFCD /* asn1_mac.h in Headers */,
 				47589B3B1E333F450047DFCD /* des.h in Headers */,
+				476C64E122C0F19700D973F9 /* shim.h in Headers */,
 				47589B3C1E333F450047DFCD /* krb5_asn.h in Headers */,
 				47589B3D1E333F450047DFCD /* pqueue.h in Headers */,
 				47589B3E1E333F450047DFCD /* rc2.h in Headers */,
@@ -974,10 +980,14 @@
 			files = (
 				476C64CC22BFC94400D973F9 /* ASN1Helper.swift in Sources */,
 				47589AF31E333F450047DFCD /* InAppReceiptPayload.swift in Sources */,
+				476C64DD22C0EF1B00D973F9 /* ASN1Object+ValueReading.swift in Sources */,
 				47589AF41E333F450047DFCD /* IARError.swift in Sources */,
+				476C64DB22C0EF1B00D973F9 /* ASN1Object.swift in Sources */,
 				476C64CA22BFC93E00D973F9 /* PCKS7.swift in Sources */,
 				47589AF51E333F450047DFCD /* Date+Extension.swift in Sources */,
 				47D2133B1E4738AB00994B00 /* Initialization.swift in Sources */,
+				476C64DE22C0EF1B00D973F9 /* ASN1Object+Sequence.swift in Sources */,
+				476C64DC22C0EF1B00D973F9 /* ASN1Object+Helper.swift in Sources */,
 				47589AF61E333F450047DFCD /* InAppPurchase.swift in Sources */,
 				47589B571E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */,
 				47589AF91E333F450047DFCD /* Data+Extension.swift in Sources */,

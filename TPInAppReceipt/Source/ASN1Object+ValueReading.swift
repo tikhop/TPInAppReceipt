@@ -54,9 +54,9 @@ extension ASN1Object
         return value()
     }
     
-    fileprivate func contentsBytes() -> UnsafePointer<UInt8>
+    fileprivate func contentsBytes() -> Data
     {
-        var contents: UnsafePointer<UInt8> = pointer
+        var contents: Data = rawData
         contents = contents.advanced(by: 1) //Identifier
         contents = contents.advanced(by: length.offset) //Identifier
         return contents
@@ -71,8 +71,11 @@ extension ASN1Object
             return nil
         }
         
-        let contents: UnsafePointer<UInt8> = contentsBytes()
         let l = length.value
+        
+        if l == 0 { return nil }
+        
+        let contents: UnsafePointer<UInt8> = contentsBytes().pointer
         
         switch type
         {

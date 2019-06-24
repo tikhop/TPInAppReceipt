@@ -63,11 +63,9 @@ extension ASN1Object
         {
             let l: Int = Int(firstByte - 0x80)
             
-            let lData = data.dropLast(data.count - 1 - l).advanced(by: 1)
-            let lResult = UnsafeMutableBufferPointer<Int>.allocate(capacity: 1)
-            lData.copyBytes(to: lResult)
-            let r = lResult.first!
-            lResult.deallocate()
+            var lData = data.dropLast(data.count - 1 - l).advanced(by: 1)
+            let r = readInt(from: lData.pointer, l: l)
+  
             
             return Length.long(length: l, value: r)
         }else{
