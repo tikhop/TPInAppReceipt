@@ -24,7 +24,7 @@ class InAppReceiptTests: XCTestCase {
         let oid = Data(base64Encoded: "BgsqhkiG9/f3DQEHAg==")!
         let asn1 = ASN1Object(data: oid)
         var d = asn1.valueData!
-        let r = ASN1Object.decodeOid(contentData: &d)
+        let r = ASN1.readOid(contentData: &d)
         print(r)
 //        
 //        let r = Data(base64Encoded: receiptString64)!

@@ -18,7 +18,7 @@ extension String: ASN1ExtractableValueTypes { }
 extension Date: ASN1ExtractableValueTypes { }
 extension Int: ASN1ExtractableValueTypes { }
 
-extension ASN1Object
+struct ASN1
 {
     static func readInt(from data: inout Data, offset: Int = 0, l: Int) -> Int
     {
@@ -132,7 +132,7 @@ extension ASN1Object
         switch type
         {
         case .integer:
-            return ASN1Object.readInt(from: &valueData, l: l)
+            return ASN1.readInt(from: &valueData, l: l)
         case .octetString:
             if let asn1 = try? ASN1Object.initializeASN1Object(from: valueData)
             {
@@ -162,7 +162,7 @@ extension ASN1Object
         case .embeddedPdv:
             return "embeddedPdv"
         case .utf8String:
-            return ASN1Object.readString(from: &valueData, l, encoding: .utf8)
+            return ASN1.readString(from: &valueData, l, encoding: .utf8)
         case .relativeOid:
             return "relativeOid"
         case .sequence, .set:
@@ -176,7 +176,7 @@ extension ASN1Object
         case .videotexString:
             return "videotexString"
         case .ia5String:
-            return ASN1Object.readString(from: &valueData, l, encoding: .ascii)
+            return ASN1.readString(from: &valueData, l, encoding: .ascii)
         case .utcTime:
             return "utcTime"
         case .generalizedTime:
