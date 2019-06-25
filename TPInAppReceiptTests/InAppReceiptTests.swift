@@ -20,6 +20,12 @@ class InAppReceiptTests: XCTestCase {
     
     func testNoOpenssl()
     {
+        
+        let oid = Data(base64Encoded: "BgsqhkiG9/f3DQEHAg==")!
+        let asn1 = ASN1Object(data: oid)
+        var d = asn1.valueData!
+        let r = ASN1Object.decodeOid(contentData: &d)
+        print(r)
 //        
 //        let r = Data(base64Encoded: receiptString64)!
 //        
@@ -36,24 +42,24 @@ class InAppReceiptTests: XCTestCase {
 //
 //        
 //        
-//        
-        let receipt = try! InAppReceipt(receiptData: Data(base64Encoded: receiptString64)!)
-        
-        self.measure
-        {
-            try? receipt.verifyHashNoOpenssl()
-        }
+////
+//        let receipt = try! InAppReceipt(receiptData: Data(base64Encoded: receiptString64)!)
+//
+//        self.measure
+//        {
+//            try? receipt.verifyHashNoOpenssl()
+//        }
     }
 //    
-    func test()
-    {
-        let receipt = InAppReceipt(pkcs7: p, payload: InAppReceiptPayload(asn1Data: asn1))
-        
-        self.measure
-        {
-            try? receipt.verifyHash()
-        }
-    }
+//    func test()
+//    {
+//        let receipt = InAppReceipt(pkcs7: p, payload: InAppReceiptPayload(asn1Data: asn1))
+//
+//        self.measure
+//        {
+//            try? receipt.verifyHash()
+//        }
+//    }
     
 //    func testActiveAutoRenewableSubscriptionPurchasesWithoutCancellation() {
 //

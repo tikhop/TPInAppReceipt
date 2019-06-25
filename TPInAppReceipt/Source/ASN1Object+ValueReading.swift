@@ -20,31 +20,6 @@ extension Int: ASN1ExtractableValueTypes { }
 
 extension ASN1Object
 {
-    var valueData: Data?
-    {
-        let l = length.value
-        
-        if l == 0 { return nil }
-        
-        let valueOffset = 1 + length.offset //Identifier + length
-        return Data(rawData[valueOffset..<(l + valueOffset)])
-    }
-    
-    static func asn1ReadUTF8String(from data: inout Data, _ l: Int) -> String?
-    {
-        return readString(from: &data, l, encoding: .utf8)
-    }
-    
-    static func asn1ReadASCIIString(from data: inout Data, _ l: Int) -> String?
-    {
-        return readString(from: &data, l, encoding: .ascii)
-    }
-    
-    static func readString(from data: inout Data, _ l: Int, encoding: String.Encoding) -> String
-    {
-        return String(data: data, encoding: encoding) ?? ""
-    }
-    
     static func readInt(from data: inout Data, offset: Int = 0, l: Int) -> Int
     {
         var r: UInt64 = 0
@@ -64,6 +39,73 @@ extension ASN1Object
         }
         
         return Int(r)
+    }
+    
+    /// https://docs.microsoft.com/en-us/windows/desktop/seccertenroll/about-object-identifier
+    static func readOid(contentData: inout Data) -> String
+    {
+        if contentData.isEmpty { return "" }
+        
+        var oid: [UInt64] = [UInt64]()
+        
+        var shifted: UInt8 = 0x00
+        var value: UInt64 = 0x00
+        
+        for (i, bit) in contentData.enumerated()
+        {
+            if i == 0
+            {
+                oid.append(UInt64(bit/40))
+                oid.append(UInt64(bit%40))
+            }else if (bit & 0x80) == 0
+            {
+                let v = UInt64((bit & 0x7F) | shifted)
+                value |= v
+                oid.append(value)
+                
+                shifted = 0x00
+                value = 0x00
+            }else
+            {
+                if value > 0 { value >>= 1 }
+                
+                let v = UInt64(((bit & 0x7F) | shifted) >> 1)
+                value |= v
+                value <<= 8
+                
+                shifted = bit << 7
+            }
+        }
+        
+        return oid.map { String($0) }.joined(separator: ".")
+    }
+    
+    static func readString(from data: inout Data, _ l: Int, encoding: String.Encoding) -> String
+    {
+        return String(data: data, encoding: encoding) ?? ""
+    }
+    
+    static func readUTF8String(from data: inout Data, _ l: Int) -> String?
+    {
+        return readString(from: &data, l, encoding: .utf8)
+    }
+    
+    static func readASCIIString(from data: inout Data, _ l: Int) -> String?
+    {
+        return readString(from: &data, l, encoding: .ascii)
+    }
+}
+
+extension ASN1Object
+{
+    var valueData: Data?
+    {
+        let l = length.value
+        
+        if l == 0 { return nil }
+        
+        let valueOffset = 1 + length.offset //Identifier + length
+        return Data(rawData[valueOffset..<(l + valueOffset)])
     }
     
     func extractValue() -> Any?
@@ -86,7 +128,7 @@ extension ASN1Object
         {
             return nil
         }
-
+        
         switch type
         {
         case .integer:
