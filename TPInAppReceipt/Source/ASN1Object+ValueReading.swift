@@ -8,58 +8,67 @@
 
 import Foundation
 
+//Value Data Types we expect from ASN1
+protocol ASN1ExtractableValueTypes {}
+
+extension ASN1Object: ASN1ExtractableValueTypes { }
+extension Bool: ASN1ExtractableValueTypes { }
+extension Data: ASN1ExtractableValueTypes { }
+extension String: ASN1ExtractableValueTypes { }
+extension Date: ASN1ExtractableValueTypes { }
+extension Int: ASN1ExtractableValueTypes { }
+
 extension ASN1Object
 {
-    static func readString(from contents: UnsafePointer<UInt8>, _ l: Int, encoding: String.Encoding) -> String
+    var valueData: Data?
     {
-        let data = Data(bytes: contents, count: l)
+        let l = length.value
+        
+        if l == 0 { return nil }
+        
+        let valueOffset = 1 + length.offset //Identifier + length
+        return Data(rawData[valueOffset..<(l + valueOffset)])
+    }
+    
+    static func asn1ReadUTF8String(from data: inout Data, _ l: Int) -> String?
+    {
+        return readString(from: &data, l, encoding: .utf8)
+    }
+    
+    static func asn1ReadASCIIString(from data: inout Data, _ l: Int) -> String?
+    {
+        return readString(from: &data, l, encoding: .ascii)
+    }
+    
+    static func readString(from data: inout Data, _ l: Int, encoding: String.Encoding) -> String
+    {
         return String(data: data, encoding: encoding) ?? ""
     }
     
-    static func readInt(from contents: UnsafePointer<UInt8>, l: Int) -> Int
+    static func readInt(from data: inout Data, offset: Int = 0, l: Int) -> Int
     {
         var r: UInt64 = 0
         
-        for i in 0..<l
+        let start = data.startIndex + offset
+        let end = start + l
+        
+        for i in start..<end
         {
-            r |= UInt64(contents[i])
-            
-            if i < (l - 1)
-            {
-                r = r << 8
-            }
+            r = r << 8
+            r |= UInt64(data[i])
         }
         
         if r >= Int.max
         {
-            return -1
+            return -1 //Invalid data
         }
         
         return Int(r)
     }
     
-    static func asn1ReadUTF8String(_ ptr: UnsafePointer<UInt8>, _ l: Int) -> String?
-    {
-        return readString(from: ptr, l, encoding: .utf8)
-    }
-    
-    static func asn1ReadASCIIString(_ ptr: UnsafePointer<UInt8>, _ l: Int) -> String?
-    {
-        return readString(from: ptr, l, encoding: .ascii)
-    }
-    
-    
     func extractValue() -> Any?
     {
         return value()
-    }
-    
-    fileprivate func contentsBytes() -> Data
-    {
-        var contents: Data = rawData
-        contents = contents.advanced(by: 1) //Identifier
-        contents = contents.advanced(by: length.offset) //Identifier
-        return contents
     }
     
     fileprivate func value() -> ASN1ExtractableValueTypes?
@@ -73,22 +82,23 @@ extension ASN1Object
         
         let l = length.value
         
-        if l == 0 { return nil }
-        
-        let contents: UnsafePointer<UInt8> = contentsBytes().pointer
-        
+        guard l > 0, var valueData: Data = valueData else
+        {
+            return nil
+        }
+
         switch type
         {
         case .integer:
-            return ASN1Object.readInt(from: contents, l: l)
+            return ASN1Object.readInt(from: &valueData, l: l)
         case .octetString:
-            let data = Data(bytes: contents, count: l)
-            if let asn1 = try? ASN1Object.initializeASN1Object(from: data)
+            if let asn1 = try? ASN1Object.initializeASN1Object(from: valueData)
             {
                 return asn1
             }else{
-                return Data(bytes: contents, count: l)
+                return valueData
             }
+            
         case .endOfContent:
             return nil
         case .boolean:
@@ -110,24 +120,11 @@ extension ASN1Object
         case .embeddedPdv:
             return "embeddedPdv"
         case .utf8String:
-            return ASN1Object.readString(from: contents, l, encoding: .utf8)
+            return ASN1Object.readString(from: &valueData, l, encoding: .utf8)
         case .relativeOid:
             return "relativeOid"
-        case .sequence:
-            if let asn1 = try? ASN1Object.initializeASN1Object(from: Data(bytes: contents, count: l))
-            {
-                return asn1
-            }else{
-                return "sequence"
-            }
-            
-        case .set:
-            if let asn1 = try? ASN1Object.initializeASN1Object(from: Data(bytes: contents, count: l))
-            {
-                return asn1
-            }else{
-                return "set"
-            }
+        case .sequence, .set:
+            return ASN1Object(data: valueData)
         case .numericString:
             return "numericString"
         case .printableString:
@@ -137,7 +134,7 @@ extension ASN1Object
         case .videotexString:
             return "videotexString"
         case .ia5String:
-            return ASN1Object.readString(from: contents, l, encoding: .ascii)
+            return ASN1Object.readString(from: &valueData, l, encoding: .ascii)
         case .utcTime:
             return "utcTime"
         case .generalizedTime:
@@ -157,6 +154,5 @@ extension ASN1Object
         default:
             return nil
         }
-        return Data()
     }
 }

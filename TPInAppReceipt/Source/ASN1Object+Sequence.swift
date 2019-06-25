@@ -16,34 +16,30 @@ struct ASN1Iterator: IteratorProtocol
     var lastItem: ASN1Object
     var bytesLeft: Int = 0
     var offset: Int = 0
+    var bytes: Data
     
     init(_ asn1: ASN1Object)
     {
         self.asn1 = asn1
+        self.bytes = asn1.valueData ?? Data()
+        
         self.lastItem = asn1
         self.bytesLeft = asn1.length.value
     }
     
     mutating func next() -> Element?
     {
-        guard asn1.identifier.encodingType == .constructed, bytesLeft > 0 else
+        guard bytes.count > 0, asn1.identifier.encodingType == .constructed, bytesLeft > 0 else
         {
             return nil
         }
         
-        var contents: Data = lastItem.rawData
-        contents = contents.advanced(by: 1) //Identifier
-        contents = contents.advanced(by: lastItem.length.offset)
-        
-        if bytesLeft != asn1.length.value
-        {
-            contents = contents.advanced(by: lastItem.length.value)
-        }
-        
-        let asn1 = ASN1Object(data: contents)
+        let valueData = Data(bytes[offset..<bytes.count])
+        let asn1 = ASN1Object(data: valueData)
         lastItem = asn1
         
         bytesLeft -= asn1.bytesCount
+        offset += asn1.bytesCount
         
         return asn1
     }

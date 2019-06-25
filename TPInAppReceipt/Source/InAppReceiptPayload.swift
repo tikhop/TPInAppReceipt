@@ -124,7 +124,7 @@ public extension InAppReceiptPayload
 {
     init(noOpenSslData asn1Data: Data)
     {
-        self.raw = asn1Data
+        self.raw = Data(asn1Data)
         
         var bundleIdentifier = ""
         var appVersion = ""

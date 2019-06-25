@@ -9,14 +9,39 @@ import openssl
 
 class InAppReceiptTests: XCTestCase {
 
+    fileprivate var p: PKCS7WrapperMock!
+    fileprivate var asn1: Data!
+    
+    override func setUp()
+    {
+        p = try! PKCS7WrapperMock()
+        asn1 = p.extractASN1Data()
+    }
+    
     func testNoOpenssl()
     {
+//        
+//        let r = Data(base64Encoded: receiptString64)!
+//        
+//        let asn1Object = ASN1Object(data: r)
+//        
+//        for item in asn1Object.enumerated()
+//        {
+//            print(item.element)
+//        }
+//
+//        r.enumerateASN1AttributesNoOpenssl(withBlock: { (attribute) in
+//
+//        })
+//
+//        
+//        
+//        
+
         self.measure
         {
-        let p = try! PKCS7WrapperMock()
-        let asn1 = p.extractASN1Data()
-        let receipt = InAppReceipt(pkcs7: p, payload: InAppReceiptPayload(noOpenSslData: asn1))
-        
+            let receipt = InAppReceipt(pkcs7: p, payload: InAppReceiptPayload(noOpenSslData: asn1))
+            print(receipt.creationDate)
         }
     }
 //    
@@ -24,9 +49,8 @@ class InAppReceiptTests: XCTestCase {
     {
         self.measure
             {
-        let p = try! PKCS7WrapperMock()
-        let receipt = InAppReceipt(pkcs7: p, payload: InAppReceiptPayload(asn1Data: p.extractASN1Data()))
-                //print(receipt.creationDate)
+        let receipt = InAppReceipt(pkcs7: p, payload: InAppReceiptPayload(asn1Data: asn1))
+                print(receipt.creationDate)
 
         }
     }
