@@ -11,6 +11,41 @@ import openssl
 
 public typealias ASN1Attribute = (data: Data, type: Int)
 
+extension Data
+{
+    /// Two octet checksum as defined in RFC-4880. Sum of all octets, mod 65536
+    public func checksum() -> UInt16
+    {
+        var s: UInt32 = 0
+        let bytesArray = bytes
+        for i in 0 ..< bytesArray.count
+        {
+            s = s + UInt32(bytesArray[i])
+        }
+        s = s % 65536
+        return UInt16(s)
+    }
+}
+
+extension Data
+{
+    public init(hex: String)
+    {
+        self.init(Array<UInt8>(hex: hex))
+    }
+    
+    public var bytes: Array<UInt8>
+    {
+        return Array(self)
+    }
+    
+    public func toHexString() -> String
+    {
+        return bytes.toHexString()
+    }
+}
+
+
 public extension Data
 {
     @inlinable var pointer: UnsafePointer<UInt8>
@@ -19,6 +54,7 @@ public extension Data
         copyBytes(to: &bytes, count: self.count)
         return UnsafePointer<UInt8>(bytes)
     }
+    
     
     @inlinable var pointee: UnsafeRawPointer
     {
@@ -58,8 +94,6 @@ public extension Data
                         }else{
                             attr.version = value
                         }
-                        
-           
                     }
                     break
                 case .octetString:

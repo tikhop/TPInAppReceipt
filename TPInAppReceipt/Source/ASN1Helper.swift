@@ -16,7 +16,6 @@ public struct InAppReceiptAttribute
     var value: ASN1Object!
 }
 
-
 func asn1ConsumeObject(_ ptr: UnsafeMutablePointer<UnsafePointer<UInt8>?>, _ l: Int)
 {
     var pClass: Int32 = 0

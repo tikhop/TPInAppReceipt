@@ -204,6 +204,33 @@
 		476C64DE22C0EF1B00D973F9 /* ASN1Object+Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D922C0330500D973F9 /* ASN1Object+Sequence.swift */; };
 		476C64E122C0F19700D973F9 /* shim.h in Headers */ = {isa = PBXBuildFile; fileRef = 476C64E022C0F06D00D973F9 /* shim.h */; };
 		476C64E222C0F19900D973F9 /* shim.h in Headers */ = {isa = PBXBuildFile; fileRef = 476C64E022C0F06D00D973F9 /* shim.h */; };
+		476C661C22C1D96E00D973F9 /* SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C661B22C1D96E00D973F9 /* SHA1.swift */; };
+		476C661E22C1DA0100D973F9 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C661D22C1DA0100D973F9 /* Utils.swift */; };
+		476C661F22C1DA0200D973F9 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C661D22C1DA0100D973F9 /* Utils.swift */; };
+		476C662222C1DA1700D973F9 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662022C1DA1700D973F9 /* Updatable.swift */; };
+		476C662322C1DA1700D973F9 /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662022C1DA1700D973F9 /* Updatable.swift */; };
+		476C662422C1DA1700D973F9 /* DigestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662122C1DA1700D973F9 /* DigestType.swift */; };
+		476C662522C1DA1700D973F9 /* DigestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662122C1DA1700D973F9 /* DigestType.swift */; };
+		476C662722C1DA2C00D973F9 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662622C1DA2C00D973F9 /* Int+Extension.swift */; };
+		476C662822C1DA2C00D973F9 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662622C1DA2C00D973F9 /* Int+Extension.swift */; };
+		476C662A22C1DA4500D973F9 /* BatchedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662922C1DA4500D973F9 /* BatchedCollection.swift */; };
+		476C662B22C1DA4500D973F9 /* BatchedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662922C1DA4500D973F9 /* BatchedCollection.swift */; };
+		476C663122C1DA9100D973F9 /* UInt16+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662C22C1DA9100D973F9 /* UInt16+Extension.swift */; };
+		476C663222C1DA9100D973F9 /* UInt16+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662C22C1DA9100D973F9 /* UInt16+Extension.swift */; };
+		476C663322C1DA9100D973F9 /* UInt32+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662D22C1DA9100D973F9 /* UInt32+Extension.swift */; };
+		476C663422C1DA9100D973F9 /* UInt32+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662D22C1DA9100D973F9 /* UInt32+Extension.swift */; };
+		476C663522C1DA9100D973F9 /* UInt64+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662E22C1DA9100D973F9 /* UInt64+Extension.swift */; };
+		476C663622C1DA9100D973F9 /* UInt64+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662E22C1DA9100D973F9 /* UInt64+Extension.swift */; };
+		476C663722C1DA9100D973F9 /* UInt8+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662F22C1DA9100D973F9 /* UInt8+Extension.swift */; };
+		476C663822C1DA9100D973F9 /* UInt8+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662F22C1DA9100D973F9 /* UInt8+Extension.swift */; };
+		476C663922C1DA9100D973F9 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C663022C1DA9100D973F9 /* String+Extension.swift */; };
+		476C663A22C1DA9100D973F9 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C663022C1DA9100D973F9 /* String+Extension.swift */; };
+		476C663F22C1DAC000D973F9 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C663E22C1DAC000D973F9 /* Array+Extension.swift */; };
+		476C664022C1DAC000D973F9 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C663E22C1DAC000D973F9 /* Array+Extension.swift */; };
+		476C664222C1DB6900D973F9 /* Bit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C664122C1DB6900D973F9 /* Bit.swift */; };
+		476C664322C1DB6900D973F9 /* Bit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C664122C1DB6900D973F9 /* Bit.swift */; };
+		476C664522C1DBC300D973F9 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C664422C1DBC300D973F9 /* Generics.swift */; };
+		476C664622C1DBC300D973F9 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C664422C1DBC300D973F9 /* Generics.swift */; };
 		479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
 		47D213341E4588D800994B00 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D213321E4588D800994B00 /* libcrypto.a */; };
 		47D213351E4588D800994B00 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47D213331E4588D800994B00 /* libssl.a */; };
@@ -340,6 +367,20 @@
 		476C64D722C0298000D973F9 /* ASN1Object+ValueReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASN1Object+ValueReading.swift"; sourceTree = "<group>"; };
 		476C64D922C0330500D973F9 /* ASN1Object+Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASN1Object+Sequence.swift"; sourceTree = "<group>"; };
 		476C64E022C0F06D00D973F9 /* shim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shim.h; sourceTree = "<group>"; };
+		476C661B22C1D96E00D973F9 /* SHA1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SHA1.swift; sourceTree = "<group>"; };
+		476C661D22C1DA0100D973F9 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		476C662022C1DA1700D973F9 /* Updatable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Updatable.swift; sourceTree = "<group>"; };
+		476C662122C1DA1700D973F9 /* DigestType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DigestType.swift; sourceTree = "<group>"; };
+		476C662622C1DA2C00D973F9 /* Int+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		476C662922C1DA4500D973F9 /* BatchedCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchedCollection.swift; sourceTree = "<group>"; };
+		476C662C22C1DA9100D973F9 /* UInt16+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UInt16+Extension.swift"; sourceTree = "<group>"; };
+		476C662D22C1DA9100D973F9 /* UInt32+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UInt32+Extension.swift"; sourceTree = "<group>"; };
+		476C662E22C1DA9100D973F9 /* UInt64+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UInt64+Extension.swift"; sourceTree = "<group>"; };
+		476C662F22C1DA9100D973F9 /* UInt8+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UInt8+Extension.swift"; sourceTree = "<group>"; };
+		476C663022C1DA9100D973F9 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		476C663E22C1DAC000D973F9 /* Array+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		476C664122C1DB6900D973F9 /* Bit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bit.swift; sourceTree = "<group>"; };
+		476C664422C1DBC300D973F9 /* Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generics.swift; sourceTree = "<group>"; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		47D2132E1E4588CF00994B00 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = Vendor/OpenSSL/Mac/libcrypto.a; sourceTree = SOURCE_ROOT; };
 		47D2132F1E4588CF00994B00 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = Vendor/OpenSSL/Mac/libssl.a; sourceTree = SOURCE_ROOT; };
@@ -443,6 +484,7 @@
 		47209A1B1D9E11140010BCDE /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				476C661A22C1D95500D973F9 /* CryptoSwift */,
 				47209A1C1D9E11140010BCDE /* OpenSSL */,
 			);
 			path = Vendor;
@@ -615,6 +657,27 @@
 				476C64C522BFC76000D973F9 /* main.swift */,
 			);
 			path = Example;
+			sourceTree = "<group>";
+		};
+		476C661A22C1D95500D973F9 /* CryptoSwift */ = {
+			isa = PBXGroup;
+			children = (
+				476C664422C1DBC300D973F9 /* Generics.swift */,
+				476C664122C1DB6900D973F9 /* Bit.swift */,
+				476C662922C1DA4500D973F9 /* BatchedCollection.swift */,
+				476C662622C1DA2C00D973F9 /* Int+Extension.swift */,
+				476C662122C1DA1700D973F9 /* DigestType.swift */,
+				476C662022C1DA1700D973F9 /* Updatable.swift */,
+				476C661D22C1DA0100D973F9 /* Utils.swift */,
+				476C661B22C1D96E00D973F9 /* SHA1.swift */,
+				476C663022C1DA9100D973F9 /* String+Extension.swift */,
+				476C662F22C1DA9100D973F9 /* UInt8+Extension.swift */,
+				476C662C22C1DA9100D973F9 /* UInt16+Extension.swift */,
+				476C662D22C1DA9100D973F9 /* UInt32+Extension.swift */,
+				476C662E22C1DA9100D973F9 /* UInt64+Extension.swift */,
+				476C663E22C1DAC000D973F9 /* Array+Extension.swift */,
+			);
+			path = CryptoSwift;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -945,23 +1008,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				476C663322C1DA9100D973F9 /* UInt32+Extension.swift in Sources */,
 				47589AEB1E32D6BB0047DFCD /* InAppReceiptPayload.swift in Sources */,
 				47589AEF1E332D5E0047DFCD /* IARError.swift in Sources */,
 				476C64D822C0298000D973F9 /* ASN1Object+ValueReading.swift in Sources */,
 				476C64BE22BE6DC100D973F9 /* PCKS7.swift in Sources */,
 				476C64D422C028D300D973F9 /* ASN1Object.swift in Sources */,
+				476C661C22C1D96E00D973F9 /* SHA1.swift in Sources */,
 				479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */,
+				476C663522C1DA9100D973F9 /* UInt64+Extension.swift in Sources */,
+				476C663F22C1DAC000D973F9 /* Array+Extension.swift in Sources */,
 				47D2133A1E4738AB00994B00 /* Initialization.swift in Sources */,
 				47589AE91E31B2F90047DFCD /* InAppPurchase.swift in Sources */,
 				476C64DA22C0330500D973F9 /* ASN1Object+Sequence.swift in Sources */,
+				476C663122C1DA9100D973F9 /* UInt16+Extension.swift in Sources */,
 				476C64D622C028F800D973F9 /* ASN1Object+Helper.swift in Sources */,
+				476C662422C1DA1700D973F9 /* DigestType.swift in Sources */,
 				47209AC01D9E111C0010BCDE /* ASN1Helper.swift in Sources */,
+				476C663722C1DA9100D973F9 /* UInt8+Extension.swift in Sources */,
 				47209AC11D9E111C0010BCDE /* Data+Extension.swift in Sources */,
 				47209AC21D9E111C0010BCDE /* InAppReceipt.swift in Sources */,
 				47589AE51E319A220047DFCD /* Validation.swift in Sources */,
+				476C662222C1DA1700D973F9 /* Updatable.swift in Sources */,
+				476C662A22C1DA4500D973F9 /* BatchedCollection.swift in Sources */,
+				476C662722C1DA2C00D973F9 /* Int+Extension.swift in Sources */,
+				476C664222C1DB6900D973F9 /* Bit.swift in Sources */,
+				476C664522C1DBC300D973F9 /* Generics.swift in Sources */,
+				476C661E22C1DA0100D973F9 /* Utils.swift in Sources */,
 				47589B561E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */,
 				47209AC31D9E111C0010BCDE /* InAppReceiptManager.swift in Sources */,
 				47589AE71E31AE6F0047DFCD /* PKCS7Wrapper.swift in Sources */,
+				476C663922C1DA9100D973F9 /* String+Extension.swift in Sources */,
 				4728B65922BE3DB900607E5E /* Asn1Coder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -978,10 +1055,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				476C663222C1DA9100D973F9 /* UInt16+Extension.swift in Sources */,
 				476C64CC22BFC94400D973F9 /* ASN1Helper.swift in Sources */,
+				476C664622C1DBC300D973F9 /* Generics.swift in Sources */,
 				47589AF31E333F450047DFCD /* InAppReceiptPayload.swift in Sources */,
+				476C663622C1DA9100D973F9 /* UInt64+Extension.swift in Sources */,
 				476C64DD22C0EF1B00D973F9 /* ASN1Object+ValueReading.swift in Sources */,
+				476C662522C1DA1700D973F9 /* DigestType.swift in Sources */,
 				47589AF41E333F450047DFCD /* IARError.swift in Sources */,
+				476C662B22C1DA4500D973F9 /* BatchedCollection.swift in Sources */,
+				476C663A22C1DA9100D973F9 /* String+Extension.swift in Sources */,
+				476C662822C1DA2C00D973F9 /* Int+Extension.swift in Sources */,
 				476C64DB22C0EF1B00D973F9 /* ASN1Object.swift in Sources */,
 				476C64CA22BFC93E00D973F9 /* PCKS7.swift in Sources */,
 				47589AF51E333F450047DFCD /* Date+Extension.swift in Sources */,
@@ -990,11 +1074,17 @@
 				476C64DC22C0EF1B00D973F9 /* ASN1Object+Helper.swift in Sources */,
 				47589AF61E333F450047DFCD /* InAppPurchase.swift in Sources */,
 				47589B571E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */,
+				476C662322C1DA1700D973F9 /* Updatable.swift in Sources */,
+				476C663422C1DA9100D973F9 /* UInt32+Extension.swift in Sources */,
+				476C664022C1DAC000D973F9 /* Array+Extension.swift in Sources */,
 				47589AF91E333F450047DFCD /* Data+Extension.swift in Sources */,
 				47589AFA1E333F450047DFCD /* InAppReceipt.swift in Sources */,
 				47589AFB1E333F450047DFCD /* Validation.swift in Sources */,
+				476C663822C1DA9100D973F9 /* UInt8+Extension.swift in Sources */,
+				476C664322C1DB6900D973F9 /* Bit.swift in Sources */,
 				47589AFC1E333F450047DFCD /* InAppReceiptManager.swift in Sources */,
 				47589AFD1E333F450047DFCD /* PKCS7Wrapper.swift in Sources */,
+				476C661F22C1DA0200D973F9 /* Utils.swift in Sources */,
 				476C64CB22BFC94400D973F9 /* Asn1Coder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

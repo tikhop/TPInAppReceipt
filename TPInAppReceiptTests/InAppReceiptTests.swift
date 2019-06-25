@@ -37,21 +37,21 @@ class InAppReceiptTests: XCTestCase {
 //        
 //        
 //        
-
+        let receipt = try! InAppReceipt(receiptData: Data(base64Encoded: receiptString64)!)
+        
         self.measure
         {
-            let receipt = InAppReceipt(pkcs7: p, payload: InAppReceiptPayload(noOpenSslData: asn1))
-            print(receipt.creationDate)
+            try? receipt.verifyHashNoOpenssl()
         }
     }
 //    
     func test()
     {
-        self.measure
-            {
         let receipt = InAppReceipt(pkcs7: p, payload: InAppReceiptPayload(asn1Data: asn1))
-                print(receipt.creationDate)
-
+        
+        self.measure
+        {
+            try? receipt.verifyHash()
         }
     }
     
@@ -169,7 +169,7 @@ fileprivate extension InAppReceiptPayload
 {
     init(purchases: [InAppPurchase])
     {
-        self.init(data: Data(), bundleIdentifier: "test-bundle-identifier", appVersion: "", originalAppVersion: "", purchases: purchases, expirationDate: "", bundleIdentifierData: Data(), opaqueValue: Data(), receiptHash: Data(), creationDate: "")
+        self.init(bundleIdentifier: "test-bundle-identifier", appVersion: "", originalAppVersion: "", purchases: purchases, expirationDate: "", bundleIdentifierData: Data(), opaqueValue: Data(), receiptHash: Data(), creationDate: "")
     }
 }
 

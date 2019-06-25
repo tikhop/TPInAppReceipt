@@ -37,12 +37,8 @@ public struct InAppPurchase
     /// Quantity
     public var quantity: Int
     
-    /// Raw Data
-    fileprivate var raw: Data
-    
     public init(asn1Data: Data)
     {
-        raw = asn1Data
         originalTransactionIdentifier = ""
         productIdentifier = ""
         transactionIdentifier = ""
@@ -50,7 +46,7 @@ public struct InAppPurchase
         originalPurchaseDateString = ""
         quantity = 0
         
-        raw.enumerateASN1Attributes { (attributes) in
+        asn1Data.enumerateASN1Attributes { (attributes) in
             if let field = InAppReceiptField(rawValue: attributes.type)
             {
                 let length = attributes.data.count
@@ -98,7 +94,6 @@ public struct InAppPurchase
     
     public init(noOpenSSL asn1Data: Data)
     {
-        raw = asn1Data
         originalTransactionIdentifier = ""
         productIdentifier = ""
         transactionIdentifier = ""
@@ -106,7 +101,7 @@ public struct InAppPurchase
         originalPurchaseDateString = ""
         quantity = 0
         
-        raw.enumerateASN1AttributesNoOpenssl { (attribute) in
+        asn1Data.enumerateASN1AttributesNoOpenssl { (attribute) in
             if let field = InAppReceiptField(rawValue: attribute.type)
             {
                 var value = attribute.value.extractValue()

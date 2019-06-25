@@ -37,16 +37,12 @@ public struct InAppReceiptPayload
     /// The date when the app receipt was created.
     public let creationDate: String
     
-    ///
-    fileprivate var raw: Data
-    
+
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
     /// - parameter asn1Data: `Data` object that represents receipt's payload
     init(asn1Data: Data)
     {
-        raw = asn1Data
-        
         var bundleIdentifier = ""
         var appVersion = ""
         var originalAppVersion = ""
@@ -57,7 +53,7 @@ public struct InAppReceiptPayload
         var expirationDate: String? = ""
         var receiptCreationDate: String = ""
         
-        raw.enumerateASN1Attributes { (attributes) in
+        asn1Data.enumerateASN1Attributes { (attributes) in
             if let field = InAppReceiptField(rawValue: attributes.type)
             {
                 let length = attributes.data.count
@@ -104,9 +100,8 @@ public struct InAppReceiptPayload
         self.creationDate = receiptCreationDate
     }
     
-    init(data: Data, bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: String?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, creationDate: String)
+    init(bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: String?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, creationDate: String)
     {
-        self.raw = data
         self.bundleIdentifier = bundleIdentifier
         self.appVersion = appVersion
         self.originalAppVersion = originalAppVersion
@@ -124,8 +119,6 @@ public extension InAppReceiptPayload
 {
     init(noOpenSslData asn1Data: Data)
     {
-        self.raw = Data(asn1Data)
-        
         var bundleIdentifier = ""
         var appVersion = ""
         var originalAppVersion = ""
@@ -136,7 +129,7 @@ public extension InAppReceiptPayload
         var expirationDate: String? = ""
         var receiptCreationDate: String = ""
         
-        raw.enumerateASN1AttributesNoOpenssl { (attribute) in
+        asn1Data.enumerateASN1AttributesNoOpenssl { (attribute) in
             if let field = InAppReceiptField(rawValue: attribute.type)
             {
                 var value = attribute.value.extractValue()
@@ -151,7 +144,7 @@ public extension InAppReceiptPayload
                 {
                 case .bundleIdentifier:
                     bundleIdentifier = value as! String
-                    bundleIdentifierData = bundleIdentifier.data(using: .utf8)!
+                    bundleIdentifierData = attribute.value.valueData!
                 case .appVersion:
                     appVersion = value as! String
                 case .opaqueValue:

@@ -31,8 +31,9 @@ public extension InAppReceipt
     }
     
     /// Verify only hash
+    /// Should be equal to `receiptHash` value
     ///
-    /// - throws: An error in the InAppReceipt domain, if verification can't be completed
+    /// - throws: An error in the InAppReceipt domain, if verification fails
     public func verifyHash() throws
     {
         if (computedHashData != receiptHash)
@@ -42,21 +43,17 @@ public extension InAppReceipt
     }
     
     /// Computed SHA-1 hash, used to validate the receipt.
-    /// Should be equal to `receiptHash` value
     internal var computedHashData: Data
     {
         let uuidData = DeviceGUIDRetriever.guid()
         let opaqueData = opaqueValue
         let bundleIdData = bundleIdentifierData
         
-        var hash = Array<CUnsignedChar>(repeating: 0, count: 20)
-        var ctx = SHA_CTX()
-        
-        SHA1_Init(&ctx)
-        SHA1_Update(&ctx, uuidData.pointer, uuidData.count)
-        SHA1_Update(&ctx, opaqueData.pointer, opaqueData.count)
-        SHA1_Update(&ctx, bundleIdData.pointer, bundleIdData.count)
-        SHA1_Final(&hash, &ctx);
+        var hash: Array<UInt8>!
+        var sha1 = SHA1()
+        hash = try! sha1.update(withBytes: uuidData.bytes)
+        hash = try! sha1.update(withBytes: opaqueData.bytes)
+        hash = sha1.calculate(for: bundleIdData.bytes)
         
         return Data(bytes: &hash, count: hash.count)
     }
