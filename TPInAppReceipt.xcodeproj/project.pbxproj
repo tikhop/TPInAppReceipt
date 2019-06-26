@@ -98,7 +98,7 @@
 		47209ABD1D9E111C0010BCDE /* Data+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppReceipt.swift; sourceTree = "<group>"; };
 		47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleIncRootCertificate.cer; sourceTree = "<group>"; };
-		47209ACD1D9E92CC0010BCDE /* TPInAppReceipt.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = TPInAppReceipt.podspec; sourceTree = "<group>"; };
+		47209ACD1D9E92CC0010BCDE /* TPInAppReceipt.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = TPInAppReceipt.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		4728B65822BE3DB900607E5E /* Asn1Coder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asn1Coder.swift; sourceTree = "<group>"; };
 		47589AE41E319A220047DFCD /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		47589AE61E31AE6F0047DFCD /* PKCS7Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PKCS7Helper.swift; sourceTree = "<group>"; };

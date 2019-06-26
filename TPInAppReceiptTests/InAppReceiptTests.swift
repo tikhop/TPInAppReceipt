@@ -5,7 +5,6 @@
 
 import XCTest
 @testable import TPInAppReceipt
-import openssl
 
 class InAppReceiptTests: XCTestCase
 {

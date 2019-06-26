@@ -38,7 +38,7 @@ s.source       = { :git => "https://github.com/tikhop/TPInAppReceipt.git", :tag 
 #  Not including the public_header_files will make all headers public.
 #
 
-s.source_files  = "TPInAppReceipt/Source/*.{swift}, Vendor/CryptoSwift/*.{swift}"
+s.source_files  = "TPInAppReceipt/Source/*.{swift}", "Vendor/CryptoSwift/*.{swift}"
 
 # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
