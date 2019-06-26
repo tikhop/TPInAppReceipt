@@ -8,6 +8,7 @@
 
 import Foundation
 import OpenSSL
+
 /// A InAppReceipt extension helps to validate the receipt
 public extension InAppReceipt
 {

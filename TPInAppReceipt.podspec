@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "TPInAppReceipt"
-s.version      = "2.0.3"
+s.version      = "2.0.4"
 s.summary      = "Decode Apple Store Receipt and make it easy to read and validate it"
 
 s.description  = "The library provides transparent way to decode and validate Apple Store Receipt. Pure swift, No OpenSSL!"
@@ -49,10 +49,10 @@ s.osx.deployment_target = '10.10'
 
 s.resources  = "TPInAppReceipt/AppleIncRootCertificate.cer"
 
+s.exclude_files = 'TPInAppReceipt/OpenSSL/**'
 
 s.subspec 'SignatureVerification' do |cs|
-    cs.ios.source_files  = "TPInAppReceipt/Source/*.{swift}", "Vendor/CryptoSwift/*.{swift}", "TPInAppReceipt/OpenSSL/ios/*.{h}"
-    cs.osx.source_files  = "TPInAppReceipt/Source/*.{swift}", "Vendor/CryptoSwift/*.{swift}", "TPInAppReceipt/OpenSSL/macos/*.{h}"
+    cs.source_files  = "TPInAppReceipt/OpenSSL/*.{swift}"
     
     cs.ios.vendored_frameworks = "TPInAppReceipt/OpenSSL/ios/OpenSSL.framework"
     cs.ios.xcconfig = {
