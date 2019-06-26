@@ -37,6 +37,7 @@ public struct InAppPurchase
     /// Quantity
     public var quantity: Int
     
+    
     public init(asn1Data: Data)
     {
         originalTransactionIdentifier = ""
@@ -46,62 +47,8 @@ public struct InAppPurchase
         originalPurchaseDateString = ""
         quantity = 0
         
-        asn1Data.enumerateASN1Attributes { (attributes) in
-            if let field = InAppReceiptField(rawValue: attributes.type)
-            {
-                let length = attributes.data.count
-                
-                var bytes = [UInt8](repeating:0, count: length)
-                attributes.data.copyBytes(to: &bytes, count: length)
-                
-                var ptr = UnsafePointer<UInt8>?(bytes)
-                
-                switch field
-                {
-                case .quantity:
-                    quantity = asn1ReadInteger(&ptr, bytes.count)
-                    
-                case .productIdentifier:
-                    productIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
-                    
-                case .transactionIdentifier:
-                    transactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
-                    
-                case .purchaseDate:
-                    purchaseDateString = asn1ReadASCIIString(&ptr, bytes.count)!
-                    
-                case .originalTransactionIdentifier:
-                    originalTransactionIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
-                    
-                case .originalPurchaseDate:
-                    originalPurchaseDateString = asn1ReadASCIIString(&ptr, bytes.count)!
-                    
-                case .subscriptionExpirationDate:
-                    subscriptionExpirationDateString = asn1ReadASCIIString(&ptr, bytes.count)
-                    
-                case .cancellationDate:
-                    cancellationDateString = asn1ReadASCIIString(&ptr, bytes.count)
-                    
-                case .webOrderLineItemID:
-                    webOrderLineItemID = asn1ReadInteger(&ptr, bytes.count)
-                    
-                default:
-                    asn1ConsumeObject(&ptr, bytes.count)
-                }
-            }
-        }
-    }
-    
-    public init(noOpenSSL asn1Data: Data)
-    {
-        originalTransactionIdentifier = ""
-        productIdentifier = ""
-        transactionIdentifier = ""
-        purchaseDateString = ""
-        originalPurchaseDateString = ""
-        quantity = 0
-        
-        asn1Data.enumerateASN1AttributesNoOpenssl { (attribute) in
+        let purchase = ASN1Object(data: asn1Data)
+        purchase.enumerateInAppReceiptAttributes { (attribute) in
             if let field = InAppReceiptField(rawValue: attribute.type)
             {
                 var value = attribute.value.extractValue()

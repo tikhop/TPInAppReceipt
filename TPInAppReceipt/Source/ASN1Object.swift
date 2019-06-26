@@ -96,7 +96,8 @@ struct ASN1Object
             self.raw = raw
             self.tagNumber = raw & 0b11111
             
-            guard let c = Class(rawValue: (raw >> 6) & 0b11), let e = EncodingType(rawValue: (raw >> 5) & 0b1) else
+            guard let c = Class(rawValue: (raw >> 6) & 0b11),
+                let e = EncodingType(rawValue: (raw >> 5) & 0b1) else
             {
                 throw ASN1Error.initializationFailed(reason: .dataIsInvalid)
             }

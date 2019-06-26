@@ -37,69 +37,8 @@ public struct InAppReceiptPayload
     /// The date when the app receipt was created.
     public let creationDate: String
     
-
-    /// Initialize a `InAppReceipt` with asn1 payload
+    /// Initialize a `InAppReceipt` passing all values
     ///
-    /// - parameter asn1Data: `Data` object that represents receipt's payload
-    init(asn1Data: Data)
-    {
-        var bundleIdentifier = ""
-        var appVersion = ""
-        var originalAppVersion = ""
-        var purchases = [InAppPurchase]()
-        var bundleIdentifierData = Data()
-        var opaqueValue = Data()
-        var receiptHash = Data()
-        var expirationDate: String? = ""
-        var receiptCreationDate: String = ""
-        
-        asn1Data.enumerateASN1Attributes { (attributes) in
-            if let field = InAppReceiptField(rawValue: attributes.type)
-            {
-                let length = attributes.data.count
-                
-                var bytes = [UInt8](repeating:0, count: length)
-                attributes.data.copyBytes(to: &bytes, count: length)
-                
-                var ptr = UnsafePointer<UInt8>?(bytes)
-                
-                switch field
-                {
-                case .bundleIdentifier:
-                    bundleIdentifierData = Data(bytes: bytes, count: length)
-                    bundleIdentifier = asn1ReadUTF8String(&ptr, bytes.count)!
-                case .appVersion:
-                    appVersion = asn1ReadUTF8String(&ptr, bytes.count)!
-                case .opaqueValue:
-                    opaqueValue = Data(bytes: bytes, count: length)
-                case .receiptHash:
-                    receiptHash = Data(bytes: bytes, count: length)
-                case .inAppPurchaseReceipt:
-                    purchases.append(InAppPurchase(asn1Data: attributes.data))
-                case .originalAppVersion:
-                    originalAppVersion = asn1ReadUTF8String(&ptr, bytes.count)!
-                case .expirationDate:
-                    let str = asn1ReadASCIIString(&ptr, bytes.count)
-                    expirationDate = str
-                case .receiptCreationDate:
-                    receiptCreationDate = asn1ReadASCIIString(&ptr, bytes.count)!
-                default:
-                    print("attribute.type = \(attributes.type))")
-                }
-            }
-        }
-        
-        self.bundleIdentifier = bundleIdentifier
-        self.appVersion = appVersion
-        self.originalAppVersion = originalAppVersion
-        self.purchases = purchases
-        self.expirationDate = expirationDate
-        self.bundleIdentifierData = bundleIdentifierData
-        self.opaqueValue = opaqueValue
-        self.receiptHash = receiptHash
-        self.creationDate = receiptCreationDate
-    }
-    
     init(bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: String?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, creationDate: String)
     {
         self.bundleIdentifier = bundleIdentifier
@@ -117,7 +56,10 @@ public struct InAppReceiptPayload
 
 public extension InAppReceiptPayload
 {
-    init(noOpenSslData asn1Data: Data)
+    /// Initialize a `InAppReceipt` with asn1 payload
+    ///
+    /// - parameter asn1Data: `Data` object that represents receipt's payload
+    init(asn1Data: Data)
     {
         var bundleIdentifier = ""
         var appVersion = ""
@@ -129,7 +71,8 @@ public extension InAppReceiptPayload
         var expirationDate: String? = ""
         var receiptCreationDate: String = ""
         
-        asn1Data.enumerateASN1AttributesNoOpenssl { (attribute) in
+        let payload = ASN1Object(data: asn1Data)
+        payload.enumerateInAppReceiptAttributes { (attribute) in
             if let field = InAppReceiptField(rawValue: attribute.type)
             {
                 var value = attribute.value.extractValue()
@@ -153,7 +96,7 @@ public extension InAppReceiptPayload
                     receiptHash = value as! Data
                 case .inAppPurchaseReceipt:
                     let set = value as! ASN1Object
-                    purchases.append(InAppPurchase(noOpenSSL: set.rawData))
+                    purchases.append(InAppPurchase(asn1Data: set.rawData))
                     break
                 case .originalAppVersion:
                     originalAppVersion = value as! String

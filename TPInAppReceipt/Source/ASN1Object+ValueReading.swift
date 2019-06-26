@@ -104,7 +104,7 @@ extension ASN1Object
         
         if l == 0 { return nil }
         
-        let valueOffset = 1 + length.offset //Identifier + length
+        let valueOffset = ASN1Object.identifierLenght + length.offset //Identifier + length
         return Data(rawData[valueOffset..<(l + valueOffset)])
     }
     
@@ -134,15 +134,14 @@ extension ASN1Object
         case .integer:
             return ASN1.readInt(from: &valueData, l: l)
         case .octetString:
-            if let asn1 = try? ASN1Object.initializeASN1Object(from: valueData)
+            return ASN1Object.isDataValid(&valueData) ? ASN1Object(data: valueData) : valueData
+        case .endOfContent: //Treat it as unknown type of some constructed type
+            if identifier.isConstructed
             {
-                return asn1
+                return ASN1Object.isDataValid(&valueData) ? ASN1Object(data: valueData) : valueData
             }else{
-                return valueData
+                return nil
             }
-            
-        case .endOfContent:
-            return nil
         case .boolean:
             return true
         case .bitString:
@@ -150,47 +149,41 @@ extension ASN1Object
         case .null:
             return nil
         case .objectIdentifier:
-            return "objectIdentifier"
+            return ASN1.readOid(contentData: &valueData)
         case .objectDescriptor:
             return "objectIdentifier"
         case .external:
-            return "external"
+            return valueData
         case .real:
             return "real"
         case .enumerated:
             return "enumerated"
         case .embeddedPdv:
             return "embeddedPdv"
-        case .utf8String:
+        case .utf8String,
+             .printableString,
+             .numericString,
+             .generalString,
+             .universalString,
+             .characterString,
+             .t61String:
             return ASN1.readString(from: &valueData, l, encoding: .utf8)
         case .relativeOid:
-            return "relativeOid"
+            return ASN1.readOid(contentData: &valueData)
         case .sequence, .set:
             return ASN1Object(data: valueData)
-        case .numericString:
-            return "numericString"
-        case .printableString:
-            return "printableString"
-        case .t61String:
-            return "t61String"
         case .videotexString:
             return "videotexString"
         case .ia5String:
             return ASN1.readString(from: &valueData, l, encoding: .ascii)
         case .utcTime:
-            return "utcTime"
+            return ASN1.readString(from: &valueData, l, encoding: .ascii).utcTime()
         case .generalizedTime:
-            return "generalizedTime"
+            return ASN1.readString(from: &valueData, l, encoding: .ascii).rfc3339date()
         case .graphicString:
             return "graphicString"
         case .visibleString:
             return "visibleString"
-        case .generalString:
-            return "generalString"
-        case .universalString:
-            return "universalString"
-        case .characterString:
-            return "characterString"
         case .bmpString:
             return "bmpString"
         default:

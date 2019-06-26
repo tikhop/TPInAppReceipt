@@ -88,7 +88,6 @@
 		47209AC01D9E111C0010BCDE /* ASN1Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */; };
 		47209AC11D9E111C0010BCDE /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABD1D9E111C0010BCDE /* Data+Extension.swift */; };
 		47209AC21D9E111C0010BCDE /* InAppReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */; };
-		47209AC31D9E111C0010BCDE /* InAppReceiptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABF1D9E111C0010BCDE /* InAppReceiptManager.swift */; };
 		47209AC51D9E112C0010BCDE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */; };
 		47209AC61D9E112C0010BCDE /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */; };
 		4728B65922BE3DB900607E5E /* Asn1Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4728B65822BE3DB900607E5E /* Asn1Coder.swift */; };
@@ -104,7 +103,6 @@
 		47589AF91E333F450047DFCD /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABD1D9E111C0010BCDE /* Data+Extension.swift */; };
 		47589AFA1E333F450047DFCD /* InAppReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */; };
 		47589AFB1E333F450047DFCD /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE41E319A220047DFCD /* Validation.swift */; };
-		47589AFC1E333F450047DFCD /* InAppReceiptManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABF1D9E111C0010BCDE /* InAppReceiptManager.swift */; };
 		47589AFD1E333F450047DFCD /* PKCS7Wrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE61E31AE6F0047DFCD /* PKCS7Wrapper.swift */; };
 		47589B021E333F450047DFCD /* ssl3.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A5E1D9E11140010BCDE /* ssl3.h */; };
 		47589B031E333F450047DFCD /* pem2.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A4D1D9E11140010BCDE /* pem2.h */; };
@@ -348,7 +346,6 @@
 		47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASN1Helper.swift; sourceTree = "<group>"; };
 		47209ABD1D9E111C0010BCDE /* Data+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extension.swift"; sourceTree = "<group>"; };
 		47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppReceipt.swift; sourceTree = "<group>"; };
-		47209ABF1D9E111C0010BCDE /* InAppReceiptManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppReceiptManager.swift; sourceTree = "<group>"; };
 		47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = AppleIncRootCertificate.cer; sourceTree = "<group>"; };
 		47209ACD1D9E92CC0010BCDE /* TPInAppReceipt.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = TPInAppReceipt.podspec; sourceTree = "<group>"; };
 		4728B65822BE3DB900607E5E /* Asn1Coder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asn1Coder.swift; sourceTree = "<group>"; };
@@ -597,7 +594,6 @@
 			children = (
 				476C64BC22BE6DB300D973F9 /* pcks7 */,
 				4728B65722BE3CF800607E5E /* asn1 */,
-				47209ABF1D9E111C0010BCDE /* InAppReceiptManager.swift */,
 				47D213391E4738AB00994B00 /* Initialization.swift */,
 				47589AE41E319A220047DFCD /* Validation.swift */,
 				47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */,
@@ -1036,7 +1032,6 @@
 				476C664522C1DBC300D973F9 /* Generics.swift in Sources */,
 				476C661E22C1DA0100D973F9 /* Utils.swift in Sources */,
 				47589B561E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */,
-				47209AC31D9E111C0010BCDE /* InAppReceiptManager.swift in Sources */,
 				47589AE71E31AE6F0047DFCD /* PKCS7Wrapper.swift in Sources */,
 				476C663922C1DA9100D973F9 /* String+Extension.swift in Sources */,
 				4728B65922BE3DB900607E5E /* Asn1Coder.swift in Sources */,
@@ -1082,7 +1077,6 @@
 				47589AFB1E333F450047DFCD /* Validation.swift in Sources */,
 				476C663822C1DA9100D973F9 /* UInt8+Extension.swift in Sources */,
 				476C664322C1DB6900D973F9 /* Bit.swift in Sources */,
-				47589AFC1E333F450047DFCD /* InAppReceiptManager.swift in Sources */,
 				47589AFD1E333F450047DFCD /* PKCS7Wrapper.swift in Sources */,
 				476C661F22C1DA0200D973F9 /* Utils.swift in Sources */,
 				476C64CB22BFC94400D973F9 /* Asn1Coder.swift in Sources */,

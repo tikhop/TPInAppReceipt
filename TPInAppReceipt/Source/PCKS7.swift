@@ -8,25 +8,18 @@
 
 import Foundation
 
-//struct PCKS7
-//{
-//    var data: PCKS7
-//    var signedData: PCKS7 { get set }
-//    var signedData: Bool { get set }
-//
-//    init(isAlive: Bool)
-//    init(isDead: Bool)
-//
-//    enum OID: String
-//    {
-//        case data = "1.2.840.113549.1.7.1"
-//        case signedData = "1.2.840.113549.1.7.2"
-//        case envelopedData = "1.2.840.113549.1.7.3"
-//        case signedAndEnvelopedData = "1.2.840.113549.1.7.4"
-//        case digestedData = "1.2.840.113549.1.7.5"
-//        case encryptedData = "1.2.840.113549.1.7.6"
-//    }
-//}
+struct PCKS7
+{
+    enum OID: String
+    {
+        case data = "1.2.840.113549.1.7.1"
+        case signedData = "1.2.840.113549.1.7.2"
+        case envelopedData = "1.2.840.113549.1.7.3"
+        case signedAndEnvelopedData = "1.2.840.113549.1.7.4"
+        case digestedData = "1.2.840.113549.1.7.5"
+        case encryptedData = "1.2.840.113549.1.7.6"
+    }
+}
 
 //data OBJECT IDENTIFIER ::= { pkcs-7 1 }
 //signedData OBJECT IDENTIFIER ::= { pkcs-7 2 }

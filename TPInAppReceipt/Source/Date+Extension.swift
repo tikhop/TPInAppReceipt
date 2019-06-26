@@ -18,6 +18,17 @@ public extension Date
 
 public extension String
 {
+    public func utcTime() -> Date?
+    {
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYMMDDHHmmss'Z'"
+        formatter.timeZone = TimeZone(abbreviation: "UTC")
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        
+        let date = formatter.date(from: self)
+        return date
+    }
     public func rfc3339date() -> Date?
     {
         let formatter = DateFormatter()

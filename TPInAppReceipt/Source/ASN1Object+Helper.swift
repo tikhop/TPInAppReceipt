@@ -14,17 +14,21 @@ extension ASN1Object
 {
     static var identifierLenght: Int { return 1 }
     
-    static func isDataValid(_ data: inout Data) -> Bool
+    static func isDataValid(checkingLength: Bool = true, _ data: inout Data) -> Bool
     {
         let c = data.count
         
         if c == 0 { return false }
         
         guard let _ = try? extractIdentifier(from: &data),
-            let length = try? ASN1Object.extractLenght(from: &data),
-            (identifierLenght + length.offset + length.value) == c else
+            let length = try? ASN1Object.extractLenght(from: &data) else
         {
             return false
+        }
+        
+        if checkingLength
+        {
+            return (identifierLenght + length.offset + length.value) == c
         }
         
         return true
@@ -37,7 +41,7 @@ extension ASN1Object
             throw ASN1Error.initializationFailed(reason: .dataIsInvalid)
         }
         
-        let raw = asn1data[0]
+        let raw = asn1data[asn1data.startIndex]
         let tagNumber = raw & 0b11111
         
         guard let c = Identifier.Class(rawValue: (raw >> 6) & 0b11),
@@ -53,14 +57,16 @@ extension ASN1Object
     {
         if asn1data.count < 3 { return Length.short(value: 0) } //invalid data
         
-        // Skip identifier
-        let lByte = asn1data[1]
+        
+        let startIdx = asn1data.startIndex
+        
+        let lByte = asn1data[startIdx + 1] // Skip identifier
         
         if ((lByte & 0x80) != 0)
         {
             let l: Int = Int(lByte - 0x80)
-            let start = identifierLenght + 1 // skip identifier and lenght header
-            let end = start+l
+            let start = startIdx + identifierLenght + 1 // Skip identifier and lenght header
+            let end = start + l
             var d = asn1data[start..<end]
             
             let r = ASN1.readInt(from: &d, l: l)

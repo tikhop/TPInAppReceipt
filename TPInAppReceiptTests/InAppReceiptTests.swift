@@ -43,8 +43,9 @@ class InAppReceiptTests: XCTestCase {
 //        
 //        
 ////
-//        let receipt = try! InAppReceipt(receiptData: Data(base64Encoded: receiptString64)!)
-//
+        let receipt = try! InAppReceipt(receiptData: Data(base64Encoded: receiptString64)!)
+        receipt.pkcs7Container.extractInAppPayload()
+        print(receipt.creationDate)
 //        self.measure
 //        {
 //            try? receipt.verifyHashNoOpenssl()
