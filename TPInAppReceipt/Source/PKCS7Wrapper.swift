@@ -41,12 +41,32 @@ class PKCS7Wrapper
 
 extension PKCS7Wrapper
 {
-    func extractInAppPayload() -> Data
+    func extractInAppPayload() -> Data?
     {
-        var d = Data(bytesNoCopy: rawBuffer.baseAddress!, count: rawBuffer.count, deallocator: .none)
-        var dd = extractContent(by: PCKS7.OID.data, from: &d)
+        var raw = Data(bytesNoCopy: rawBuffer.baseAddress!, count: rawBuffer.count, deallocator: .none)
         
-        return Data()
+        guard var contentData = extractContent(by: PCKS7.OID.data, from: &raw) else
+        {
+            return nil
+        }
+        
+        do
+        {
+            let id = try ASN1Object.extractIdentifier(from: &contentData)
+            let l = try ASN1Object.extractLenght(from: &contentData)
+            
+            let cStart = contentData.startIndex + ASN1Object.identifierLenght + l.offset
+            let cEnd = contentData.endIndex
+            
+            if id.encodingType == .constructed, id.type.rawValue == 0
+            {
+                return Data(contentData[cStart..<cEnd])
+            }else{
+                return nil
+            }
+        }catch{
+            return nil
+        }
     }
     
 
@@ -55,17 +75,16 @@ extension PKCS7Wrapper
     {
         if !ASN1Object.isDataValid(checkingLength: false, &data) { return nil }
         
-        let start = data.startIndex
-        
         do
         {
             let id = try ASN1Object.extractIdentifier(from: &data)
             let l = try ASN1Object.extractLenght(from: &data)
+        
+            var cStart = data.startIndex + ASN1Object.identifierLenght + l.offset
+            let cEnd = data.endIndex
             
             if id.encodingType == .constructed
             {
-                let cStart = start + ASN1Object.identifierLenght + l.offset
-                let cEnd = data.endIndex
                 return extractContent(by: oid, from: &data[cStart..<cEnd])
             }
             
@@ -73,55 +92,26 @@ extension PKCS7Wrapper
             
             if id.type == .objectIdentifier
             {
-                let start = start + ASN1Object.identifierLenght + l.offset
-                let end = start + l.value
-                var slice = data[start..<end]
+                let end = cStart + l.value
+                var slice = data[cStart..<end]
                 foundedOid = ASN1.readOid(contentData: &slice)
             }
             
-            let cStart = start + ASN1Object.identifierLenght + l.offset + l.value
-            let cEnd = data.endIndex
+            cStart += l.value
             
             guard let fOid = foundedOid, fOid == oid.rawValue else
             {
                 return extractContent(by: oid, from: &data[cStart..<cEnd])
             }
             
-            return data[cStart..<cEnd]
+            var contentData = data[cStart..<cEnd]
+            let contentDataId = try ASN1Object.extractIdentifier(from: &contentData)
+            let contentDataLength = try ASN1Object.extractLenght(from: &contentData)
+            let contentEnd = cStart + contentDataLength.offset + contentDataLength.value + ASN1Object.identifierLenght
+            return data[cStart..<contentEnd]
         }catch{
             return nil
         }
-    }
-    
-    func findOid(in data: inout Data) -> (name: String, offset: Int, l: Int)?
-    {
-        let start = data.startIndex
-        
-        for (i, item) in data.enumerated()
-        {
-            do
-            {
-                let id = try ASN1Object.Identifier(raw: item)
-                
-                if id.type == .objectIdentifier
-                {
-                    let curOffset = i + start
-                    
-                    var slice = data[curOffset..<data.endIndex]
-                    let l = try ASN1Object.extractLenght(from: &slice)
-                    
-                    let start = curOffset + ASN1Object.identifierLenght + l.offset
-                    let end = start + l.value
-                    slice = data[start..<end]
-                    let d = ASN1.readOid(contentData: &slice)
-                    return (d, curOffset, end - curOffset)
-                }
-            }catch{
-                continue
-            }
-        }
-        
-        return nil
     }
     
     func extractASN1Data() -> Data
