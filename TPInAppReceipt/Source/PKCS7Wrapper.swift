@@ -7,35 +7,21 @@
 //
 
 import Foundation
-import openssl
 
 class PKCS7Wrapper
 {
-    var raw: UnsafeMutablePointer<PKCS7>
-
     var rawBuffer: UnsafeMutableBufferPointer<UInt8>
     
     init(receipt: Data) throws
     {
         rawBuffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: receipt.count)
         let _ = rawBuffer.initialize(from: receipt)
-        
-        var p: UnsafePointer<UInt8>? = UnsafePointer(rawBuffer.baseAddress)
-        
-        guard let receiptPKCS7 = d2i_PKCS7(nil, &p, receipt.count) else
-        {
-            throw IARError.initializationFailed(reason: .pkcs7ParsingError)
-        }
-        
 
-        
-        raw = receiptPKCS7
     }
     
     deinit
     {
         rawBuffer.deallocate()
-        PKCS7_free(raw)
     }
 }
 
@@ -55,11 +41,16 @@ extension PKCS7Wrapper
             let id = try ASN1Object.extractIdentifier(from: &contentData)
             let l = try ASN1Object.extractLenght(from: &contentData)
             
-            let cStart = contentData.startIndex + ASN1Object.identifierLenght + l.offset
+            var cStart = contentData.startIndex + ASN1Object.identifierLenght + l.offset
             let cEnd = contentData.endIndex
             
             if id.encodingType == .constructed, id.type.rawValue == 0
             {
+                // Octet string
+                var cD = contentData[cStart..<cEnd]
+                let l = try ASN1Object.extractLenght(from: &cD)
+                
+                cStart += ASN1Object.identifierLenght + l.offset
                 return Data(contentData[cStart..<cEnd])
             }else{
                 return nil
@@ -68,8 +59,6 @@ extension PKCS7Wrapper
             return nil
         }
     }
-    
-
     
     func extractContent(by oid: PCKS7.OID, from data: inout Data) -> Data?
     {
@@ -112,13 +101,5 @@ extension PKCS7Wrapper
         }catch{
             return nil
         }
-    }
-    
-    func extractASN1Data() -> Data
-    {
-        let contents: UnsafeMutablePointer<pkcs7_st> = raw.pointee.d.sign.pointee.contents
-        let octets: UnsafeMutablePointer<ASN1_OCTET_STRING> = contents.pointee.d.data
-        let d = Data(bytes: octets.pointee.data, count: Int(octets.pointee.length))
-        return d
     }
 }

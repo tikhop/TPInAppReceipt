@@ -53,7 +53,7 @@ public struct InAppReceipt
     /// - parameter pkcs7: `PKCS7Wrapper` pkcs7 container of the receipt 
     init(pkcs7: PKCS7Wrapper)
     {
-        self.init(pkcs7: pkcs7, payload: InAppReceiptPayload(asn1Data: pkcs7.extractASN1Data()))
+        self.init(pkcs7: pkcs7, payload: InAppReceiptPayload(asn1Data: pkcs7.extractInAppPayload()!))
     }
     
     init(pkcs7: PKCS7Wrapper, payload: InAppReceiptPayload)

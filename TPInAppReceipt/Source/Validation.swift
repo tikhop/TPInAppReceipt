@@ -67,9 +67,21 @@ extension PKCS7Wrapper
     /// - throws: An error in the InAppReceipt domain, if verification can't be completed
     func verifySignature() throws
     {
-        try checkSignatureExistance(pkcs7: raw)
+        
+        var p: UnsafePointer<UInt8>? = UnsafePointer(rawBuffer.baseAddress)
+        
+        guard let receiptPKCS7 = d2i_PKCS7(nil, &p, rawBuffer.count) else
+        {
+            throw IARError.initializationFailed(reason: .pkcs7ParsingError)
+        }
+        
+        defer {
+            PKCS7_free(receiptPKCS7)
+        }
+        
+        try checkSignatureExistance(pkcs7: receiptPKCS7)
         let appleCertificate = try appleCertificateData()
-        try verifySignature(pkcs7: raw, withCertificateData: appleCertificate)
+        try verifySignature(pkcs7: receiptPKCS7, withCertificateData: appleCertificate)
     }
     
     /// Verify signature inside pkcs7 container using openssl library

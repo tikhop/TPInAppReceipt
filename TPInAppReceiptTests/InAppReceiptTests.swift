@@ -7,15 +7,11 @@ import XCTest
 @testable import TPInAppReceipt
 import openssl
 
-class InAppReceiptTests: XCTestCase {
-
-    fileprivate var p: PKCS7WrapperMock!
-    fileprivate var asn1: Data!
-    
+class InAppReceiptTests: XCTestCase
+{
     override func setUp()
     {
-        p = try! PKCS7WrapperMock()
-        asn1 = p.extractASN1Data()
+        
     }
     
     func testNoOpenssl()
