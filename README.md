@@ -20,12 +20,13 @@ Installation
 To integrate TPInAppReceipt into your project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
-platform :ios, '8.3'
+platform :ios, '9.0'
 
 target 'YOUR_TARGET' do
     use_frameworks!
 
     pod 'TPInAppReceipt'
+    pod 'TPInAppReceiptValidation' //If you want to validate receipt's certificates 
 end
 
 ```
@@ -38,13 +39,13 @@ $ pod install
 
 ### Requirements
 
-- iOS 8.3+ / OSX 10.11+
+- iOS 9.0+ / OSX 10.11+
 - Xcode 8.0+
-- Swift 3.0+
+- Swift 5.0+
 
-### Openssl
+### Openssl (Only for `TPInAppReceiptValidation`)
 
-OpenSSL is included as a built by https://github.com/jasonacox/Build-OpenSSL-cURL
+OpenSSL is included as a pod dependency: https://github.com/krzyzanowskim/OpenSSL
 
 Usage
 -------------
@@ -77,7 +78,19 @@ receipt.purchases(ofProductIdentifier: subscriptionName)
 
 ```
 
-### Receipt Validation
+#### In App Receipt Hash Validation
+
+```swift
+do {
+    try r.verifyHash()
+} catch ReceiptValidatorError.hashValidationFaied {
+    // Do smth
+} catch {
+    // Do smth
+}
+```
+
+### Receipt Validation (Only for TPInAppReceiptValidation pod)
 
 ```swift
 do {
@@ -92,18 +105,6 @@ do {
 ```
 
 In the above example, the validation process goes through the all verification steps. First, it verifies signature and make sure that it's valid. Second, it makes the hash validation by computing the hash of the GUID and matching with receipt's hash.
-
-#### Hash Validation
-
-```swift
-do {
-    try r.verifyHash()
-} catch ReceiptValidatorError.hashValidationFaied {
-    // Do smth
-} catch {
-    // Do smth
-}
-```
 
 #### Signature Validation
 
