@@ -16,7 +16,7 @@ extension PKCS7Wrapper
     {
         var raw = Data(bytesNoCopy: rawBuffer.baseAddress!, count: rawBuffer.count, deallocator: .none)
         
-        guard var contentData = extractContent(by: PCKS7.OID.data, from: &raw) else
+        guard var contentData = extractContent(by: PKC7.OID.data, from: &raw) else
         {
             return nil
         }

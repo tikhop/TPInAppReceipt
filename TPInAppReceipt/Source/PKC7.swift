@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PCKS7
+struct PKC7
 {
     enum OID: String
     {
@@ -40,7 +40,7 @@ class PKCS7Wrapper
 
 extension PKCS7Wrapper
 {
-    func extractContent(by oid: PCKS7.OID, from data: inout Data) -> Data?
+    func extractContent(by oid: PKC7.OID, from data: inout Data) -> Data?
     {
         if !ASN1Object.isDataValid(checkingLength: false, &data) { return nil }
         
