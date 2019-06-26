@@ -71,6 +71,7 @@
 		476C664322C1DB6900D973F9 /* Bit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C664122C1DB6900D973F9 /* Bit.swift */; };
 		476C664522C1DBC300D973F9 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C664422C1DBC300D973F9 /* Generics.swift */; };
 		476C664622C1DBC300D973F9 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C664422C1DBC300D973F9 /* Generics.swift */; };
+		476C666622C3E34000D973F9 /* SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C661B22C1D96E00D973F9 /* SHA1.swift */; };
 		479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
 		47D2133A1E4738AB00994B00 /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D213391E4738AB00994B00 /* Initialization.swift */; };
 		47D2133B1E4738AB00994B00 /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D213391E4738AB00994B00 /* Initialization.swift */; };
@@ -130,6 +131,8 @@
 		476C664F22C3BF6B00D973F9 /* TPInAppReceiptValidation.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = TPInAppReceiptValidation.podspec; sourceTree = "<group>"; };
 		476C665022C3C12900D973F9 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		476C665222C3C4A400D973F9 /* InAppReceipt+OpenSSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InAppReceipt+OpenSSL.swift"; sourceTree = "<group>"; };
+		476C668422C3F17B00D973F9 /* OpenSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenSSL.framework; sourceTree = "<group>"; };
+		476C668822C3F17C00D973F9 /* OpenSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenSSL.framework; sourceTree = "<group>"; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		47D213391E4738AB00994B00 /* Initialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Initialization.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -309,11 +312,29 @@
 		476C665122C3C4A400D973F9 /* OpenSSL */ = {
 			isa = PBXGroup;
 			children = (
+				476C668322C3F17B00D973F9 /* ios */,
+				476C668722C3F17C00D973F9 /* macos */,
 				476C665222C3C4A400D973F9 /* InAppReceipt+OpenSSL.swift */,
 			);
 			name = OpenSSL;
 			path = TPInAppReceipt/OpenSSL;
 			sourceTree = SOURCE_ROOT;
+		};
+		476C668322C3F17B00D973F9 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				476C668422C3F17B00D973F9 /* OpenSSL.framework */,
+			);
+			path = ios;
+			sourceTree = "<group>";
+		};
+		476C668722C3F17C00D973F9 /* macos */ = {
+			isa = PBXGroup;
+			children = (
+				476C668822C3F17C00D973F9 /* OpenSSL.framework */,
+			);
+			path = macos;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -542,6 +563,7 @@
 				476C663822C1DA9100D973F9 /* UInt8+Extension.swift in Sources */,
 				476C664322C1DB6900D973F9 /* Bit.swift in Sources */,
 				47589AFD1E333F450047DFCD /* PKCS7Helper.swift in Sources */,
+				476C666622C3E34000D973F9 /* SHA1.swift in Sources */,
 				476C661F22C1DA0200D973F9 /* Utils.swift in Sources */,
 				476C64CB22BFC94400D973F9 /* Asn1Coder.swift in Sources */,
 			);

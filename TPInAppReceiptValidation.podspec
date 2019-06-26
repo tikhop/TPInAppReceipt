@@ -19,7 +19,7 @@ s.author       = { "Pavel Tikhonenko" => "hi@tikhop.com" }
 #  the deployment target. You can optionally include the target after the platform.
 #
 
-s.ios.deployment_target = '8.2'
+s.ios.deployment_target = '9.0'
 s.osx.deployment_target = '10.11'
 
 # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -39,8 +39,9 @@ s.source       = { :git => "https://github.com/tikhop/TPInAppReceipt.git",
 #  Not including the public_header_files will make all headers public.
 #
 
-s.source_files  = "TPInAppReceipt/Source/*.{swift}", "Vendor/CryptoSwift/*.{swift}, TPInAppReceipt/OpenSSL/*.{swift}"
-
+# s.source_files  = "TPInAppReceipt/Source/*.{swift}", "Vendor/CryptoSwift/*.{swift}", "TPInAppReceipt/OpenSSL/*.{swift}"
+s.ios.source_files  = "TPInAppReceipt/Source/*.{swift}", "Vendor/CryptoSwift/*.{swift}", "TPInAppReceipt/OpenSSL/ios/*.{h}"
+s.osx.source_files  = "TPInAppReceipt/Source/*.{swift}", "Vendor/CryptoSwift/*.{swift}", "TPInAppReceipt/OpenSSL/macos/*.{h}"
 # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
 s.swift_version = '5.0'
@@ -50,11 +51,32 @@ s.osx.deployment_target = '10.10'
 
 s.resources  = "TPInAppReceipt/AppleIncRootCertificate.cer"
 
-
 # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
-s.dependency 'TPInAppReceipt', '~> 2.0.0'
-s.dependency 'OpenSSL-Universal', '~> 1.0.2.18'
+s.static_framework = true
+
+# s.dependency 'TPInAppReceipt', '~> 2.0.0'
+# s.dependency 'OpenSSL-Universal/Framework'
+# s.pod_target_xcconfig = { 'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES' }
+
+# s.ios.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/include', 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL', 'LIBRARY_SEARCH_PATHS' => '$(PODS_ROOT)/TPInAppReceipt/Vendor/OpenSSL/iOS' }
+
+s.ios.vendored_frameworks = "TPInAppReceipt/OpenSSL/ios/OpenSSL.framework"
+s.ios.xcconfig = {
+'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
+'GCC_C_LANGUAGE_STANDARD' => 'gnu11'
+}
+
+s.osx.vendored_frameworks = "TPInAppReceipt/OpenSSL/macos/OpenSSL.framework"
+s.osx.xcconfig = {
+'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
+'GCC_C_LANGUAGE_STANDARD' => 'gnu11'
+}
+
+s.preserve_paths = 'TPInAppReceipt/OpenSSL/*'
+
+s.ios.exclude_files = 'TPInAppReceipt/OpenSSL/macos/**'
+s.osx.exclude_files = 'TPInAppReceipt/OpenSSL/ios/**'
 
 # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 #

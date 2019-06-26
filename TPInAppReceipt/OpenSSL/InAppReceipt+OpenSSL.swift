@@ -7,9 +7,7 @@
 //
 
 import Foundation
-import openssl
-import TPInAppReceipt
-
+import OpenSSL
 /// A InAppReceipt extension helps to validate the receipt
 public extension InAppReceipt
 {
