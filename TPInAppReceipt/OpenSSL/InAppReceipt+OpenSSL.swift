@@ -8,6 +8,7 @@
 
 import Foundation
 import openssl
+import TPInAppReceipt
 
 /// A InAppReceipt extension helps to validate the receipt
 public extension InAppReceipt
@@ -28,34 +29,6 @@ public extension InAppReceipt
     public func verifySignature() throws
     {
         try pkcs7Container.verifySignature()
-    }
-    
-    /// Verify only hash
-    /// Should be equal to `receiptHash` value
-    ///
-    /// - throws: An error in the InAppReceipt domain, if verification fails
-    public func verifyHash() throws
-    {
-        if (computedHashData != receiptHash)
-        {
-            throw IARError.validationFailed(reason: .hashValidation)
-        }
-    }
-    
-    /// Computed SHA-1 hash, used to validate the receipt.
-    internal var computedHashData: Data
-    {
-        let uuidData = DeviceGUIDRetriever.guid()
-        let opaqueData = opaqueValue
-        let bundleIdData = bundleIdentifierData
-        
-        var hash: Array<UInt8>!
-        var sha1 = SHA1()
-        hash = try! sha1.update(withBytes: uuidData.bytes)
-        hash = try! sha1.update(withBytes: opaqueData.bytes)
-        hash = sha1.calculate(for: bundleIdData.bytes)
-        
-        return Data(bytes: &hash, count: hash.count)
     }
 }
 
