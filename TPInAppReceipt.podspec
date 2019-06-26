@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "TPInAppReceipt"
-s.version      = "2.0.2"
+s.version      = "2.0.3"
 s.summary      = "Decode Apple Store Receipt and make it easy to read and validate it"
 
 s.description  = "The library provides transparent way to decode and validate Apple Store Receipt. Pure swift, No OpenSSL!"
@@ -50,7 +50,27 @@ s.osx.deployment_target = '10.10'
 s.resources  = "TPInAppReceipt/AppleIncRootCertificate.cer"
 
 
-# ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
+s.subspec 'SignatureVerification' do |cs|
+    cs.ios.source_files  = "TPInAppReceipt/Source/*.{swift}", "Vendor/CryptoSwift/*.{swift}", "TPInAppReceipt/OpenSSL/ios/*.{h}"
+    cs.osx.source_files  = "TPInAppReceipt/Source/*.{swift}", "Vendor/CryptoSwift/*.{swift}", "TPInAppReceipt/OpenSSL/macos/*.{h}"
+    
+    cs.ios.vendored_frameworks = "TPInAppReceipt/OpenSSL/ios/OpenSSL.framework"
+    cs.ios.xcconfig = {
+        'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
+        'GCC_C_LANGUAGE_STANDARD' => 'gnu11'
+    }
+    
+    cs.osx.vendored_frameworks = "TPInAppReceipt/OpenSSL/macos/OpenSSL.framework"
+    cs.osx.xcconfig = {
+        'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES',
+        'GCC_C_LANGUAGE_STANDARD' => 'gnu11'
+    }
+    
+    cs.preserve_paths = 'TPInAppReceipt/OpenSSL/*'
+    
+    cs.ios.exclude_files = 'TPInAppReceipt/OpenSSL/macos/**'
+    cs.osx.exclude_files = 'TPInAppReceipt/OpenSSL/ios/**'
+end
 
 # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 #

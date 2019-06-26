@@ -128,7 +128,6 @@
 		476C663E22C1DAC000D973F9 /* Array+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		476C664122C1DB6900D973F9 /* Bit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bit.swift; sourceTree = "<group>"; };
 		476C664422C1DBC300D973F9 /* Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generics.swift; sourceTree = "<group>"; };
-		476C664F22C3BF6B00D973F9 /* TPInAppReceiptValidation.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = TPInAppReceiptValidation.podspec; sourceTree = "<group>"; };
 		476C665022C3C12900D973F9 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		476C665222C3C4A400D973F9 /* InAppReceipt+OpenSSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InAppReceipt+OpenSSL.swift"; sourceTree = "<group>"; };
 		476C668422C3F17B00D973F9 /* OpenSSL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OpenSSL.framework; sourceTree = "<group>"; };
@@ -174,7 +173,6 @@
 			isa = PBXGroup;
 			children = (
 				47209ACD1D9E92CC0010BCDE /* TPInAppReceipt.podspec */,
-				476C664F22C3BF6B00D973F9 /* TPInAppReceiptValidation.podspec */,
 				476C665022C3C12900D973F9 /* LICENSE */,
 				47209A031D9E0FD60010BCDE /* TPInAppReceipt */,
 				47209A0E1D9E0FD60010BCDE /* TPInAppReceiptTests */,
