@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
 
-s.name         = "TPInAppReceipt"
-s.version      = "2.0.0"
-s.summary      = "Decode Apple Store Receipt and make it easy to read and validate it"
+s.name         = "TPInAppReceiptValidation"
+s.version      = "1.2.3"
+s.summary      = "Decode Apple Store Receipt and make it easy to read it and validate using OpenSSL"
 
-s.description  = "The library provides transparent way to decode and validate Apple Store Receipt. Pure swift, No OpenSSL!"
+s.description  = "The library provides transparent way to decode and validate Apple Store Receipt. Pure swift, OpenSSL!"
 
 s.homepage     = "http://tikhop.com"
 
@@ -28,7 +28,8 @@ s.osx.deployment_target = '10.11'
 #  Supports git, hg, bzr, svn and HTTP.
 #
 
-s.source       = { :git => "https://github.com/tikhop/TPInAppReceipt.git", :tag => "#{s.version}" }
+s.source       = { :git => "https://github.com/tikhop/TPInAppReceipt.git",
+                   :tag => "'Validation-' + s.version.to_s" }
 
 # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 #
@@ -38,7 +39,7 @@ s.source       = { :git => "https://github.com/tikhop/TPInAppReceipt.git", :tag 
 #  Not including the public_header_files will make all headers public.
 #
 
-s.source_files  = "TPInAppReceipt/Source/*.{swift}, Vendor/CryptoSwift/*.{swift}"
+s.source_files  = "TPInAppReceipt/Source/*.{swift}, Vendor/CryptoSwift/*.{swift}, TPInAppReceipt/OpenSSL/*.{swift}"
 
 # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
@@ -51,6 +52,9 @@ s.resources  = "TPInAppReceipt/AppleIncRootCertificate.cer"
 
 
 # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
+
+s.dependency 'TPInAppReceipt', '~> 2.0.0'
+s.dependency 'OpenSSL-Universal', '~> 1.0.2.18'
 
 # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 #
