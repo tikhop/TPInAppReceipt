@@ -7,9 +7,6 @@
 //
 
 import Foundation
-import openssl
-
-public typealias ASN1Attribute = (data: Data, type: Int)
 
 extension Data
 {
@@ -18,10 +15,12 @@ extension Data
     {
         var s: UInt32 = 0
         let bytesArray = bytes
+        
         for i in 0 ..< bytesArray.count
         {
             s = s + UInt32(bytesArray[i])
         }
+        
         s = s % 65536
         return UInt16(s)
     }
