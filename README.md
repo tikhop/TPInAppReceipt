@@ -3,13 +3,13 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tikhop/TPInAppReceipt/master/LICENSE)
 # TPInAppReceipt
 
-A lightweight iOS library for reading and validating In-App Receipt.
+A lightweight iOS library for reading and validating Apple In-App Receipt.
 
 ## Features
 
-- [x] Parse the Payload and Extract the Receipt Attributes
+- [x] Extract all In-App Receipt Attributes
 - [x] Hash Verification
-- [x] Verify the Receipt Signature
+- [x] Signature Verification
 - [ ] Verify Version and Bundle Identifiers
 
 Installation
@@ -26,7 +26,7 @@ target 'YOUR_TARGET' do
     use_frameworks!
 
     pod 'TPInAppReceipt'
-    pod 'TPInAppReceiptValidation' //If you want to validate receipt's certificates 
+    pod 'TPInAppReceipt/SignatureVerification' //If you want to validate receipt's certificates 
 end
 
 ```
@@ -43,9 +43,9 @@ $ pod install
 - Xcode 8.0+
 - Swift 5.0+
 
-### Openssl (Only for `TPInAppReceiptValidation`)
+### Openssl (Only for `TPInAppReceipt/SignatureVerification`)
 
-OpenSSL is included as a pod dependency: https://github.com/krzyzanowskim/OpenSSL
+OpenSSL is included as a framework from https://github.com/krzyzanowskim/OpenSSL
 
 Usage
 -------------
@@ -90,7 +90,7 @@ do {
 }
 ```
 
-### Receipt Validation (Only for TPInAppReceiptValidation pod)
+### Receipt Validation (Only for TPInAppReceipt/SignatureVerification pod)
 
 ```swift
 do {
