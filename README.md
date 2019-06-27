@@ -3,7 +3,7 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tikhop/TPInAppReceipt/master/LICENSE)
 # TPInAppReceipt
 
-A lightweight iOS library for reading and validating Apple In-App Receipt.
+A lightweight iOS/OSX library for reading and validating Apple In-App Receipt.
 
 ## Features
 
