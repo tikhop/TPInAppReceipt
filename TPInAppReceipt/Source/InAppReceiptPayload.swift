@@ -76,7 +76,6 @@ public extension InAppReceiptPayload
             if let field = InAppReceiptField(rawValue: attribute.type)
             {
                 var value = attribute.value.extractValue()
-                var fValue = value
                 
                 if let v = value as? ASN1Object, v.identifier.encodingType != .constructed
                 {

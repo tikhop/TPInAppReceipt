@@ -10,7 +10,7 @@ import Foundation
 
 public extension Date
 {
-    public static func rfc3339date(fromString string: String) -> Date?
+    func rfc3339date(fromString string: String) -> Date?
     {
         return string.rfc3339date()
     }
@@ -18,7 +18,7 @@ public extension Date
 
 public extension String
 {
-    public func utcTime() -> Date?
+    func utcTime() -> Date?
     {
         
         let formatter = DateFormatter()
@@ -29,7 +29,8 @@ public extension String
         let date = formatter.date(from: self)
         return date
     }
-    public func rfc3339date() -> Date?
+    
+    func rfc3339date() -> Date?
     {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"

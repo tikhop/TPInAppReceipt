@@ -89,13 +89,13 @@ public struct InAppPurchase
 public extension InAppPurchase
 {
     /// Purchase Date representation as a 'Date' object
-    public var purchaseDate: Date
+    var purchaseDate: Date
     {
         return purchaseDateString.rfc3339date()!
     }
     
     /// Subscription Expiration Date representation as a 'Date' object. Returns `nil` if the purchase has been expired (in some cases)
-    public var subscriptionExpirationDate: Date?
+    var subscriptionExpirationDate: Date?
     {
         assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
        
@@ -103,7 +103,7 @@ public extension InAppPurchase
     }
     
     /// A Boolean value indicating whether the purchase is renewable subscription.
-    public var isRenewableSubscription: Bool
+    var isRenewableSubscription: Bool
     {
         return self.subscriptionExpirationDateString != nil
     }
@@ -112,7 +112,7 @@ public extension InAppPurchase
     ///
     /// - Parameter date: The date in which the auto-renewable subscription should be active.
     /// - Returns: true if the latest auto-renewable subscription is active for the given date, false otherwise.
-    public func isActiveAutoRenewableSubscription(forDate date: Date) -> Bool
+    func isActiveAutoRenewableSubscription(forDate date: Date) -> Bool
     {
         assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
         

@@ -298,7 +298,6 @@
 		476C665222C3C4A400D973F9 /* InAppReceipt+OpenSSL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InAppReceipt+OpenSSL.swift"; sourceTree = "<group>"; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		47D213391E4738AB00994B00 /* Initialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Initialization.swift; sourceTree = "<group>"; };
-		47D61DF122C41F6400667A90 /* TPInAppReceiptWithSignatureVerification.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = TPInAppReceiptWithSignatureVerification.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -337,7 +336,6 @@
 		472099F71D9E0FD60010BCDE = {
 			isa = PBXGroup;
 			children = (
-				47D61DF122C41F6400667A90 /* TPInAppReceiptWithSignatureVerification.podspec */,
 				47209ACD1D9E92CC0010BCDE /* TPInAppReceipt.podspec */,
 				476C665022C3C12900D973F9 /* LICENSE */,
 				47209A031D9E0FD60010BCDE /* TPInAppReceipt */,
@@ -1086,10 +1084,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/TPInAppReceipt/OpenSSL/ios",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = TPInAppReceipt/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -1113,10 +1108,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/TPInAppReceipt/OpenSSL/ios",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = TPInAppReceipt/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
