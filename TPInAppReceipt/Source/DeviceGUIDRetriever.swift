@@ -8,10 +8,10 @@
 
 import Foundation
 
-#if os(macOS)
-import IOKit
-#else
+#if os(iOS) || os(watchOS) || os(tvOS)
 import UIKit
+#elseif os(macOS)
+import IOKit
 #endif
 
 class DeviceGUIDRetriever

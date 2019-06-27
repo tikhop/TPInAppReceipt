@@ -23,12 +23,26 @@ public extension InAppReceipt
         }
     }
     
-    func verifyBundleIdentifier() throws
+    func verifyBundleIdentifierAndVersion() throws
     {
         guard let bid = Bundle.main.bundleIdentifier, bid == bundleIdentifier else
         {
             throw IARError.validationFailed(reason: .bundleIdentifierVefirication)
         }
+        
+        #if os(iOS) || os(watchOS) || os(tvOS)
+        guard let v = Bundle.main.infoDictionary?["CFBundleVersion"] as? String,
+            v == originalAppVersion else
+        {
+            throw IARError.validationFailed(reason: .bundleVersionVefirication)
+        }
+        #elseif os(macOS)
+        guard let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+            v == originalAppVersion else
+        {
+            throw IARError.validationFailed(reason: .bundleVersionVefirication)
+        }
+        #endif
     }
     
     /// Computed SHA-1 hash, used to validate the receipt.
