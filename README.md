@@ -3,14 +3,16 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tikhop/TPInAppReceipt/master/LICENSE)
 # TPInAppReceipt
 
-A lightweight iOS library for reading and validating Apple In-App Receipt.
+A lightweight iOS/OSX library for reading and validating Apple In-App Receipt.
 
 ## Features
 
 - [x] Extract all In-App Receipt Attributes
 - [x] Hash Verification
-- [ ] Signature Verification (Temporary disabled)
-- [ ] Verify Version and Bundle Identifiers (In Progress)
+- [x] Verify Bundle Version and Identifiers
+- [x] No More Openssl
+- [ ] Signature Verification (In Progress)
+
 
 Installation
 ------------
@@ -39,7 +41,6 @@ $ pod install
 ### Requirements
 
 - iOS 9.0+ / OSX 10.11+
-- Xcode 8.0+
 - Swift 5.0+
 
 Usage
