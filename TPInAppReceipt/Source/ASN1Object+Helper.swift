@@ -55,7 +55,7 @@ extension ASN1Object
     
     static func extractLenght(from asn1data: inout Data) throws -> Length
     {
-        if asn1data.count < 3 { return Length.short(value: 0) } //invalid data
+        if asn1data.count < 3 { return Length.short(value: -1) } //invalid data
         
         
         let startIdx = asn1data.startIndex
@@ -65,8 +65,19 @@ extension ASN1Object
         if ((lByte & 0x80) != 0)
         {
             let l: Int = Int(lByte - 0x80)
-            let start = startIdx + identifierLenght + 1 // Skip identifier and lenght header
+            let offset = identifierLenght + 1 // Skip identifier and lenght header
+            
+            if (offset + l) > asn1data.endIndex
+            {
+                return Length.short(value: -1) //invalid data
+            }
+            
+            let start = startIdx + offset
+            
+            
+        
             let end = start + l
+            
             var d = asn1data[start..<end]
             
             let r = ASN1.readInt(from: &d, l: l)
