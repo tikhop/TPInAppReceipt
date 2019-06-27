@@ -107,6 +107,12 @@ public extension InAppReceipt
         return payload.creationDate
     }
     
+    /// In App Receipt in base64
+    var base64: String
+    {
+        return pkcs7Container.base64
+    }
+    
     /// Return original transaction identifier if there is a purchase for a specific product identifier
     ///
     /// - parameter productIdentifier: Product name

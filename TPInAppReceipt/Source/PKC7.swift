@@ -29,7 +29,6 @@ class PKCS7Wrapper
     {
         rawBuffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: receipt.count)
         let _ = rawBuffer.initialize(from: receipt)
-        
     }
     
     deinit
@@ -81,5 +80,14 @@ extension PKCS7Wrapper
         }catch{
             return nil
         }
+    }
+}
+
+extension PKCS7Wrapper
+{
+    var base64: String
+    {
+        let raw = Data(bytesNoCopy: rawBuffer.baseAddress!, count: rawBuffer.count, deallocator: .none)
+        return raw.base64EncodedString()
     }
 }

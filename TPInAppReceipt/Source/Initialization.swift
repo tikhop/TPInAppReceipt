@@ -15,7 +15,7 @@ public extension InAppReceipt
     ///
     /// - Returns: 'InAppReceipt' instance
     /// - throws: An error in the InAppReceipt domain, if `InAppReceipt` cannot be created.
-    public static func receipt(from data: Data) throws -> InAppReceipt
+    static func receipt(from data: Data) throws -> InAppReceipt
     {
         return try InAppReceipt(receiptData: data)
     }
@@ -24,7 +24,7 @@ public extension InAppReceipt
     ///
     /// - Returns: 'InAppReceipt' instance
     /// - throws: An error in the InAppReceipt domain, if `InAppReceipt` cannot be created.
-    public static func localReceipt() throws -> InAppReceipt
+    static func localReceipt() throws -> InAppReceipt
     {
         let data = try Bundle.main.appStoreReceiptData()
         return try InAppReceipt.receipt(from: data)
@@ -32,21 +32,35 @@ public extension InAppReceipt
 }
 
 /// A Bundle extension helps to retrieve receipt data
-fileprivate extension Bundle
+public extension Bundle
 {
-    
-    /// Creates and returns the 'Data' object
+    /// Retrieve local App Store Receip Data
     ///
     /// - Returns: 'Data' object that represents local receipt
     /// - throws: An error if receipt file not found or 'Data' can't be created
-    func appStoreReceiptData() throws -> Data
+    fileprivate func appStoreReceiptData() throws -> Data
     {
-        guard let receiptUrl = Bundle.main.appStoreReceiptURL,
+        guard let receiptUrl = appStoreReceiptURL,
             FileManager.default.fileExists(atPath: receiptUrl.path) else
         {
             throw IARError.initializationFailed(reason: .appStoreReceiptNotFound)
         }
         
         return try Data(contentsOf: receiptUrl)
+    }
+    
+    /// Retrieve local App Store Receip Data in base64 string
+    ///
+    /// - Returns: 'Data' object that represents local receipt
+    /// - throws: An error if receipt file not found or 'Data' can't be created
+    func appStoreReceiptBase64() throws -> String
+    {
+        guard let receiptUrl = appStoreReceiptURL,
+            FileManager.default.fileExists(atPath: receiptUrl.path) else
+        {
+            throw IARError.initializationFailed(reason: .appStoreReceiptNotFound)
+        }
+        
+        return try Data(contentsOf: receiptUrl).base64EncodedString()
     }
 }
