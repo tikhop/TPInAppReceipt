@@ -15,11 +15,19 @@ public extension InAppReceipt
     /// Should be equal to `receiptHash` value
     ///
     /// - throws: An error in the InAppReceipt domain, if verification fails
-    public func verifyHash() throws
+    func verifyHash() throws
     {
         if (computedHashData != receiptHash)
         {
             throw IARError.validationFailed(reason: .hashValidation)
+        }
+    }
+    
+    func verifyBundleIdentifier() throws
+    {
+        guard let bid = Bundle.main.bundleIdentifier, bid == bundleIdentifier else
+        {
+            throw IARError.validationFailed(reason: .bundleIdentifierVefirication)
         }
     }
     

@@ -36,6 +36,7 @@ public enum IARError: Error
     {
         case hashValidation
         case signatureValidation(SignatureValidationFailureReason)
+        case bundleIdentifierVefirication
     }
     
     /// The underlying reason the signature validation error occurred.
