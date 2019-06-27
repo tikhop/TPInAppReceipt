@@ -9,8 +9,10 @@ A lightweight iOS library for reading and validating Apple In-App Receipt.
 
 - [x] Extract all In-App Receipt Attributes
 - [x] Hash Verification
+- [x] Verify Bundle Version and Identifiers
+- [x] No More Openssl
 - [ ] Signature Verification (Temporary disabled)
-- [ ] Verify Version and Bundle Identifiers (In Progress)
+
 
 Installation
 ------------
@@ -39,7 +41,6 @@ $ pod install
 ### Requirements
 
 - iOS 9.0+ / OSX 10.11+
-- Xcode 8.0+
 - Swift 5.0+
 
 Usage
