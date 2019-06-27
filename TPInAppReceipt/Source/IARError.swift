@@ -53,6 +53,7 @@ public enum IARError: Error
         case unableToLoadAppleIncRootCertificate
         case receiptIsNotSigned
         case receiptSignedDataNotFound
+        case receiptDataNotFound
         case invalidSignature
     }
 }

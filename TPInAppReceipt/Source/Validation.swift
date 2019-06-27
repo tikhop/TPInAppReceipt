@@ -23,6 +23,11 @@ public extension InAppReceipt
         }
     }
     
+    /// Verify that the bundle identifier in the receipt matches a hard-coded constant containing the CFBundleIdentifier value you expect in the Info.plist file. If they do not match, validation fails.
+    /// Verify that the version identifier string in the receipt matches a hard-coded constant containing the CFBundleShortVersionString value (for macOS) or the CFBundleVersion value (for iOS) that you expect in the Info.plist file.
+    ///
+    ///
+    /// - throws: An error in the InAppReceipt domain, if verification fails
     func verifyBundleIdentifierAndVersion() throws
     {
         guard let bid = Bundle.main.bundleIdentifier, bid == bundleIdentifier else
@@ -43,6 +48,34 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .bundleVersionVefirication)
         }
         #endif
+    }
+    
+    /// Verify signature inside pkcs7 container
+    ///
+    /// - throws: An error in the InAppReceipt domain, if verification can't be completed
+    func verifySignature() throws
+    {
+        try checkSignatureExistance()
+    }
+    
+    /// Verifies existance of the signature inside pkcs7 container
+    ///
+    /// - throws: An error in the InAppReceipt domain, if verification can't be completed
+    fileprivate func checkSignatureExistance() throws
+    {
+        var r = pkcs7Container.checkContentExistance(by: PKC7.OID.signedData)
+        
+        if !r
+        {
+            throw IARError.validationFailed(reason: .signatureValidation(.receiptSignedDataNotFound))
+        }
+        
+        r = pkcs7Container.checkContentExistance(by: PKC7.OID.data)
+        
+        if !r
+        {
+            throw IARError.validationFailed(reason: .signatureValidation(.receiptDataNotFound))
+        }
     }
     
     /// Computed SHA-1 hash, used to validate the receipt.
