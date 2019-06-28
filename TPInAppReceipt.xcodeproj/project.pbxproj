@@ -30,8 +30,6 @@
 		47589AFD1E333F450047DFCD /* PKCS7Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE61E31AE6F0047DFCD /* PKCS7Helper.swift */; };
 		47589B391E333F450047DFCD /* TPInAppReceipt.h in Headers */ = {isa = PBXBuildFile; fileRef = 47209A041D9E0FD60010BCDE /* TPInAppReceipt.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		47589B4F1E333F450047DFCD /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */; };
-		47589B561E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */; };
-		47589B571E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */; };
 		476C64BE22BE6DC100D973F9 /* PKC7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64BD22BE6DC100D973F9 /* PKC7.swift */; };
 		476C64CA22BFC93E00D973F9 /* PKC7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64BD22BE6DC100D973F9 /* PKC7.swift */; };
 		476C64CB22BFC94400D973F9 /* Asn1Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4728B65822BE3DB900607E5E /* Asn1Coder.swift */; };
@@ -107,7 +105,6 @@
 		47589AEA1E32D6BB0047DFCD /* InAppReceiptPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InAppReceiptPayload.swift; sourceTree = "<group>"; };
 		47589AEE1E332D5D0047DFCD /* IARError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IARError.swift; sourceTree = "<group>"; };
 		47589B531E333F450047DFCD /* TPInAppReceipt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TPInAppReceipt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceGUIDRetriever.swift; sourceTree = "<group>"; };
 		476C64BD22BE6DC100D973F9 /* PKC7.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKC7.swift; sourceTree = "<group>"; };
 		476C64C522BFC76000D973F9 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		476C64D322C028D300D973F9 /* ASN1Object.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASN1Object.swift; sourceTree = "<group>"; };
@@ -286,7 +283,6 @@
 		476C664722C30FBC00D973F9 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				47589B551E3342490047DFCD /* DeviceGUIDRetriever.swift */,
 				47209ABD1D9E111C0010BCDE /* Data+Extension.swift */,
 				479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */,
 				47589AE61E31AE6F0047DFCD /* PKCS7Helper.swift */,
@@ -484,7 +480,6 @@
 				476C664222C1DB6900D973F9 /* Bit.swift in Sources */,
 				476C664522C1DBC300D973F9 /* Generics.swift in Sources */,
 				476C661E22C1DA0100D973F9 /* Utils.swift in Sources */,
-				47589B561E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */,
 				47589AE71E31AE6F0047DFCD /* PKCS7Helper.swift in Sources */,
 				476C663922C1DA9100D973F9 /* String+Extension.swift in Sources */,
 				4728B65922BE3DB900607E5E /* Asn1Coder.swift in Sources */,
@@ -521,7 +516,6 @@
 				476C64DE22C0EF1B00D973F9 /* ASN1Object+Sequence.swift in Sources */,
 				476C64DC22C0EF1B00D973F9 /* ASN1Object+Helper.swift in Sources */,
 				47589AF61E333F450047DFCD /* InAppPurchase.swift in Sources */,
-				47589B571E3342490047DFCD /* DeviceGUIDRetriever.swift in Sources */,
 				476C662322C1DA1700D973F9 /* Updatable.swift in Sources */,
 				476C663422C1DA9100D973F9 /* UInt32+Extension.swift in Sources */,
 				476C664022C1DAC000D973F9 /* Array+Extension.swift in Sources */,
