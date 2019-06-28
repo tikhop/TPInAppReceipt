@@ -16,6 +16,17 @@ import IOKit
 /// A InAppReceipt extension helps to validate the receipt
 public extension InAppReceipt
 {
+    /// Verify In App Receipt
+    /// Should be equal to `receiptHash` value
+    ///
+    /// - throws: An error in the InAppReceipt domain, if verification fails
+    func verify() throws
+    {
+        try verifyHash()
+        try verifyBundleIdentifierAndVersion()
+        try verifySignature()
+    }
+    
     /// Verify only hash
     /// Should be equal to `receiptHash` value
     ///
