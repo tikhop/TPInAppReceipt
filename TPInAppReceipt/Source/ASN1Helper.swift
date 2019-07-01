@@ -28,10 +28,7 @@ extension ASN1Object
                 let elmnt = i.element
                 let type = elmnt.identifier.type
                 
-                guard type != .unknown else
-                {
-                    continue
-                }
+                if type == .unknown { continue }
                 
                 switch type
                 {

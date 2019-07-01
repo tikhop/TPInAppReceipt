@@ -38,7 +38,7 @@ public extension Bundle
     ///
     /// - Returns: 'Data' object that represents local receipt
     /// - throws: An error if receipt file not found or 'Data' can't be created
-    fileprivate func appStoreReceiptData() throws -> Data
+    func appStoreReceiptData() throws -> Data
     {
         guard let receiptUrl = appStoreReceiptURL,
             FileManager.default.fileExists(atPath: receiptUrl.path) else

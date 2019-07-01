@@ -37,8 +37,7 @@ public struct InAppPurchase
     /// Quantity
     public var quantity: Int
     
-    
-    public init(asn1Data: Data)
+    public init()
     {
         originalTransactionIdentifier = ""
         productIdentifier = ""
@@ -46,6 +45,11 @@ public struct InAppPurchase
         purchaseDateString = ""
         originalPurchaseDateString = ""
         quantity = 0
+    }
+    
+    public init(asn1Data: Data)
+    {
+        self.init()
         
         let purchase = ASN1Object(data: asn1Data)
         purchase.enumerateInAppReceiptAttributes { (attribute) in

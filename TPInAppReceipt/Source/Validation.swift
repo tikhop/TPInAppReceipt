@@ -46,6 +46,8 @@ public extension InAppReceipt
     /// - throws: An error in the InAppReceipt domain, if verification fails
     func verifyBundleIdentifierAndVersion() throws
     {
+        #if targetEnvironment(simulator)
+        #else
         guard let bid = Bundle.main.bundleIdentifier, bid == bundleIdentifier else
         {
             throw IARError.validationFailed(reason: .bundleIdentifierVefirication)
@@ -63,6 +65,7 @@ public extension InAppReceipt
         {
             throw IARError.validationFailed(reason: .bundleVersionVefirication)
         }
+        #endif
         #endif
     }
     
