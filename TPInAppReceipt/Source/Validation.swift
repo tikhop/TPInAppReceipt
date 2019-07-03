@@ -54,13 +54,13 @@ public extension InAppReceipt
         }
         
         #if os(iOS) || os(watchOS) || os(tvOS)
-        guard let v = Bundle.main.infoDictionary?["CFBundleVersion"] as? String,
+        guard let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
             v == originalAppVersion else
         {
             throw IARError.validationFailed(reason: .bundleVersionVefirication)
         }
         #elseif os(macOS)
-        guard let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+        guard let v = Bundle.main.infoDictionary?["CFBundleVersion"] as? String,
             v == originalAppVersion else
         {
             throw IARError.validationFailed(reason: .bundleVersionVefirication)
@@ -104,13 +104,12 @@ public extension InAppReceipt
         let opaqueData = opaqueValue
         let bundleIdData = bundleIdentifierData
         
-        var hash: Array<UInt8> = Array<UInt8>.init(repeating: 0, count: 20)
         var sha1 = SHA1()
-        hash = try! sha1.update(withBytes: uuidData.bytes)
-        hash = try! sha1.update(withBytes: opaqueData.bytes)
-        hash = sha1.calculate(for: bundleIdData.bytes)
+        try! sha1.update(withBytes: uuidData.bytes)
+        try! sha1.update(withBytes: opaqueData.bytes)
+        let hash = sha1.calculate(for: bundleIdData.bytes)
         
-        return Data(bytes: hash, count: hash.count)
+        return Data(hash)
     }
 }
 

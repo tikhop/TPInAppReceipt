@@ -9,7 +9,7 @@
 import UIKit
 import TPInAppReceipt
 
-var rBase64 = "You Receupt"
+var rBase64 = "Your Receipt"
 
 class ViewController: UIViewController {
     
