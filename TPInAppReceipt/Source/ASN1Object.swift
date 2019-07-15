@@ -121,13 +121,14 @@ extension ASN1Object
     /// Using this initialization method we assume that data contains a proper asn1 object as defined by ITU-T X.690
     init(data: Data)
     {
-        var tempData = Data(data)
+        var tempData = data
         
         identifier = try! ASN1Object.extractIdentifier(from: &tempData)
         length = try! ASN1Object.extractLenght(from: &tempData)
         bytesCount = ASN1Object.identifierLenght + length.offset + length.value
         
-        rawData = Data(tempData[0..<bytesCount])
+        let offset = data.startIndex
+        rawData = Data(tempData[offset..<(offset+bytesCount)])
     }
 }
 

@@ -39,22 +39,6 @@ class PKCS7Wrapper
 
 extension PKCS7Wrapper
 {
-    /// Check if any data available for provided pkcs7 oid
-    ///
-    /// 
-    func checkContentExistance(by oid: PKC7.OID) -> Bool
-    {
-        var raw = Data(bytesNoCopy: rawBuffer.baseAddress!, count: rawBuffer.count, deallocator: .none)
-        
-        let r = checkContentExistance(by: oid, in: &raw)
-        guard r.0, let _ = r.offset else
-        {
-            return false
-        }
-        
-        return true
-    }
-    
     /// Find content by pkcs7 oid
     ///
     /// - Returns: Data slice make sure you allocate memory and copy bytes for long term usage
@@ -73,33 +57,6 @@ extension PKCS7Wrapper
         
         do
         {
-            let id = try ASN1Object.extractIdentifier(from: &data)
-            let l = try ASN1Object.extractLenght(from: &data)
-            
-            var cStart = data.startIndex + ASN1Object.identifierLenght + l.offset
-            let cEnd = data.endIndex
-            
-            if id.encodingType == .constructed
-            {
-                return extractContent(by: oid, from: &data[cStart..<cEnd])
-            }
-            
-            var foundedOid: String?
-            
-            if id.type == .objectIdentifier
-            {
-                let end = cStart + l.value
-                var slice = data[cStart..<end]
-                foundedOid = ASN1.readOid(contentData: &slice)
-            }
-            
-            cStart += l.value
-            
-            guard let fOid = foundedOid, fOid == oid.rawValue else
-            {
-                return extractContent(by: oid, from: &data[cStart..<cEnd])
-            }
-            
             let r = checkContentExistance(by: oid, in: &data)
             
             guard r.0, let offset = r.offset else
@@ -115,6 +72,22 @@ extension PKCS7Wrapper
         }catch{
             return nil
         }
+    }
+    
+    /// Check if any data available for provided pkcs7 oid
+    ///
+    ///
+    func checkContentExistance(by oid: PKC7.OID) -> Bool
+    {
+        var raw = Data(bytesNoCopy: rawBuffer.baseAddress!, count: rawBuffer.count, deallocator: .none)
+        
+        let r = checkContentExistance(by: oid, in: &raw)
+        guard r.0, let _ = r.offset else
+        {
+            return false
+        }
+        
+        return true
     }
     
     /// Extract content by pkcs7 oid

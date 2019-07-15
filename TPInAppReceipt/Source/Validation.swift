@@ -82,16 +82,12 @@ public extension InAppReceipt
     /// - throws: An error in the InAppReceipt domain, if verification can't be completed
     fileprivate func checkSignatureExistance() throws
     {
-        var r = pkcs7Container.checkContentExistance(by: PKC7.OID.signedData)
-        
-        if !r
+        guard pkcs7Container.checkContentExistance(by: PKC7.OID.signedData) else
         {
             throw IARError.validationFailed(reason: .signatureValidation(.receiptSignedDataNotFound))
         }
         
-        r = pkcs7Container.checkContentExistance(by: PKC7.OID.data)
-        
-        if !r
+        guard pkcs7Container.checkContentExistance(by: PKC7.OID.data) else
         {
             throw IARError.validationFailed(reason: .signatureValidation(.receiptDataNotFound))
         }
@@ -115,7 +111,11 @@ public extension InAppReceipt
 
 fileprivate func guid() -> Data
 {
-#if os(iOS) || os(watchOS) || os(tvOS)
+    
+#if targetEnvironment(simulator) // Debug purpose only
+    var uuidBytes = UUID(uuidString: "GUID")!.uuid
+    return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
+#elseif os(iOS) || os(watchOS) || os(tvOS)
     var uuidBytes = UIDevice.current.identifierForVendor!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
 #elseif os(macOS)

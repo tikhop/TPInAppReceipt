@@ -34,7 +34,7 @@ struct ASN1Iterator: IteratorProtocol
             return nil
         }
         
-        let valueData = Data(bytes[offset..<bytes.count])
+        let valueData = bytes[offset ..< bytes.count]
         let asn1 = ASN1Object(data: valueData)
         lastItem = asn1
         

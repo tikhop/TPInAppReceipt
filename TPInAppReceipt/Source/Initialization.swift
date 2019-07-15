@@ -55,12 +55,6 @@ public extension Bundle
     /// - throws: An error if receipt file not found or 'Data' can't be created
     func appStoreReceiptBase64() throws -> String
     {
-        guard let receiptUrl = appStoreReceiptURL,
-            FileManager.default.fileExists(atPath: receiptUrl.path) else
-        {
-            throw IARError.initializationFailed(reason: .appStoreReceiptNotFound)
-        }
-        
-        return try Data(contentsOf: receiptUrl).base64EncodedString()
+        return try appStoreReceiptData().base64EncodedString()
     }
 }
