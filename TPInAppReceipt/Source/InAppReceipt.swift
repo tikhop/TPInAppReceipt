@@ -187,7 +187,6 @@ public extension InAppReceipt
     /// `nil` otherwise
     ///
     /// - parameter productIdentifier: Product name
-    
     func lastAutoRenewableSubscriptionPurchase(ofProductIdentifier productIdentifier: String) -> InAppPurchase?
     {
         
