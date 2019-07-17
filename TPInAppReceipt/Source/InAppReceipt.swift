@@ -183,6 +183,33 @@ public extension InAppReceipt
 
     }
 
+    /// Returns the last `InAppPurchase` if there is one for a specific product identifier,
+    /// `nil` otherwise
+    ///
+    /// - parameter productIdentifier: Product name
+    
+    func lastAutoRenewableSubscriptionPurchase(ofProductIdentifier productIdentifier: String) -> InAppPurchase?
+    {
+        
+        var purchase: InAppPurchase? = nil
+        let filtered = purchases(ofProductIdentifier: productIdentifier)
+        
+        var lastInterval: TimeInterval = 0
+        for iap in filtered {
+            if !(iap.productIdentifier == productIdentifier) {
+                continue
+            }
+            
+            if let thisInterval = iap.subscriptionExpirationDate?.timeIntervalSince1970 {
+                if purchase == nil || thisInterval > lastInterval {
+                    purchase = iap
+                    lastInterval = thisInterval
+                }
+            }
+        }
+        return purchase
+    }
+    
     /// Returns true if there is an active subscription for a specific product identifier on the date specified,
     /// false otherwise
     ///
