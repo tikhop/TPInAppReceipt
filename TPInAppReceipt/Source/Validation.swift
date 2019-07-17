@@ -60,8 +60,8 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .bundleVersionVefirication)
         }
         #elseif os(macOS)
-        guard let v = Bundle.main.infoDictionary?["CFBundleVersion"] as? String,
-            v == originalAppVersion else
+        guard let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+            v == appVersion else
         {
             throw IARError.validationFailed(reason: .bundleVersionVefirication)
         }
