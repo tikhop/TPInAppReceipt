@@ -129,21 +129,16 @@ extension ASN1Object
             return nil
         }
         
-        guard ASN1Object.isDataValid(&valueData) else
-        {
-            return valueData
-        }
-        
         switch type
         {
         case .integer:
             return ASN1.readInt(from: &valueData, l: l)
         case .octetString:
-            return ASN1Object(data: valueData)
+            return ASN1Object.isDataValid(&valueData) ? ASN1Object(data: valueData) : valueData
         case .endOfContent: //Treat it as unknown type of some constructed type
             if identifier.isConstructed
             {
-                return ASN1Object(data: valueData)
+                return ASN1Object.isDataValid(&valueData) ? ASN1Object(data: valueData) : valueData
             }else{
                 return nil
             }
@@ -176,7 +171,7 @@ extension ASN1Object
         case .relativeOid:
             return ASN1.readOid(contentData: &valueData)
         case .sequence, .set:
-            return ASN1Object(data: valueData)
+            return ASN1Object.isDataValid(&valueData) ? ASN1Object(data: valueData) : valueData
         case .videotexString:
             return "videotexString"
         case .ia5String:
