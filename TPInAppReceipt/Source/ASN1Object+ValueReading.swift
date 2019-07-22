@@ -129,16 +129,21 @@ extension ASN1Object
             return nil
         }
         
+        guard ASN1Object.isDataValid(&valueData) else
+        {
+            return valueData
+        }
+        
         switch type
         {
         case .integer:
             return ASN1.readInt(from: &valueData, l: l)
         case .octetString:
-            return ASN1Object.isDataValid(&valueData) ? ASN1Object(data: valueData) : valueData
+            return ASN1Object(data: valueData)
         case .endOfContent: //Treat it as unknown type of some constructed type
             if identifier.isConstructed
             {
-                return ASN1Object.isDataValid(&valueData) ? ASN1Object(data: valueData) : valueData
+                return ASN1Object(data: valueData)
             }else{
                 return nil
             }
