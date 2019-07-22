@@ -89,6 +89,20 @@ public extension InAppReceipt
         return payload.purchases
     }
     
+    /// Returns all auto renewable `InAppPurchase`s,
+    var autoRenewablePurchases: [InAppPurchase]
+    {
+        return purchases.filter({ $0.isRenewableSubscription })
+    }
+    
+    /// Returns all ACTIVE auto renewable `InAppPurchase`s,
+    ///
+    var activeAutoRenewableSubscriptionPurchases: [InAppPurchase]
+    {
+        return purchases.filter({ $0.isRenewableSubscription && $0.isActiveAutoRenewableSubscription(forDate: Date()) })
+        
+    }
+    
     /// The date that the app receipt expires
     var expirationDate: String?
     {
@@ -99,6 +113,12 @@ public extension InAppReceipt
     var hasPurchases: Bool
     {
         return purchases.count > 0
+    }
+    
+    /// Returns `true` if any Active Auto Renewable purchases exist, `false` otherwise
+    var hasActiveAutoRenewablePurchases: Bool
+    {
+        return activeAutoRenewableSubscriptionPurchases.count > 0
     }
     
     /// The date when the app receipt was created.
