@@ -71,6 +71,39 @@
 		476C664522C1DBC300D973F9 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C664422C1DBC300D973F9 /* Generics.swift */; };
 		476C664622C1DBC300D973F9 /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C664422C1DBC300D973F9 /* Generics.swift */; };
 		476C666622C3E34000D973F9 /* SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C661B22C1D96E00D973F9 /* SHA1.swift */; };
+		4773653C22E6920B006FC04A /* TPInAppReceiptWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 4773653A22E6920B006FC04A /* TPInAppReceiptWatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4773654022E692B4006FC04A /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */; };
+		4773654122E692C0006FC04A /* InAppReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */; };
+		4773654222E692C0006FC04A /* InAppReceiptPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AEA1E32D6BB0047DFCD /* InAppReceiptPayload.swift */; };
+		4773654322E692C0006FC04A /* InAppPurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE81E31B2F90047DFCD /* InAppPurchase.swift */; };
+		4773654422E692C0006FC04A /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D213391E4738AB00994B00 /* Initialization.swift */; };
+		4773654522E692C0006FC04A /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE41E319A220047DFCD /* Validation.swift */; };
+		4773654622E692C0006FC04A /* IARError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AEE1E332D5D0047DFCD /* IARError.swift */; };
+		4773654722E692C4006FC04A /* Data+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABD1D9E111C0010BCDE /* Data+Extension.swift */; };
+		4773654822E692C4006FC04A /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
+		4773654922E692C4006FC04A /* PKCS7Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47589AE61E31AE6F0047DFCD /* PKCS7Helper.swift */; };
+		4773654A22E692C4006FC04A /* ASN1Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */; };
+		4773654B22E692C7006FC04A /* Asn1Coder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4728B65822BE3DB900607E5E /* Asn1Coder.swift */; };
+		4773654C22E692C7006FC04A /* ASN1Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D322C028D300D973F9 /* ASN1Object.swift */; };
+		4773654D22E692C7006FC04A /* ASN1Object+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D522C028F800D973F9 /* ASN1Object+Helper.swift */; };
+		4773654E22E692C7006FC04A /* ASN1Object+ValueReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D722C0298000D973F9 /* ASN1Object+ValueReading.swift */; };
+		4773654F22E692C7006FC04A /* ASN1Object+Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64D922C0330500D973F9 /* ASN1Object+Sequence.swift */; };
+		4773655022E692CA006FC04A /* PKC7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64BD22BE6DC100D973F9 /* PKC7.swift */; };
+		4773655122E692CE006FC04A /* Generics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C664422C1DBC300D973F9 /* Generics.swift */; };
+		4773655222E692CE006FC04A /* Bit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C664122C1DB6900D973F9 /* Bit.swift */; };
+		4773655322E692CE006FC04A /* BatchedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662922C1DA4500D973F9 /* BatchedCollection.swift */; };
+		4773655422E692CE006FC04A /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662622C1DA2C00D973F9 /* Int+Extension.swift */; };
+		4773655522E692CE006FC04A /* DigestType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662122C1DA1700D973F9 /* DigestType.swift */; };
+		4773655622E692CE006FC04A /* Updatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662022C1DA1700D973F9 /* Updatable.swift */; };
+		4773655722E692CE006FC04A /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C661D22C1DA0100D973F9 /* Utils.swift */; };
+		4773655822E692CE006FC04A /* SHA1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C661B22C1D96E00D973F9 /* SHA1.swift */; };
+		4773655922E692CE006FC04A /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C663022C1DA9100D973F9 /* String+Extension.swift */; };
+		4773655A22E692CE006FC04A /* UInt8+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662F22C1DA9100D973F9 /* UInt8+Extension.swift */; };
+		4773655B22E692CE006FC04A /* UInt16+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662C22C1DA9100D973F9 /* UInt16+Extension.swift */; };
+		4773655C22E692CE006FC04A /* UInt32+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662D22C1DA9100D973F9 /* UInt32+Extension.swift */; };
+		4773655D22E692CE006FC04A /* UInt64+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C662E22C1DA9100D973F9 /* UInt64+Extension.swift */; };
+		4773655E22E692CE006FC04A /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C663E22C1DAC000D973F9 /* Array+Extension.swift */; };
+		4773656822E69311006FC04A /* TPInAppReceipt_tvOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 4773656622E69311006FC04A /* TPInAppReceipt_tvOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
 		47D2133A1E4738AB00994B00 /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D213391E4738AB00994B00 /* Initialization.swift */; };
 		47D2133B1E4738AB00994B00 /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D213391E4738AB00994B00 /* Initialization.swift */; };
@@ -128,6 +161,10 @@
 		476C664122C1DB6900D973F9 /* Bit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bit.swift; sourceTree = "<group>"; };
 		476C664422C1DBC300D973F9 /* Generics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generics.swift; sourceTree = "<group>"; };
 		476C665022C3C12900D973F9 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		4773653822E6920B006FC04A /* TPInAppReceipt_Watch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TPInAppReceipt_Watch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4773653A22E6920B006FC04A /* TPInAppReceiptWatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPInAppReceiptWatch.h; sourceTree = "<group>"; };
+		4773656422E69310006FC04A /* TPInAppReceipt_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TPInAppReceipt_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4773656622E69311006FC04A /* TPInAppReceipt_tvOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPInAppReceipt_tvOS.h; sourceTree = "<group>"; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		47D213391E4738AB00994B00 /* Initialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Initialization.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -155,6 +192,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4773653522E6920B006FC04A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4773656122E69310006FC04A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -173,6 +224,8 @@
 				476C665022C3C12900D973F9 /* LICENSE */,
 				47209A031D9E0FD60010BCDE /* TPInAppReceipt */,
 				47209A0E1D9E0FD60010BCDE /* TPInAppReceiptTests */,
+				4773653922E6920B006FC04A /* TPInAppReceiptWatch */,
+				4773656522E69311006FC04A /* TPInAppReceipt tvOS */,
 				47209A021D9E0FD60010BCDE /* Products */,
 				470D079B203B4FC600F3335F /* Frameworks */,
 			);
@@ -184,6 +237,8 @@
 				47209A011D9E0FD60010BCDE /* TPInAppReceipt.framework */,
 				47209A0A1D9E0FD60010BCDE /* TPInAppReceiptTests.xctest */,
 				47589B531E333F450047DFCD /* TPInAppReceipt.framework */,
+				4773653822E6920B006FC04A /* TPInAppReceipt_Watch.framework */,
+				4773656422E69310006FC04A /* TPInAppReceipt_tvOS.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -295,6 +350,22 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		4773653922E6920B006FC04A /* TPInAppReceiptWatch */ = {
+			isa = PBXGroup;
+			children = (
+				4773653A22E6920B006FC04A /* TPInAppReceiptWatch.h */,
+			);
+			path = TPInAppReceiptWatch;
+			sourceTree = "<group>";
+		};
+		4773656522E69311006FC04A /* TPInAppReceipt tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				4773656622E69311006FC04A /* TPInAppReceipt_tvOS.h */,
+			);
+			path = "TPInAppReceipt tvOS";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -311,6 +382,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				47589B391E333F450047DFCD /* TPInAppReceipt.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4773653322E6920B006FC04A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4773653C22E6920B006FC04A /* TPInAppReceiptWatch.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4773655F22E69310006FC04A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4773656822E69311006FC04A /* TPInAppReceipt_tvOS.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,6 +458,42 @@
 			productReference = 47589B531E333F450047DFCD /* TPInAppReceipt.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		4773653722E6920B006FC04A /* TPInAppReceipt Watch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4773653D22E6920B006FC04A /* Build configuration list for PBXNativeTarget "TPInAppReceipt Watch" */;
+			buildPhases = (
+				4773653322E6920B006FC04A /* Headers */,
+				4773653422E6920B006FC04A /* Sources */,
+				4773653522E6920B006FC04A /* Frameworks */,
+				4773653622E6920B006FC04A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "TPInAppReceipt Watch";
+			productName = TPInAppReceiptWatch;
+			productReference = 4773653822E6920B006FC04A /* TPInAppReceipt_Watch.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		4773656322E69310006FC04A /* TPInAppReceipt tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4773656922E69311006FC04A /* Build configuration list for PBXNativeTarget "TPInAppReceipt tvOS" */;
+			buildPhases = (
+				4773655F22E69310006FC04A /* Headers */,
+				4773656022E69310006FC04A /* Sources */,
+				4773656122E69310006FC04A /* Frameworks */,
+				4773656222E69310006FC04A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "TPInAppReceipt tvOS";
+			productName = "TPInAppReceipt tvOS";
+			productReference = 4773656422E69310006FC04A /* TPInAppReceipt_tvOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -394,6 +517,16 @@
 					47589AF11E333F450047DFCD = {
 						LastSwiftMigration = 1020;
 					};
+					4773653722E6920B006FC04A = {
+						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = Y357EKMWLB;
+						ProvisioningStyle = Automatic;
+					};
+					4773656322E69310006FC04A = {
+						CreatedOnToolsVersion = 10.2.1;
+						DevelopmentTeam = Y357EKMWLB;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 472099FB1D9E0FD60010BCDE /* Build configuration list for PBXProject "TPInAppReceipt" */;
@@ -411,6 +544,8 @@
 			targets = (
 				47209A001D9E0FD60010BCDE /* TPInAppReceipt iOS */,
 				47589AF11E333F450047DFCD /* TPInAppReceipt macOS */,
+				4773653722E6920B006FC04A /* TPInAppReceipt Watch */,
+				4773656322E69310006FC04A /* TPInAppReceipt tvOS */,
 				47209A091D9E0FD60010BCDE /* TPInAppReceiptTests */,
 			);
 		};
@@ -438,6 +573,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				47589B4F1E333F450047DFCD /* AppleIncRootCertificate.cer in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4773653622E6920B006FC04A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4773654022E692B4006FC04A /* AppleIncRootCertificate.cer in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4773656222E69310006FC04A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +674,50 @@
 				476C666622C3E34000D973F9 /* SHA1.swift in Sources */,
 				476C661F22C1DA0200D973F9 /* Utils.swift in Sources */,
 				476C64CB22BFC94400D973F9 /* Asn1Coder.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4773653422E6920B006FC04A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4773655B22E692CE006FC04A /* UInt16+Extension.swift in Sources */,
+				4773654222E692C0006FC04A /* InAppReceiptPayload.swift in Sources */,
+				4773654B22E692C7006FC04A /* Asn1Coder.swift in Sources */,
+				4773655822E692CE006FC04A /* SHA1.swift in Sources */,
+				4773654722E692C4006FC04A /* Data+Extension.swift in Sources */,
+				4773655522E692CE006FC04A /* DigestType.swift in Sources */,
+				4773654122E692C0006FC04A /* InAppReceipt.swift in Sources */,
+				4773655122E692CE006FC04A /* Generics.swift in Sources */,
+				4773655422E692CE006FC04A /* Int+Extension.swift in Sources */,
+				4773655922E692CE006FC04A /* String+Extension.swift in Sources */,
+				4773655C22E692CE006FC04A /* UInt32+Extension.swift in Sources */,
+				4773654E22E692C7006FC04A /* ASN1Object+ValueReading.swift in Sources */,
+				4773655322E692CE006FC04A /* BatchedCollection.swift in Sources */,
+				4773654322E692C0006FC04A /* InAppPurchase.swift in Sources */,
+				4773655222E692CE006FC04A /* Bit.swift in Sources */,
+				4773654522E692C0006FC04A /* Validation.swift in Sources */,
+				4773655A22E692CE006FC04A /* UInt8+Extension.swift in Sources */,
+				4773654822E692C4006FC04A /* Date+Extension.swift in Sources */,
+				4773654D22E692C7006FC04A /* ASN1Object+Helper.swift in Sources */,
+				4773655622E692CE006FC04A /* Updatable.swift in Sources */,
+				4773655722E692CE006FC04A /* Utils.swift in Sources */,
+				4773655E22E692CE006FC04A /* Array+Extension.swift in Sources */,
+				4773654422E692C0006FC04A /* Initialization.swift in Sources */,
+				4773655022E692CA006FC04A /* PKC7.swift in Sources */,
+				4773654622E692C0006FC04A /* IARError.swift in Sources */,
+				4773654C22E692C7006FC04A /* ASN1Object.swift in Sources */,
+				4773655D22E692CE006FC04A /* UInt64+Extension.swift in Sources */,
+				4773654A22E692C4006FC04A /* ASN1Helper.swift in Sources */,
+				4773654922E692C4006FC04A /* PKCS7Helper.swift in Sources */,
+				4773654F22E692C7006FC04A /* ASN1Object+Sequence.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4773656022E69310006FC04A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,6 +975,126 @@
 			};
 			name = Release;
 		};
+		4773653E22E6920B006FC04A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = Y357EKMWLB;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TPInAppReceipt/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		4773653F22E6920B006FC04A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = Y357EKMWLB;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TPInAppReceipt/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		4773656A22E69311006FC04A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = Y357EKMWLB;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TPInAppReceipt/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		4773656B22E69311006FC04A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = Y357EKMWLB;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TPInAppReceipt/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -816,6 +1130,24 @@
 			buildConfigurations = (
 				47589B511E333F450047DFCD /* Debug */,
 				47589B521E333F450047DFCD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4773653D22E6920B006FC04A /* Build configuration list for PBXNativeTarget "TPInAppReceipt Watch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4773653E22E6920B006FC04A /* Debug */,
+				4773653F22E6920B006FC04A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4773656922E69311006FC04A /* Build configuration list for PBXNativeTarget "TPInAppReceipt tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4773656A22E69311006FC04A /* Debug */,
+				4773656B22E69311006FC04A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
