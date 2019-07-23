@@ -20,11 +20,18 @@ extension Int: ASN1ExtractableValueTypes { }
 
 struct ASN1
 {
-    static func readInt(from data: inout Data, offset: Int = 0, l: Int) -> Int
+    @inlinable
+    static func readInt(from asn1obj: inout Data) -> Int
+    {
+        var d = try! ASN1Object.extractData(from: &asn1obj)
+        return readInt(from: &d, l: d.count)
+    }
+    
+    static func readInt(from data: inout Data, l: Int) -> Int
     {
         var r: UInt64 = 0
         
-        let start = data.startIndex + offset
+        let start = data.startIndex
         let end = start + l
         
         for i in start..<end
@@ -39,6 +46,13 @@ struct ASN1
         }
         
         return Int(r)
+    }
+    
+    @inlinable
+    static func readOid(from asn1obj: inout Data) -> String
+    {
+        var d = try! ASN1Object.extractData(from: &asn1obj)
+        return readOid(from: &d)
     }
     
     /// https://docs.microsoft.com/en-us/windows/desktop/seccertenroll/about-object-identifier
@@ -80,16 +94,26 @@ struct ASN1
         return oid.map { String($0) }.joined(separator: ".")
     }
     
+    @inlinable
+    static func readString(from asn1obj: inout Data, encoding: String.Encoding) -> String
+    {
+        var d = try! ASN1Object.extractData(from: &asn1obj)
+        return readString(from: &d, d.count, encoding: encoding)
+    }
+    
+    @inlinable
     static func readString(from data: inout Data, _ l: Int, encoding: String.Encoding) -> String
     {
         return String(data: data, encoding: encoding) ?? ""
     }
     
+    @inlinable
     static func readUTF8String(from data: inout Data, _ l: Int) -> String?
     {
         return readString(from: &data, l, encoding: .utf8)
     }
     
+    @inlinable
     static func readASCIIString(from data: inout Data, _ l: Int) -> String?
     {
         return readString(from: &data, l, encoding: .ascii)
@@ -134,7 +158,7 @@ extension ASN1Object
         case .integer:
             return ASN1.readInt(from: &valueData, l: l)
         case .octetString:
-            return ASN1Object.isDataValid(&valueData) ? ASN1Object(data: valueData) : valueData
+            return valueData
         case .endOfContent: //Treat it as unknown type of some constructed type
             if identifier.isConstructed
             {

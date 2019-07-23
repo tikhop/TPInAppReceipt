@@ -12,7 +12,7 @@ import Foundation
 /// Utils methods
 extension ASN1Object
 {
-    static var identifierLenght: Int { return 1 }
+    static let identifierLenght: Int = 1
     
     static func isDataValid(checkingLength: Bool = true, _ data: inout Data) -> Bool
     {
@@ -55,12 +55,11 @@ extension ASN1Object
     
     static func extractLenght(from asn1data: inout Data) throws -> Length
     {
-        if asn1data.count < 3 { throw ASN1Error.initializationFailed(reason: .dataIsInvalid) } //invalid data
-        
+        if asn1data.count < 2 { throw ASN1Error.initializationFailed(reason: .dataIsInvalid) } //invalid data
         
         let startIdx = asn1data.startIndex
         
-        let lByte = asn1data[startIdx + 1] // Skip identifier
+        let lByte = asn1data[startIdx + identifierLenght] // Skip identifier
         
         if ((lByte & 0x80) != 0)
         {
@@ -83,5 +82,16 @@ extension ASN1Object
         }else{
             return Length.short(value: Int(lByte))
         }
+    }
+    
+    @inlinable
+    static func extractData(from asn1data: inout Data) throws -> Data
+    {
+        let l = try extractLenght(from: &asn1data)
+        
+        let startIdx = asn1data.startIndex + identifierLenght + l.offset // Skip identifier and lenght
+        let endIdx = startIdx + l.value
+        let bytes = asn1data[startIdx..<endIdx]
+        return bytes
     }
 }

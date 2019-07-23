@@ -49,39 +49,37 @@ public struct InAppPurchase
     
     public init(asn1Data: Data)
     {
+        self.init(asn1Obj: ASN1Object(data: asn1Data))
+    }
+    
+    init(asn1Obj: ASN1Object)
+    {
         self.init()
         
-        let purchase = ASN1Object(data: asn1Data)
-        purchase.enumerateInAppReceiptAttributes { (attribute) in
-            if let field = InAppReceiptField(rawValue: attribute.type)
+        asn1Obj.enumerateInAppReceiptAttributes { (attribute) in
+            if let field = InAppReceiptField(rawValue: attribute.type), var value = attribute.value.extractValue() as? Data
             {
-                var value = attribute.value.extractValue()
-                
-                if let v = value as? ASN1Object
-                {
-                    value = v.extractValue()
-                }
                 
                 switch field
                 {
                 case .quantity:
-                    quantity = value as! Int
+                    quantity = ASN1.readInt(from: &value)
                 case .productIdentifier:
-                    productIdentifier = value as! String
+                    productIdentifier = ASN1.readString(from: &value, encoding: .utf8)
                 case .transactionIdentifier:
-                    transactionIdentifier = value as! String
+                    transactionIdentifier = ASN1.readString(from: &value, encoding: .utf8)
                 case .purchaseDate:
-                    purchaseDateString = value as! String
+                    purchaseDateString = ASN1.readString(from: &value, encoding: .ascii)
                 case .originalTransactionIdentifier:
-                    originalTransactionIdentifier = value as! String
+                    originalTransactionIdentifier = ASN1.readString(from: &value, encoding: .utf8)
                 case .originalPurchaseDate:
-                    originalPurchaseDateString = value as! String
+                    originalPurchaseDateString = ASN1.readString(from: &value, encoding: .ascii)
                 case .subscriptionExpirationDate:
-                    subscriptionExpirationDateString = value as? String
+                    subscriptionExpirationDateString = ASN1.readString(from: &value, encoding: .ascii)
                 case .cancellationDate:
-                    cancellationDateString = value as? String
+                    cancellationDateString = ASN1.readString(from: &value, encoding: .ascii)
                 case .webOrderLineItemID:
-                    webOrderLineItemID = value as? Int
+                    webOrderLineItemID = ASN1.readInt(from: &value)
                 default:
                     break
                 }

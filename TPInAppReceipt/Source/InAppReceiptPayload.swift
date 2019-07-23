@@ -73,36 +73,29 @@ public extension InAppReceiptPayload
         
         let payload = ASN1Object(data: asn1Data)
         payload.enumerateInAppReceiptAttributes { (attribute) in
-            if let field = InAppReceiptField(rawValue: attribute.type)
+            if let field = InAppReceiptField(rawValue: attribute.type), var value = attribute.value.extractValue() as? Data
             {
-                var value = attribute.value.extractValue()
-                
-                if let v = value as? ASN1Object, v.identifier.encodingType != .constructed
-                {
-                    value = v.extractValue()
-                }
-                
                 switch (field)
                 {
                 case .bundleIdentifier:
-                    bundleIdentifier = value as! String
-                    bundleIdentifierData = attribute.value.valueData!
+                    let obj = ASN1Object(data: value)
+                    bundleIdentifier = obj.extractValue() as! String
+                    bundleIdentifierData = obj.valueData!
                 case .appVersion:
-                    appVersion = value as! String
+                    appVersion = ASN1.readString(from: &value, encoding: .utf8)
                 case .opaqueValue:
-                    opaqueValue = value as! Data
+                    opaqueValue = value
                 case .receiptHash:
-                    receiptHash = value as! Data
+                    receiptHash = value
                 case .inAppPurchaseReceipt:
-                    let set = value as! ASN1Object
-                    purchases.append(InAppPurchase(asn1Data: set.rawData))
+                    purchases.append(InAppPurchase(asn1Data: value))
                     break
                 case .originalAppVersion:
-                    originalAppVersion = value as! String
+                    originalAppVersion = ASN1.readString(from: &value, encoding: .utf8)
                 case .expirationDate:
-                    expirationDate = value as? String
+                    expirationDate = ASN1.readString(from: &value, encoding: .ascii)
                 case .receiptCreationDate:
-                    receiptCreationDate = value as! String
+                    receiptCreationDate = ASN1.readString(from: &value, encoding: .ascii)
                 default:
                     print("attribute.type = \(String(describing: attribute.type)))")
                 }
