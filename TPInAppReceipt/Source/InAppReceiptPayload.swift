@@ -80,7 +80,7 @@ public extension InAppReceiptPayload
                 case .bundleIdentifier:
                     let obj = ASN1Object(data: value)
                     bundleIdentifier = obj.extractValue() as! String
-                    bundleIdentifierData = obj.valueData!
+                    bundleIdentifierData = value
                 case .appVersion:
                     appVersion = ASN1.readString(from: &value, encoding: .utf8)
                 case .opaqueValue:

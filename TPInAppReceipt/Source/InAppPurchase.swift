@@ -59,7 +59,6 @@ public struct InAppPurchase
         asn1Obj.enumerateInAppReceiptAttributes { (attribute) in
             if let field = InAppReceiptField(rawValue: attribute.type), var value = attribute.value.extractValue() as? Data
             {
-                
                 switch field
                 {
                 case .quantity:
@@ -75,9 +74,11 @@ public struct InAppPurchase
                 case .originalPurchaseDate:
                     originalPurchaseDateString = ASN1.readString(from: &value, encoding: .ascii)
                 case .subscriptionExpirationDate:
-                    subscriptionExpirationDateString = ASN1.readString(from: &value, encoding: .ascii)
+                    let str = ASN1.readString(from: &value, encoding: .ascii)
+                    subscriptionExpirationDateString = str == "" ? nil : str
                 case .cancellationDate:
-                    cancellationDateString = ASN1.readString(from: &value, encoding: .ascii)
+                    let str = ASN1.readString(from: &value, encoding: .ascii)
+                    cancellationDateString = str == "" ? nil : str
                 case .webOrderLineItemID:
                     webOrderLineItemID = ASN1.readInt(from: &value)
                 default:
