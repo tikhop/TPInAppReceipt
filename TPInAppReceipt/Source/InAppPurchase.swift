@@ -30,6 +30,10 @@ public struct InAppPurchase
     
     /// Cancellation Date in string format. Returns `nil` if the purchase is not a renewable subscription
     public var cancellationDateString: String? = nil
+
+    /// This value is `true` if the customer’s subscription is currently in an introductory price period, or `false` if not.
+    /// Returns `nil` if the purchase is not a renewable subscription
+    public var subscriptionIntroductoryPricePeriod: Bool? = nil
     
     ///
     public var webOrderLineItemID: Int? = nil
@@ -81,6 +85,8 @@ public struct InAppPurchase
                     cancellationDateString = str == "" ? nil : str
                 case .webOrderLineItemID:
                     webOrderLineItemID = ASN1.readInt(from: &value)
+                case .subscriptionIntroductoryPricePeriod:
+                    subscriptionIntroductoryPricePeriod = ASN1.readInt(from: &value) != 0
                 default:
                     break
                 }
