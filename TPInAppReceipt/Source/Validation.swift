@@ -13,6 +13,8 @@ import UIKit
 import IOKit
 #endif
 
+import CommonCrypto
+
 /// A InAppReceipt extension helps to validate the receipt
 public extension InAppReceipt
 {
@@ -96,14 +98,17 @@ public extension InAppReceipt
     /// Computed SHA-1 hash, used to validate the receipt.
     internal var computedHashData: Data
     {
-        let uuidData = guid()
-        let opaqueData = opaqueValue
-        let bundleIdData = bundleIdentifierData
+        var uuidData = guid()
+        var opaqueData = opaqueValue
+        var bundleIdData = bundleIdentifierData
         
-        var sha1 = SHA1()
-        try! sha1.update(withBytes: uuidData.bytes)
-        try! sha1.update(withBytes: opaqueData.bytes)
-        let hash = sha1.calculate(for: bundleIdData.bytes)
+        var hash = [UInt8](repeating: 0, count:Int(CC_SHA1_DIGEST_LENGTH))
+        var ctx = CC_SHA1_CTX()
+        CC_SHA1_Init(&ctx)
+        CC_SHA1_Update(&ctx, uuidData.bytes, CC_LONG(uuidData.count))
+        CC_SHA1_Update(&ctx, opaqueData.bytes, CC_LONG(opaqueData.count))
+        CC_SHA1_Update(&ctx, bundleIdData.bytes, CC_LONG(bundleIdData.count))
+        CC_SHA1_Final(&hash, &ctx)
         
         return Data(hash)
     }
@@ -113,7 +118,7 @@ fileprivate func guid() -> Data
 {
     
 #if targetEnvironment(simulator) // Debug purpose only
-    var uuidBytes = UUID(uuidString: "GUID")!.uuid
+    var uuidBytes = UUID(uuidString: "A2BDE35A-B11A-44B0-95AB-7BBA7A2890C8")!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
 #elseif os(iOS) || os(watchOS) || os(tvOS)
     var uuidBytes = UIDevice.current.identifierForVendor!.uuid

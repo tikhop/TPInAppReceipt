@@ -30,6 +30,10 @@ public struct InAppPurchase
     
     /// Cancellation Date in string format. Returns `nil` if the purchase is not a renewable subscription
     public var cancellationDateString: String? = nil
+
+    /// This value is `true` if the customer’s subscription is currently in an introductory price period, or `false` if not.
+    /// Returns `nil` if the purchase is not a renewable subscription
+    public var subscriptionIntroductoryPricePeriod: Bool? = nil
     
     ///
     public var webOrderLineItemID: Int? = nil
@@ -59,7 +63,6 @@ public struct InAppPurchase
         asn1Obj.enumerateInAppReceiptAttributes { (attribute) in
             if let field = InAppReceiptField(rawValue: attribute.type), var value = attribute.value.extractValue() as? Data
             {
-                
                 switch field
                 {
                 case .quantity:
@@ -75,11 +78,15 @@ public struct InAppPurchase
                 case .originalPurchaseDate:
                     originalPurchaseDateString = ASN1.readString(from: &value, encoding: .ascii)
                 case .subscriptionExpirationDate:
-                    subscriptionExpirationDateString = ASN1.readString(from: &value, encoding: .ascii)
+                    let str = ASN1.readString(from: &value, encoding: .ascii)
+                    subscriptionExpirationDateString = str == "" ? nil : str
                 case .cancellationDate:
-                    cancellationDateString = ASN1.readString(from: &value, encoding: .ascii)
+                    let str = ASN1.readString(from: &value, encoding: .ascii)
+                    cancellationDateString = str == "" ? nil : str
                 case .webOrderLineItemID:
                     webOrderLineItemID = ASN1.readInt(from: &value)
+                case .subscriptionIntroductoryPricePeriod:
+                    subscriptionIntroductoryPricePeriod = ASN1.readInt(from: &value) != 0
                 default:
                     break
                 }
