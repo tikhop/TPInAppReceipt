@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "TPInAppReceipt"
-s.version      = "2.2.2"
+s.version      = "2.2.3"
 s.summary      = "Decode Apple Store Receipt and make it easy to read and validate it"
 s.description  = "The library provides transparent way to decode and validate Apple Store Receipt. Pure swift, No OpenSSL!"
 
