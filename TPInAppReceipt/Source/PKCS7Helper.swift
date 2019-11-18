@@ -40,4 +40,43 @@ extension PKCS7Wrapper
             return nil
         }
     }
+    
+    func extractSignature() -> Data?
+    {
+        guard let signedData = extractContent(by: PKC7.OID.signedData) else
+        {
+            return nil
+        }
+        
+        let asn1signedData = ASN1Object(data: signedData)
+        
+        let firstBlock = asn1signedData.enumerated().map({ $0 })[0].element
+        let secondBlock = firstBlock.enumerated().map({ $0 })[4].element
+        let thirdBlock = secondBlock.enumerated().map({ $0 })[0].element
+        let signature = thirdBlock.enumerated().map({ $0 })[4].element
+    
+        if signature.type.rawValue != 4 {
+            return nil
+        }
+        
+        return signature.extractValue() as? Data
+    }
+    
+    func extractiTunesPublicKeyContrainer() -> Data?
+    {
+        guard let signedData = extractContent(by: PKC7.OID.signedData) else
+            {
+                return nil
+            }
+            
+            let asn1signedData = ASN1Object(data: signedData)
+            
+            let firstBlock = asn1signedData.enumerated().map({ $0 })[0].element
+            let secondBlock = firstBlock.enumerated().map({ $0 })[3].element
+            let thirdBlock = secondBlock.enumerated().map({ $0 })[0].element
+            let fourthBlock = thirdBlock.enumerated().map({ $0 })[0].element
+            let iTunesPublicKeyContainer = fourthBlock.enumerated().map({ $0 })[6].element
+            
+            return iTunesPublicKeyContainer.rawData
+    }
 }

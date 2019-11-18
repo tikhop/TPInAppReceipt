@@ -128,6 +128,14 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .signatureValidation(.receiptDataNotFound))
         }
         
+        guard let signature = signature else {
+            throw IARError.validationFailed(reason: .signatureValidation(.signatureNotFound))
+        }
+        
+        guard let iTunesPublicKeyContainer = pkcs7Container.extractiTunesPublicKeyContrainer() else {
+            throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesPublicKey))
+        }
+        
         let keyDict: [String:Any] =
         [
             kSecAttrKeyClass as String: kSecAttrKeyClassPublic,
@@ -135,10 +143,18 @@ public extension InAppReceipt
             kSecAttrKeySizeInBits as String: 2048,
         ]
 
-        guard let publicKeySec = SecKeyCreateWithData(publicKeyData as CFData, keyDict as CFDictionary, nil) else {
+        guard let iTunesPublicKeySec = SecKeyCreateWithData(iTunesPublicKeyContainer as CFData, keyDict as CFDictionary, nil) else {
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncPublicSecKey))
         }
         
+        var umErrorCF: Unmanaged<CFError>? = nil
+        if SecKeyVerifySignature(iTunesPublicKeySec, .rsaSignatureMessagePKCS1v15SHA1, originalData as CFData, signature as CFData, &umErrorCF) {
+            
+        } else {
+            let error = umErrorCF?.takeRetainedValue() as Error? as NSError?
+            print("error is \(error)")
+            throw IARError.validationFailed(reason: .signatureValidation(.invalidSignature))
+        }
         
     }
     

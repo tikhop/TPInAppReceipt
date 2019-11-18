@@ -276,9 +276,15 @@ internal extension InAppReceipt
         return pkcs7Container.extractContent(by: PKC7.OID.data)
     }
     
-    /// SignedData for signature validation
+    /// signed data for validation
     var signedData: Data?
     {
         return pkcs7Container.extractContent(by: PKC7.OID.signedData)
+    }
+    
+    /// signature for validation
+    var signature: Data?
+    {
+        return pkcs7Container.extractSignature()
     }
 }

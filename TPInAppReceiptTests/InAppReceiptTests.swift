@@ -18,12 +18,32 @@ class InAppReceiptTests: XCTestCase
     func testCrash()
     {
         let rootCertPath = Bundle(for: type(of: self)).path(forResource: "AppleIncRootCertificate", ofType: "cer")
-        print("test root cert path is \(rootCertPath)")
         let receipt = try! InAppReceipt(receiptData: receiptData, rootCertPath: rootCertPath)
-        print("receipt root cert path is \(receipt.rootCertificatePath)")
         try! receipt.verifyHash()
-        try! receipt.checkSignatureValidity()
+        try! receipt.verifySignature()
         print(receipt)
+    }
+    
+    func testGetSignature()
+    {
+        let receipt = try! InAppReceipt(receiptData: receiptData)
+        guard let signature = receipt.pkcs7Container.extractSignature() else {
+            XCTFail("Unable to extract signature")
+            return
+        }
+        
+        // Signature length is 256 + 4
+        XCTAssertEqual(signature.bytes.count, 260)
+    }
+    
+    func testGetItunesKey()
+    {
+        let receipt = try! InAppReceipt(receiptData: receiptData)
+        guard let iTunesKey = receipt.pkcs7Container.extractiTunesPublicKeyContrainer() else {
+            XCTFail("Unable to extract signature")
+            return
+        }
+
     }
     
 //    func testActiveAutoRenewableSubscriptionPurchasesWithoutCancellation()
