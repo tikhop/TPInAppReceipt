@@ -271,17 +271,6 @@ internal extension InAppReceipt
         return payload.receiptHash
     }
     
-    var originalData: Data?
-    {
-        return pkcs7Container.extractContent(by: PKC7.OID.data)
-    }
-    
-    /// signed data for validation
-    var signedData: Data?
-    {
-        return pkcs7Container.extractContent(by: PKC7.OID.signedData)
-    }
-    
     /// signature for validation
     var signature: Data?
     {

@@ -120,14 +120,6 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncPublicKey))
         }
         
-        guard let signedData = signedData else {
-            throw IARError.validationFailed(reason: .signatureValidation(.receiptSignedDataNotFound))
-        }
-        
-        guard let originalData = originalData else {
-            throw IARError.validationFailed(reason: .signatureValidation(.receiptDataNotFound))
-        }
-        
         guard let signature = signature else {
             throw IARError.validationFailed(reason: .signatureValidation(.signatureNotFound))
         }
@@ -148,11 +140,9 @@ public extension InAppReceipt
         }
         
         var umErrorCF: Unmanaged<CFError>? = nil
-        if SecKeyVerifySignature(iTunesPublicKeySec, .rsaSignatureMessagePKCS1v15SHA1, originalData as CFData, signature as CFData, &umErrorCF) {
-            
-        } else {
+        guard SecKeyVerifySignature(iTunesPublicKeySec, .rsaSignatureMessagePKCS1v15SHA1, pkcs7Container.extractInAppPayload()! as CFData, signature as CFData, &umErrorCF) else {
             let error = umErrorCF?.takeRetainedValue() as Error? as NSError?
-            print("error is \(error)")
+//            print("error is \(error)")
             throw IARError.validationFailed(reason: .signatureValidation(.invalidSignature))
         }
         

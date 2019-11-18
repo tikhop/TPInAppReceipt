@@ -32,8 +32,8 @@ class InAppReceiptTests: XCTestCase
             return
         }
         
-        // Signature length is 256 + 4
-        XCTAssertEqual(signature.bytes.count, 260)
+        // Signature length is 256
+        XCTAssertEqual(signature.bytes.count, 256)
     }
     
     func testGetItunesKey()
