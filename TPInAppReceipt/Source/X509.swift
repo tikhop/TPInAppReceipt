@@ -22,6 +22,7 @@ class X509Wrapper
     
     init(cert: Data) throws
     {
+        
         rawBuffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: cert.count)
         let _ = rawBuffer.initialize(from: cert)
     }

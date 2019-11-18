@@ -40,27 +40,37 @@ public struct InAppReceipt
     /// Payload object contains all meta information.
     internal var payload: InAppReceiptPayload
     
+    /// root certificate path, used to check signature
+    /// added for testing purpose , as unit test can't read main bundle
+    internal var rootCertificatePath: String?
+    
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
     /// - parameter receiptData: `Data` object that represents receipt
-    public init(receiptData: Data) throws
+    public init(receiptData: Data, rootCertPath: String? = nil) throws
     {
         let pkcs7 = try PKCS7Wrapper(receipt: receiptData)
-        self.init(pkcs7: pkcs7)
+        self.init(pkcs7: pkcs7, rootCertPath: rootCertPath)
     }
     
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
     /// - parameter pkcs7: `PKCS7Wrapper` pkcs7 container of the receipt 
-    init(pkcs7: PKCS7Wrapper)
+    init(pkcs7: PKCS7Wrapper, rootCertPath: String? = nil)
     {
-        self.init(pkcs7: pkcs7, payload: InAppReceiptPayload(asn1Data: pkcs7.extractInAppPayload()!))
+        self.init(pkcs7: pkcs7, payload: InAppReceiptPayload(asn1Data: pkcs7.extractInAppPayload()!), rootCertPath: rootCertPath)
     }
     
-    init(pkcs7: PKCS7Wrapper, payload: InAppReceiptPayload)
+    init(pkcs7: PKCS7Wrapper, payload: InAppReceiptPayload, rootCertPath: String?)
     {
         self.pkcs7Container = pkcs7
         self.payload = payload
+        
+        if(rootCertPath != nil){
+            self.rootCertificatePath = rootCertPath
+        } else {
+            self.rootCertificatePath =  Bundle.main.path(forResource: "AppleIncRootCertificate", ofType: "cer")
+        }
     }
 }
 
@@ -259,5 +269,16 @@ internal extension InAppReceipt
     var receiptHash: Data
     {
         return payload.receiptHash
+    }
+    
+    var originalData: Data?
+    {
+        return pkcs7Container.extractContent(by: PKC7.OID.data)
+    }
+    
+    /// SignedData for signature validation
+    var signedData: Data?
+    {
+        return pkcs7Container.extractContent(by: PKC7.OID.signedData)
     }
 }

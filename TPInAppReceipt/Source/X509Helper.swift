@@ -10,7 +10,7 @@ import Foundation
 
 extension X509Wrapper
 {
-    func extractPublicKey() -> Data?
+    func extractPublicKeyContainer() -> Data?
     {
         // verify if RSA encryption field exist and is equal to null
         guard var contentData = extractContent(by: X509.OID.rsaEncryption) else
@@ -35,11 +35,22 @@ extension X509Wrapper
         
         let firstBlock = asn1certData.enumerated().map({ $0 })[0].element
         let secondBlock = firstBlock.enumerated().map({ $0 })[6].element
-        let thirdBlock  = secondBlock.enumerated().map({ $0 })[1].element
+        
+        return secondBlock.rawData
+    }
+    
+    func extractPublicKeyModulus() -> Data? {
+        guard let publicKeyContainer = extractPublicKeyContainer() else {
+            return nil
+        }
+        
+        let publicKeyContainerASN1 = ASN1Object(data: publicKeyContainer)
+
+        let bitStringBlock = publicKeyContainerASN1.enumerated().map({ $0 })[1].element
         
         // the public key is the second element inside a bitString tuple
-        guard let bitStringSequenceData = thirdBlock.extractValue() as? Data,
-            thirdBlock.type.rawValue == 3 else {
+        guard let bitStringSequenceData = bitStringBlock.extractValue() as? Data,
+            bitStringBlock.type.rawValue == 3 else {
             return nil
         }
         
@@ -50,5 +61,6 @@ extension X509Wrapper
         }
         
         return nil
+        
     }
 }

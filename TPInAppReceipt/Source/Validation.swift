@@ -77,6 +77,8 @@ public extension InAppReceipt
     func verifySignature() throws
     {
         try checkSignatureExistance()
+        try checkAppleRootCertExistence()
+        try checkSignatureValidity()
     }
     
     /// Verifies existance of the signature inside pkcs7 container
@@ -100,10 +102,43 @@ public extension InAppReceipt
     /// - throws: An error in the InAppReceipt domain, if Apple Root Certificate does not exist
     fileprivate func checkAppleRootCertExistence() throws
     {
-        guard let certPath = Bundle.main.path(forResource: "AppleIncRootCertificate", ofType: "cer"),
+        guard let certPath = rootCertificatePath,
             FileManager.default.fileExists(atPath: certPath) else {
                 throw IARError.validationFailed(reason: .signatureValidation(.appleIncRootCertificateNotFound))
         }
+        
+    }
+    
+    func checkSignatureValidity() throws {
+        guard let path = rootCertificatePath,
+            let certData = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+                throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncRootCertificate))
+        }
+        
+        guard let wrappedCertData = try? X509Wrapper(cert: certData),
+            let publicKeyData =  wrappedCertData.extractPublicKeyContainer() else {
+            throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncPublicKey))
+        }
+        
+        guard let signedData = signedData else {
+            throw IARError.validationFailed(reason: .signatureValidation(.receiptSignedDataNotFound))
+        }
+        
+        guard let originalData = originalData else {
+            throw IARError.validationFailed(reason: .signatureValidation(.receiptDataNotFound))
+        }
+        
+        let keyDict: [String:Any] =
+        [
+            kSecAttrKeyClass as String: kSecAttrKeyClassPublic,
+            kSecAttrKeyType as String: kSecAttrKeyTypeRSA,
+            kSecAttrKeySizeInBits as String: 2048,
+        ]
+
+        guard let publicKeySec = SecKeyCreateWithData(publicKeyData as CFData, keyDict as CFDictionary, nil) else {
+            throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncPublicSecKey))
+        }
+        
         
     }
     

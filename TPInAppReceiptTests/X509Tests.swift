@@ -29,7 +29,7 @@ class X509Tests: XCTestCase {
             return
         }
         
-        guard let publicKeyData = wrappedCertData.extractPublicKey() else {
+        guard let publicKeyData = wrappedCertData.extractPublicKeyModulus() else {
             XCTFail("Unable to extract public key from Apple root certificate")
             return
         }
