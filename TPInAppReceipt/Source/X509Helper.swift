@@ -10,42 +10,45 @@ import Foundation
 
 extension X509Wrapper
 {
-    func extractPublicKeyPayload() -> Data?
+    func extractPublicKey() -> Data?
     {
+        // verify if RSA encryption field exist and is equal to null
         guard var contentData = extractContent(by: X509.OID.rsaEncryption) else
         {
-            print("content data not found")
             return nil
         }
         
         do
         {
             let id = try ASN1Object.extractIdentifier(from: &contentData)
-            let l = try ASN1Object.extractLenght(from: &contentData)
             
-            var cStart = contentData.startIndex + ASN1Object.identifierLenght + l.offset + 9
-            
-//            let cEnd = contentData.endIndex
-            let cEnd = 291 + 4 + 257
-            
-            if id.encodingType == .primitive, id.type.rawValue == 5
-            {
-                print("yes")
-                // Octet string
-                var cD = contentData[cStart..<cEnd]
-                print("cD")
-                let l = try ASN1Object.extractLenght(from: &cD)
-                print("l is \(l)")
-                cStart += ASN1Object.identifierLenght + l.offset
-                let d = Data(contentData[cStart..<cEnd])
-                
-                return d
-            }else{
+            // rsaEncryption field must be primitive and has null value
+            guard id.encodingType == .primitive, id.type.rawValue == 5 else {
                 return nil
             }
-        }catch{
-            print("error thrown \(error.localizedDescription)")
+        } catch {
             return nil
         }
+        
+        let raw = Data(bytesNoCopy: rawBuffer.baseAddress!, count: rawBuffer.count, deallocator: .none)
+        let asn1certData = ASN1Object(data: raw)
+        
+        let firstBlock = asn1certData.enumerated().map({ $0 })[0].element
+        let secondBlock = firstBlock.enumerated().map({ $0 })[6].element
+        let thirdBlock  = secondBlock.enumerated().map({ $0 })[1].element
+        
+        // the public key is the second element inside a bitString tuple
+        guard let bitStringSequenceData = thirdBlock.extractValue() as? Data,
+            thirdBlock.type.rawValue == 3 else {
+            return nil
+        }
+        
+        let keySequenceData = ASN1Object(data: bitStringSequenceData)
+        
+        if let publicKeyData = keySequenceData.enumerated().map({ $0 })[0].element.valueData {
+            return publicKeyData
+        }
+        
+        return nil
     }
 }

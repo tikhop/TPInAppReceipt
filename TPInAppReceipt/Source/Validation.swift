@@ -95,6 +95,18 @@ public extension InAppReceipt
         }
     }
     
+    /// Verifies existence of Apple Root Certificate in bundle
+    ///
+    /// - throws: An error in the InAppReceipt domain, if Apple Root Certificate does not exist
+    fileprivate func checkAppleRootCertExistence() throws
+    {
+        guard let certPath = Bundle.main.path(forResource: "AppleIncRootCertificate", ofType: "cer"),
+            FileManager.default.fileExists(atPath: certPath) else {
+                throw IARError.validationFailed(reason: .signatureValidation(.appleIncRootCertificateNotFound))
+        }
+        
+    }
+    
     /// Computed SHA-1 hash, used to validate the receipt.
     internal var computedHashData: Data
     {
