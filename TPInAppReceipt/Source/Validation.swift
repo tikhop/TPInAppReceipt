@@ -78,6 +78,7 @@ public extension InAppReceipt
     {
         try checkSignatureExistance()
         try checkAppleRootCertExistence()
+        try checkChainOfTrust()
         try checkSignatureValidity()
     }
     
@@ -109,17 +110,72 @@ public extension InAppReceipt
         
     }
     
-    func checkSignatureValidity() throws {
+    func checkChainOfTrust() throws {
+        // Validate chain of trust of certificate
+        // Ensure the iTunes certificate included in the receipt is indeed signed by Apple root cert
+        // https://developer.apple.com/documentation/security/certificate_key_and_trust_services/trust/creating_a_trust_object
+        
+        // root cert data is loaded from the bundled Apple Root Certificate
         guard let path = rootCertificatePath,
-            let certData = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+            let rootCertData = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
                 throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncRootCertificate))
         }
         
-        guard let wrappedCertData = try? X509Wrapper(cert: certData),
-            let publicKeyData =  wrappedCertData.extractPublicKeyContainer() else {
-            throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncPublicKey))
+        guard let iTunesCertData = pkcs7Container.extractiTunesCertContainer() else {
+           throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesCertificate))
         }
         
+        guard let worldwideDeveloperCertData = pkcs7Container.extractWorldwideDeveloperCertContainer() else {
+            throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadWorldwideDeveloperCertificate))
+        }
+        
+        guard let rootCertSec = SecCertificateCreateWithData(nil, rootCertData as CFData) else {
+            throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncRootCertificate))
+        }
+        
+        guard let iTunesCertSec =  SecCertificateCreateWithData(nil, iTunesCertData as CFData) else {
+           throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesCertificate))
+        }
+        
+        guard let worldwideDevCertSec = SecCertificateCreateWithData(nil, worldwideDeveloperCertData as CFData) else {
+           throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadWorldwideDeveloperCertificate))
+        }
+        
+        let policy = SecPolicyCreateBasicX509()
+        
+        var wwdcTrust: SecTrust?
+        var iTunesTrust: SecTrust?
+        
+        // verify worldwide developer cert in the receipt is signed by Apple Root Cert
+        let worldwideDevCertVerifystatus = SecTrustCreateWithCertificates([worldwideDevCertSec, rootCertSec] as AnyObject,
+                                                                            policy,
+                                                                            &wwdcTrust)
+        
+        guard worldwideDevCertVerifystatus == errSecSuccess && wwdcTrust != nil  else {
+            throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
+        }
+        
+        // verify iTunes cert in the receipt is signed by Apple Root Cert
+        let iTunesCertVerifystatus = SecTrustCreateWithCertificates([iTunesCertSec, rootCertSec] as AnyObject,
+                                                                    policy,
+                                                                    &iTunesTrust)
+        
+        guard iTunesCertVerifystatus == errSecSuccess && iTunesTrust != nil else {
+            throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
+        }
+        
+        var secTrustResult: SecTrustResultType = SecTrustResultType.unspecified
+        
+        guard SecTrustEvaluate(wwdcTrust!, &secTrustResult) == errSecSuccess else {
+            throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
+        }
+        
+        guard SecTrustEvaluate(iTunesTrust!, &secTrustResult) == errSecSuccess else {
+            throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
+        }
+    }
+    
+    func checkSignatureValidity() throws {
         guard let signature = signature else {
             throw IARError.validationFailed(reason: .signatureValidation(.signatureNotFound))
         }
@@ -141,8 +197,10 @@ public extension InAppReceipt
         
         var umErrorCF: Unmanaged<CFError>? = nil
         guard SecKeyVerifySignature(iTunesPublicKeySec, .rsaSignatureMessagePKCS1v15SHA1, pkcs7Container.extractInAppPayload()! as CFData, signature as CFData, &umErrorCF) else {
+            /*
             let error = umErrorCF?.takeRetainedValue() as Error? as NSError?
-//            print("error is \(error)")
+            print("error is \(error)")
+             */
             throw IARError.validationFailed(reason: .signatureValidation(.invalidSignature))
         }
         

@@ -39,11 +39,10 @@ class InAppReceiptTests: XCTestCase
     func testGetItunesKey()
     {
         let receipt = try! InAppReceipt(receiptData: receiptData)
-        guard let iTunesKey = receipt.pkcs7Container.extractiTunesPublicKeyContrainer() else {
+        guard let _ = receipt.pkcs7Container.extractiTunesPublicKeyContrainer() else {
             XCTFail("Unable to extract signature")
             return
         }
-
     }
     
 //    func testActiveAutoRenewableSubscriptionPurchasesWithoutCancellation()
