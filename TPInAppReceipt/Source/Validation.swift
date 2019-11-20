@@ -78,8 +78,12 @@ public extension InAppReceipt
     {
         try checkSignatureExistance()
         try checkAppleRootCertExistence()
-        try checkChainOfTrust()
-        try checkSignatureValidity()
+        
+        // only check certificate chain of trust and signature validity after these version
+        if #available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
+            try checkChainOfTrust()
+            try checkSignatureValidity()
+        }
     }
     
     /// Verifies existance of the signature inside pkcs7 container
@@ -110,6 +114,7 @@ public extension InAppReceipt
         
     }
     
+    @available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *)
     func checkChainOfTrust() throws {
         // Validate chain of trust of certificate
         // Ensure the iTunes certificate included in the receipt is indeed signed by Apple root cert
@@ -175,6 +180,7 @@ public extension InAppReceipt
         }
     }
     
+    @available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *)
     func checkSignatureValidity() throws {
         guard let signature = signature else {
             throw IARError.validationFailed(reason: .signatureValidation(.signatureNotFound))
