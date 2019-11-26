@@ -11,7 +11,7 @@ A lightweight iOS/OSX library for reading and validating Apple In-App Receipt.
 - [x] Hash Verification
 - [x] Verify Bundle Version and Identifiers
 - [x] No More Openssl
-- [ ] Signature Verification (In Progress)
+- [x] Signature Verification
 
 
 Installation
