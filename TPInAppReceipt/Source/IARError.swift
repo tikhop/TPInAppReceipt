@@ -51,9 +51,16 @@ public enum IARError: Error
     {
         case appleIncRootCertificateNotFound
         case unableToLoadAppleIncRootCertificate
+        case unableToLoadAppleIncPublicKey
+        case unableToLoadiTunesCertificate
+        case unableToLoadiTunesPublicKey
+        case unableToLoadWorldwideDeveloperCertificate
+        case unableToLoadAppleIncPublicSecKey
         case receiptIsNotSigned
         case receiptSignedDataNotFound
         case receiptDataNotFound
+        case signatureNotFound
         case invalidSignature
+        case invalidCertificateChainOfTrust
     }
 }

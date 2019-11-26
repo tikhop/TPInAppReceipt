@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+    
 extension Data
 {
     public init(hex: String)
@@ -32,4 +32,13 @@ extension Data
             return $0 + s
         }
     }
+    
+    /// Array of UInt8, to use for SecKeyEncrypt
+    public func arrayOfBytes() -> [UInt8] {
+        let count = self.count / MemoryLayout<UInt8>.size
+        var bytesArray = [UInt8](repeating: 0, count: count)
+        (self as NSData).getBytes(&bytesArray, length:count * MemoryLayout<UInt8>.size)
+        return bytesArray
+    }
+    
 }

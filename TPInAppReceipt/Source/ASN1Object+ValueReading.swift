@@ -169,7 +169,11 @@ extension ASN1Object
         case .boolean:
             return true
         case .bitString:
-            return ""
+            // remove unused first bit
+            if valueData.count > 0 {
+                _ = valueData.remove(at: 0)
+            }
+            return valueData
         case .null:
             return nil
         case .objectIdentifier:
