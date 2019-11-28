@@ -7,10 +7,10 @@ A lightweight iOS/OSX library for reading and validating Apple In-App Receipt lo
 
 ## Features
 
+- [x] ~~OpenSSL~~
 - [x] Extract all In-App Receipt Attributes
 - [x] Hash Verification
 - [x] Verify Bundle Version and Identifiers
-- [x] No More Openssl
 - [x] Signature Verification
 
 
