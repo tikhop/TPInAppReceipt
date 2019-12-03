@@ -176,7 +176,7 @@ public extension InAppReceipt
         
         var secTrustResult: SecTrustResultType = SecTrustResultType.unspecified
         
-        if #available(OSX 10.14, iOS 12.0, tvOS 12.0, watchOS 5.0, *)
+        if #available(OSX 10.14, iOS 12.0, tvOS 12.0, *)
         {
             var error: CFError?
             guard SecTrustEvaluateWithError(wwdcTrust!, &error) else {
@@ -188,7 +188,7 @@ public extension InAppReceipt
             }
         }
         
-        if #available(OSX 10.14, iOS 12.0, tvOS 12.0, watchOS 5.0, *)
+        if #available(OSX 10.14, iOS 12.0, tvOS 12.0, *)
         {
             var error: CFError?
             guard SecTrustEvaluateWithError(iTunesTrust!, &error) else {
