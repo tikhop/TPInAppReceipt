@@ -6,7 +6,6 @@
 //  Copyright © 2017 Pavel Tikhonenko. All rights reserved.
 //
 
-import Foundation
 #if os(iOS) || os(watchOS) || os(tvOS)
 import UIKit
 #elseif os(macOS)
@@ -55,7 +54,13 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .bundleIdentifierVefirication)
         }
         
-        #if os(iOS) || os(watchOS) || os(tvOS)
+        #if targetEnvironment(macCatalyst)
+        guard let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+            v == appVersion else
+        {
+            throw IARError.validationFailed(reason: .bundleVersionVefirication)
+        }
+        #elseif os(iOS) || os(watchOS) || os(tvOS)
         guard let v = Bundle.main.infoDictionary?["CFBundleVersion"] as? String,
             v == appVersion else
         {
@@ -80,7 +85,7 @@ public extension InAppReceipt
         try checkAppleRootCertExistence()
         
         // only check certificate chain of trust and signature validity after these version
-        if #available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *) {
+        if #available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 5.0, *) {
             try checkChainOfTrust()
             try checkSignatureValidity()
         }
@@ -114,7 +119,7 @@ public extension InAppReceipt
         
     }
     
-    @available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *)
+    @available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 5.0, *)
     func checkChainOfTrust() throws {
         // Validate chain of trust of certificate
         // Ensure the iTunes certificate included in the receipt is indeed signed by Apple root cert
@@ -171,12 +176,28 @@ public extension InAppReceipt
         
         var secTrustResult: SecTrustResultType = SecTrustResultType.unspecified
         
-        guard SecTrustEvaluate(wwdcTrust!, &secTrustResult) == errSecSuccess else {
-            throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
+        if #available(OSX 10.14, *)
+        {
+            var error: CFError?
+            guard SecTrustEvaluateWithError(wwdcTrust!, &error) else {
+                throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
+            }
+        } else {
+            guard SecTrustEvaluate(wwdcTrust!, &secTrustResult) == errSecSuccess else {
+                throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
+            }
         }
         
-        guard SecTrustEvaluate(iTunesTrust!, &secTrustResult) == errSecSuccess else {
-            throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
+        if #available(OSX 10.14, *)
+        {
+            var error: CFError?
+            guard SecTrustEvaluateWithError(iTunesTrust!, &error) else {
+                throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
+            }
+        } else {
+            guard SecTrustEvaluate(iTunesTrust!, &secTrustResult) == errSecSuccess else {
+                throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
+            }
         }
     }
     
@@ -215,9 +236,9 @@ public extension InAppReceipt
     /// Computed SHA-1 hash, used to validate the receipt.
     internal var computedHashData: Data
     {
-        var uuidData = guid()
-        var opaqueData = opaqueValue
-        var bundleIdData = bundleIdentifierData
+        let uuidData = guid()
+        let opaqueData = opaqueValue
+        let bundleIdData = bundleIdentifierData
         
         var hash = [UInt8](repeating: 0, count:Int(CC_SHA1_DIGEST_LENGTH))
         var ctx = CC_SHA1_CTX()
@@ -234,13 +255,14 @@ public extension InAppReceipt
 fileprivate func guid() -> Data
 {
     
-#if targetEnvironment(simulator) // Debug purpose only
+#if !targetEnvironment(macCatalyst) && targetEnvironment(simulator) // Debug purpose only
     var uuidBytes = UUID(uuidString: "A2BDE35A-B11A-44B0-95AB-7BBA7A2890C8")!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
-#elseif os(iOS) || os(watchOS) || os(tvOS)
+#elseif !targetEnvironment(macCatalyst) && (os(iOS) || os(watchOS) || os(tvOS))
     var uuidBytes = UIDevice.current.identifierForVendor!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
-#elseif os(macOS)
+#elseif targetEnvironment(macCatalyst) || os(macOS)
+    
     var masterPort = mach_port_t()
     var kernResult: kern_return_t = IOMasterPort(mach_port_t(MACH_PORT_NULL), &masterPort)
     if (kernResult != KERN_SUCCESS)
