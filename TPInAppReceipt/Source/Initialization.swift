@@ -57,4 +57,23 @@ public extension Bundle
     {
         return try appStoreReceiptData().base64EncodedString()
     }
+    
+    class func lookUp(forResource name: String, ofType ext: String?) -> String?
+    {
+        if let p = Bundle.main.path(forResource: name, ofType: ext)
+        {
+            return p
+        }
+        
+        for f in Bundle.allFrameworks
+        {
+            if let identifier = f.bundleIdentifier, identifier.contains("TPInAppReceipt"),
+                let p = f.path(forResource: name, ofType: ext)
+            {
+                return p
+            }
+        }
+        
+        return nil
+    }
 }

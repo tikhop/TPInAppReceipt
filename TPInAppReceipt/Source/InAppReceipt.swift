@@ -69,7 +69,7 @@ public struct InAppReceipt
         if(rootCertPath != nil){
             self.rootCertificatePath = rootCertPath
         } else {
-            self.rootCertificatePath =  Bundle.main.path(forResource: "AppleIncRootCertificate", ofType: "cer")
+            self.rootCertificatePath = Bundle.lookUp(forResource: "AppleIncRootCertificate", ofType: "cer")
         }
     }
 }

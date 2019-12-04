@@ -77,6 +77,7 @@
 		476C663A22C1DA9100D973F9 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C663022C1DA9100D973F9 /* String+Extension.swift */; };
 		476C663F22C1DAC000D973F9 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C663E22C1DAC000D973F9 /* Array+Extension.swift */; };
 		476C664022C1DAC000D973F9 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C663E22C1DAC000D973F9 /* Array+Extension.swift */; };
+		476FC21123979CE9009AD002 /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */; };
 		4773653C22E6920B006FC04A /* TPInAppReceiptWatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 4773653A22E6920B006FC04A /* TPInAppReceiptWatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4773654022E692B4006FC04A /* AppleIncRootCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */; };
 		4773654122E692C0006FC04A /* InAppReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */; };
@@ -568,6 +569,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				476FC21123979CE9009AD002 /* AppleIncRootCertificate.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
