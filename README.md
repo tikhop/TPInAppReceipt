@@ -79,7 +79,7 @@ receipt.purchases(ofProductIdentifier: subscriptionName)
 ```swift
 do {
     try r.verifyHash()
-} catch ReceiptValidatorError.hashValidationFaied {
+} catch IARError.validationFailed(reason: .hashValidation) {
     // Do smth
 } catch {
     // Do smth
