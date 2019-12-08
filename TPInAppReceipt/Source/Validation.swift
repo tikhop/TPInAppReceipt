@@ -165,8 +165,8 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
         }
         
-        // verify iTunes cert in the receipt is signed by Apple Root Cert
-        let iTunesCertVerifystatus = SecTrustCreateWithCertificates([iTunesCertSec, rootCertSec] as AnyObject,
+        // verify iTunes cert in the receipt is signed by worldwide developer cert, which is signed by Apple Root Cert
+        let iTunesCertVerifystatus = SecTrustCreateWithCertificates([iTunesCertSec, worldwideDevCertSec ,rootCertSec] as AnyObject,
                                                                     policy,
                                                                     &iTunesTrust)
         
