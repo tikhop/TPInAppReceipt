@@ -46,6 +46,36 @@ Then, run the following command:
 $ pod install
 ```
 
+In any swift file you'd like to use TPInAppReceipt, import the framework with `import TPInAppReceipt`.
+
+### Swift Package Manager
+
+To integrate using Apple's Swift package manager, add the following as a dependency to your `Package.swift`:
+
+```swift
+.package(url: "https://github.com/tikhop/TPInAppReceipt.git", .upToNextMajor(from: "2.1.0"))
+```
+
+Then, specify `"TPInAppReceipt"` as a dependency of the Target in which you wish to use TPInAppReceipt.
+
+Lastly, run the following command:
+```swift
+swift package update
+```
+
+### Carthage
+
+Make the following entry in your Cartfile:
+
+```
+github "tikhop/TPInAppReceipt" ~> 2.3.3
+```
+
+Then run `carthage update`.
+
+If this is your first time using Carthage in the project, you'll need to go through some additional steps as explained [over at Carthage](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
+
+
 ### Requirements
 
 - iOS 9.0+ / OSX 10.11+
