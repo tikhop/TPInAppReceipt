@@ -18,7 +18,6 @@ import CommonCrypto
 public extension InAppReceipt
 {
     /// Verify In App Receipt
-    /// Should be equal to `receiptHash` value
     ///
     /// - throws: An error in the InAppReceipt domain, if verification fails
     func verify() throws
