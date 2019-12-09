@@ -1,7 +1,15 @@
-[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TPInAppReceipt.svg)](https://img.shields.io/cocoapods/v/TPInAppReceipt.svg)
+<p align="center">
+  <img height="160" src="https://ucb12bed9ca2dd405ac9cfb1627a.previews.dropboxusercontent.com/p/thumb/AAornRdeKaqkww9YgqVWhoytoVkzA8Xr4H7RxSwMQ1aHrbIEUXqlhiRrc-zrMpGf1a5h7-UD75E5AZkSfS4oddVCakHUgdBgfMXmf1iw6BvTMU0mM7LjXhU6LLsiG1FrQgavpWD5aGarAMnjT5GoHLLVitpNT-RLscUmoWk0toOlhANGEmMxzMdsSSb-VAcutAybVmlRVMtQBohy35FR7oEyTYyRB6UmrcOAtaAzojVTwu5w4osCVjUi8FiLvJX55IiKLsJcRbBHqiCr-H0x3VxxUdUcgG1Dl32Vich6zAJ4_fJRLX3ULQD_PF8mnV4JjiT-Cgoam0SDkewgpZ0gT6etW8KFyO1wpWzBexz-W4R7gHVKz1_Zw2ujI-w_dhcPWtnIZJ50RBqk4Cuv4bxbsWwx/p.png?fv_content=true&size_mode=5" />
+</p>
+
+
+# TPInAppReceipt
+
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TPInAppReceipt.svg)](https://cocoapods.org/pods/TPInAppReceipt)
+[![Swift Package Manager compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 [![Platform](https://img.shields.io/cocoapods/p/TPInAppReceipt.svg?style=flat)]()
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tikhop/TPInAppReceipt/master/LICENSE)
-# TPInAppReceipt
 
 A lightweight iOS/OSX library for reading and validating Apple In-App Receipt locally.
 
