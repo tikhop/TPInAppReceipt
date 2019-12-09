@@ -62,9 +62,15 @@ do {
   
   //let receiptData: Data = ...
   //let receipt = try InAppReceipt.receipt(from: receiptData)
+  
+  /// Base64 Encoded Receipt
+  let base64Receipt = receipt.base64
+  
 } catch {
   print(error)
 }
+
+
 ```
 
 #### Useful methods
@@ -82,16 +88,36 @@ receipt.purchases(ofProductIdentifier: subscriptionName)
 
 ```
 
-#### In App Receipt Hash Validation
+#### Verification
 
 ```swift
+
+/// Verify all at once
+
 do {
-    try r.verifyHash()
-} catch IARError.validationFailed(reason: .hashValidation) {
+    try r.verify()
+} catch IARError.validationFailed(reason: .hashValidation) 
+{
+    // Do smth
+} catch IARError.validationFailed(reason: .bundleIdentifierVefirication) 
+{
+    // Do smth
+} catch IARError.validationFailed(reason: .signatureValidation) 
+{
     // Do smth
 } catch {
     // Do smth
 }
+
+/// Verify hash 
+try? r.verifyHash()
+
+/// Verify bundle identifier and version
+try? r.verifyBundleIdentifierAndVersion()
+
+/// Verify signature
+try? r.verifySignature()
+
 ```
 
 ## License
