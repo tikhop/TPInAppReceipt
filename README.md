@@ -93,3 +93,7 @@ do {
     // Do smth
 }
 ```
+
+## License
+
+TPInAppReceipt is released under an MIT license. See [LICENSE](https://github.com/tikhop/TPInAppReceipt/blob/master/LICENSE) for more information.
