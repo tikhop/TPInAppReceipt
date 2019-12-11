@@ -172,6 +172,13 @@ try? r.verifySignature()
 
 ```
 
+## Essential Reading
+
+(https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Introduction.html)
+* [Apple - Receipt Validation Programming Guide](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Chapters/ReceiptFields.html#//apple_ref/doc/uid/TP40010573-CH106-SW1)
+* [Apple - Validating Receipts Locally](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Chapters/ValidateLocally.html)
+* [objc.io - Receipt Validation](https://www.objc.io/issues/17-security/receipt-validation/)
+
 ## License
 
 TPInAppReceipt is released under an MIT license. See [LICENSE](https://github.com/tikhop/TPInAppReceipt/blob/master/LICENSE) for more information.
