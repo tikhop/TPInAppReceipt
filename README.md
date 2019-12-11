@@ -173,8 +173,7 @@ try? r.verifySignature()
 ```
 
 ## Essential Reading
-
-(https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Introduction.html)
+* [Apple - About Receipt Validation](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Introduction.html)
 * [Apple - Receipt Validation Programming Guide](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Chapters/ReceiptFields.html#//apple_ref/doc/uid/TP40010573-CH106-SW1)
 * [Apple - Validating Receipts Locally](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Chapters/ValidateLocally.html)
 * [objc.io - Receipt Validation](https://www.objc.io/issues/17-security/receipt-validation/)
