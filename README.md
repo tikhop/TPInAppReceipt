@@ -118,7 +118,7 @@ receipt.purchases(ofProductIdentifier: subscriptionName)
 
 ```
 
-#### Verification
+#### Validating Receipt
 
 ```swift
 
