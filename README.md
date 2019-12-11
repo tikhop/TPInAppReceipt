@@ -107,7 +107,7 @@ do {
 
 #### Reading Receipt
 
-```
+```swift
 /// Base64 Encoded Receipt
 let base64Receipt = receipt.base64
   
