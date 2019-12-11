@@ -86,20 +86,42 @@ Usage
 
 ### Working With a Receipt
 
+`InAppReceipt` is an object to incapsulate all necessary getters from a receipt payload and all provides a comprehansive API for reading and validating receipt and p
+
+#### Initializing Receipt
+
 ```swift
 do {
+  /// Initialize receipt
   let receipt = try InAppReceipt.localReceipt() 
   
-  //let receiptData: Data = ...
-  //let receipt = try InAppReceipt.receipt(from: receiptData)
-  
-  /// Base64 Encoded Receipt
-  let base64Receipt = receipt.base64
+  // let receiptData: Data = ...
+  // let receipt = try InAppReceipt.receipt(from: receiptData)
   
 } catch {
   print(error)
 }
 
+
+```
+
+#### Reading Receipt
+
+```
+/// Base64 Encoded Receipt
+let base64Receipt = receipt.base64
+  
+/// Initialize receipt
+let receipt = try! InAppReceipt.localReceipt() 
+
+/// Check whether receipt contains any purchases
+let hasPurchases = receipt.hasPurchases
+
+/// All auto renewable `InAppPurchase`s,
+let purchases: [InAppPurchase] = receipt.autoRenewablePurchases: 
+
+/// all ACTIVE auto renewable `InAppPurchase`s,
+let activePurchases: [InAppPurchase] = receipt.activeAutoRenewableSubscriptionPurchases: 
 
 ```
 
