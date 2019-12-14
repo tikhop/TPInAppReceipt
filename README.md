@@ -86,7 +86,7 @@ Usage
 
 ### Working With a Receipt
 
-`InAppReceipt` is an object to incapsulate all necessary getters from a receipt payload and provides a comprehansive API for reading and validating receipt and its purchases.
+`InAppReceipt` is an object to incapsulate all necessary getters from a receipt payload and provides a comprehensive API for reading and validating receipt and related purchases.
 
 #### Initializing Receipt
 
