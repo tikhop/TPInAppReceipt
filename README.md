@@ -11,7 +11,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/TPInAppReceipt.svg?style=flat)]()
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tikhop/TPInAppReceipt/master/LICENSE)
 
-A lightweight iOS/OSX library for reading and validating Apple In-App Receipt locally.
+A lightweight iOS/OSX library for reading and validating Apple In App Purchase Receipt locally.
 
 ## Features
 
@@ -86,7 +86,7 @@ Usage
 
 ### Working With a Receipt
 
-`InAppReceipt` is an object to incapsulate all necessary getters from a receipt payload and provides a comprehensive API for reading and validating receipt and related purchases.
+`InAppReceipt` is an object to incapsulate all necessary getters from a receipt payload and provides a comprehensive API for reading and validating in app receipt and related purchases.
 
 #### Initializing Receipt
 
