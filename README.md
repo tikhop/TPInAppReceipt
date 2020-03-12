@@ -63,6 +63,10 @@ Lastly, run the following command:
 swift package update
 ```
 
+**Note:**
+Currenty, SwiftPM doesn't support the feature of adding resources to package and therefore you have to add the Apple Root Certificate manually. You can find it [here](https://www.apple.com/certificateauthority/). 
+
+
 ### Carthage
 
 Make the following entry in your Cartfile:
