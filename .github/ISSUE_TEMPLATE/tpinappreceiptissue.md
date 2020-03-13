@@ -19,7 +19,7 @@ assignees: ''
 - [ ] Production
 
 ### Version
-ℹ Please replace this with the version of SwiftyStoreKit you're using.
+ℹ Please replace this with the version of TPInAppReceipt you're using.
 
 ### Related issues
 ℹ Please replace this with references to similar issues (either open or already closed).

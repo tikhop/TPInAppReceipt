@@ -11,7 +11,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/TPInAppReceipt.svg?style=flat)]()
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tikhop/TPInAppReceipt/master/LICENSE)
 
-A lightweight iOS/OSX library for reading and validating Apple In-App Receipt locally.
+A lightweight iOS/OSX library for reading and validating Apple In App Purchase Receipt locally.
 
 ## Features
 
@@ -63,6 +63,10 @@ Lastly, run the following command:
 swift package update
 ```
 
+**Note:**
+Currenty, SwiftPM doesn't support the feature of adding resources to package and therefore you have to add the Apple Root Certificate manually. You can find it [here](https://www.apple.com/certificateauthority/). 
+
+
 ### Carthage
 
 Make the following entry in your Cartfile:
@@ -86,20 +90,42 @@ Usage
 
 ### Working With a Receipt
 
+`InAppReceipt` is an object to incapsulate all necessary getters from a receipt payload and provides a comprehensive API for reading and validating in app receipt and related purchases.
+
+#### Initializing Receipt
+
 ```swift
 do {
+  /// Initialize receipt
   let receipt = try InAppReceipt.localReceipt() 
   
-  //let receiptData: Data = ...
-  //let receipt = try InAppReceipt.receipt(from: receiptData)
-  
-  /// Base64 Encoded Receipt
-  let base64Receipt = receipt.base64
+  // let receiptData: Data = ...
+  // let receipt = try InAppReceipt.receipt(from: receiptData)
   
 } catch {
   print(error)
 }
 
+
+```
+
+#### Reading Receipt
+
+```swift
+/// Base64 Encoded Receipt
+let base64Receipt = receipt.base64
+  
+/// Initialize receipt
+let receipt = try! InAppReceipt.localReceipt() 
+
+/// Check whether receipt contains any purchases
+let hasPurchases = receipt.hasPurchases
+
+/// All auto renewable `InAppPurchase`s,
+let purchases: [InAppPurchase] = receipt.autoRenewablePurchases: 
+
+/// all ACTIVE auto renewable `InAppPurchase`s,
+let activePurchases: [InAppPurchase] = receipt.activeAutoRenewableSubscriptionPurchases: 
 
 ```
 
@@ -118,7 +144,7 @@ receipt.purchases(ofProductIdentifier: subscriptionName)
 
 ```
 
-#### Verification
+#### Validating Receipt
 
 ```swift
 
@@ -149,6 +175,12 @@ try? r.verifyBundleIdentifierAndVersion()
 try? r.verifySignature()
 
 ```
+
+## Essential Reading
+* [Apple - About Receipt Validation](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Introduction.html)
+* [Apple - Receipt Validation Programming Guide](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Chapters/ReceiptFields.html#//apple_ref/doc/uid/TP40010573-CH106-SW1)
+* [Apple - Validating Receipts Locally](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Chapters/ValidateLocally.html)
+* [objc.io - Receipt Validation](https://www.objc.io/issues/17-security/receipt-validation/)
 
 ## License
 
