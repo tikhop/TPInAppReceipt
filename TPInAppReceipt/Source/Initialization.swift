@@ -29,6 +29,7 @@ public extension InAppReceipt
         let data = try Bundle.main.appStoreReceiptData()
         return try InAppReceipt.receipt(from: data)
     }
+    
 }
 
 /// A Bundle extension helps to retrieve receipt data
@@ -41,7 +42,7 @@ public extension Bundle
     func appStoreReceiptData() throws -> Data
     {
         guard let receiptUrl = appStoreReceiptURL,
-            FileManager.default.fileExists(atPath: receiptUrl.path) else
+            try receiptUrl.checkResourceIsReachable() else
         {
             throw IARError.initializationFailed(reason: .appStoreReceiptNotFound)
         }
@@ -60,6 +61,11 @@ public extension Bundle
     
     class func lookUp(forResource name: String, ofType ext: String?) -> String?
     {
+        if let p = Bundle(for: _TPInAppReceipt.self).path(forResource: name, ofType: ext)
+        {
+            return p
+        }
+        
         if let p = Bundle.main.path(forResource: name, ofType: ext)
         {
             return p
@@ -77,3 +83,5 @@ public extension Bundle
         return nil
     }
 }
+
+fileprivate class _TPInAppReceipt {}

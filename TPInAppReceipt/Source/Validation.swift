@@ -111,26 +111,28 @@ public extension InAppReceipt
     /// - throws: An error in the InAppReceipt domain, if Apple Root Certificate does not exist
     fileprivate func checkAppleRootCertExistence() throws
     {
-        guard let certPath = rootCertificatePath,
-            FileManager.default.fileExists(atPath: certPath) else {
-                throw IARError.validationFailed(reason: .signatureValidation(.appleIncRootCertificateNotFound))
+        guard let certPath = rootCertificatePath, FileManager.default.fileExists(atPath: certPath) else
+        {
+            throw IARError.validationFailed(reason: .signatureValidation(.appleIncRootCertificateNotFound))
         }
         
     }
     
     @available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 5.0, *)
-    func checkChainOfTrust() throws {
+    func checkChainOfTrust() throws
+    {
         // Validate chain of trust of certificate
         // Ensure the iTunes certificate included in the receipt is indeed signed by Apple root cert
         // https://developer.apple.com/documentation/security/certificate_key_and_trust_services/trust/creating_a_trust_object
         
         // root cert data is loaded from the bundled Apple Root Certificate
-        guard let path = rootCertificatePath,
-            let rootCertData = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
-                throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncRootCertificate))
+        guard let path = rootCertificatePath, let rootCertData = try? Data(contentsOf: URL(fileURLWithPath: path)) else
+        {
+            throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncRootCertificate))
         }
         
-        guard let iTunesCertData = pkcs7Container.extractiTunesCertContainer() else {
+        guard let iTunesCertData = pkcs7Container.extractiTunesCertContainer() else
+        {
            throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesCertificate))
         }
         
@@ -201,8 +203,10 @@ public extension InAppReceipt
     }
     
     @available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *)
-    func checkSignatureValidity() throws {
-        guard let signature = signature else {
+    func checkSignatureValidity() throws
+    {
+        guard let signature = signature else
+        {
             throw IARError.validationFailed(reason: .signatureValidation(.signatureNotFound))
         }
         
