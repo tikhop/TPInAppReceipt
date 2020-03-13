@@ -72,7 +72,7 @@ Currenty, SwiftPM doesn't support the feature of adding resources to package and
 Make the following entry in your Cartfile:
 
 ```
-github "tikhop/TPInAppReceipt" ~> 2.3.3
+github "tikhop/TPInAppReceipt" 
 ```
 
 Then run `carthage update`.
