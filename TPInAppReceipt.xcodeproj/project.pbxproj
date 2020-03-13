@@ -851,7 +851,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.3.3;
+				MARKETING_VERSION = 2.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = TPInAppReceipt;
 				SKIP_INSTALL = YES;
@@ -877,7 +877,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.3.3;
+				MARKETING_VERSION = 2.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = TPInAppReceipt;
 				SKIP_INSTALL = YES;
