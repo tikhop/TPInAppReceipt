@@ -10,6 +10,7 @@
 import UIKit
 #elseif os(macOS)
 import IOKit
+import Cocoa
 #endif
 
 import CommonCrypto
