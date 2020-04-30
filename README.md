@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="160" src="www/logo.png" />
+  <img height="160" src="https://github.com/tikhop/TPInAppReceipt/blob/master/www/logo.png" />
 </p>
 
 
