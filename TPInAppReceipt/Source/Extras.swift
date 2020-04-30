@@ -11,6 +11,7 @@
 import Foundation
 import StoreKit
 
+@available(watchOSApplicationExtension 6.2, *)
 fileprivate var refreshSession: RefreshSession?
 
 public extension InAppReceipt
@@ -19,6 +20,7 @@ public extension InAppReceipt
     *  Refresh local in-app receipt
     *  - Parameter completion: handler for result
     */
+    @available(watchOSApplicationExtension 6.2, *)
     static func refresh(completion: @escaping IAPRefreshRequestResult)
     {
         if refreshSession != nil { return }
@@ -29,7 +31,8 @@ public extension InAppReceipt
             InAppReceipt.destroyRefreshSession()
         }
     }
-    
+
+    @available(watchOSApplicationExtension 6.2, *)
     static fileprivate func destroyRefreshSession()
     {
         refreshSession = nil
@@ -38,27 +41,17 @@ public extension InAppReceipt
 
 public typealias IAPRefreshRequestResult = ((Error?) -> ())
 
+@available(watchOSApplicationExtension 6.2, *)
 fileprivate class RefreshSession : NSObject, SKRequestDelegate
 {
     private let receiptRefreshRequest = SKReceiptRefreshRequest()
     private var completion: IAPRefreshRequestResult?
     
-    private var backgroundTaskID: UIBackgroundTaskIdentifier?
     
     override init()
     {
         super.init()
-        
-        #if targetEnvironment(macCatalyst) || os(iOS) || os(tvOS)
-        
-        #endif
-        
-        self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "IARRefreshTask")
-        {
-            UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
-            self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
-        }
-        
+
         receiptRefreshRequest.delegate = self
     }
     
@@ -83,8 +76,6 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
     
     func requestDidFinish(with error: Error?)
     {
-        UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
-        
         DispatchQueue.main.async { [weak self] in
             self?.completion?(error)
         }
