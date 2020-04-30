@@ -109,6 +109,17 @@ do {
 
 ```
 
+#### Refreshing/Requesting Receipt
+
+Use this method to request a new receipt if the receipt is invalid or missing. 
+
+```swift
+InAppReceipt.refresh { (error) in
+  print(error)
+}
+
+```
+
 #### Reading Receipt
 
 ```swift
