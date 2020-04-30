@@ -115,7 +115,12 @@ Use this method to request a new receipt if the receipt is invalid or missing.
 
 ```swift
 InAppReceipt.refresh { (error) in
-  print(error)
+  if let err = error
+  {
+    print(err)
+  }else{
+    initializeReceipt()
+  }
 }
 
 ```
