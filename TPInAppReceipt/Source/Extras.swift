@@ -15,6 +15,10 @@ fileprivate var refreshSession: RefreshSession?
 
 public extension InAppReceipt
 {
+    /**
+    *  Refresh local in-app receipt
+    *  - Parameter completion: handler for result
+    */
     static func refresh(completion: @escaping IAPRefreshRequestResult)
     {
         if refreshSession != nil { return }
@@ -39,9 +43,22 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
     private let receiptRefreshRequest = SKReceiptRefreshRequest()
     private var completion: IAPRefreshRequestResult?
     
+    private var backgroundTaskID: UIBackgroundTaskIdentifier?
+    
     override init()
     {
         super.init()
+        
+        #if targetEnvironment(macCatalyst) || os(iOS) || os(tvOS)
+        
+        #endif
+        
+        self.backgroundTaskID = UIApplication.shared.beginBackgroundTask (withName: "IARRefreshTask")
+        {
+            UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
+            self.backgroundTaskID = UIBackgroundTaskIdentifier.invalid
+        }
+        
         receiptRefreshRequest.delegate = self
     }
     
@@ -54,14 +71,23 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
     
     func requestDidFinish(_ request: SKRequest)
     {
-        completion?(nil)
+        requestDidFinish(with: nil)
     }
     
     func request(_ request: SKRequest, didFailWithError error: Error)
     {
         print("Something went wrong: \(error.localizedDescription)")
         
-        completion?(error)
+        requestDidFinish(with: error)
+    }
+    
+    func requestDidFinish(with error: Error?)
+    {
+        UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.completion?(error)
+        }
     }
 }
 
