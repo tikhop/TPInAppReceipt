@@ -273,7 +273,7 @@ fileprivate func guid() -> Data
         assertionFailure("Failed to initialize master port")
     }
     
-    var matchingDict = IOBSDNameMatching(masterPort, 0, "en0")
+    let matchingDict = IOBSDNameMatching(masterPort, 0, "en0")
     if (matchingDict == nil)
     {
         assertionFailure("Failed to retrieve guid")
