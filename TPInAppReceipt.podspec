@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "TPInAppReceipt"
-s.version      = "2.4"
+s.version      = "2.5"
 s.summary      = "Decode Apple Store Receipt and make it easy to read and validate it"
 s.description  = "The library provides transparent way to decode and validate Apple Store Receipt. Pure swift, No OpenSSL!"
 
@@ -11,7 +11,7 @@ s.source       = { :git => "https://github.com/tikhop/TPInAppReceipt.git", :tag 
 
 s.author       = { "Pavel Tikhonenko" => "hi@tikhop.com" }
 
-s.swift_version = '5.1'
+s.swift_versions = ['5.0', '5.1', '5.2']
 s.ios.deployment_target = '9.0'
 s.osx.deployment_target = '10.10'
 s.tvos.deployment_target = '9.0'

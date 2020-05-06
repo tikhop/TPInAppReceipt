@@ -138,6 +138,7 @@
 		4773656622E69311006FC04A /* TPInAppReceipt_tvOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPInAppReceipt_tvOS.h; sourceTree = "<group>"; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		47D213391E4738AB00994B00 /* Initialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Initialization.swift; sourceTree = "<group>"; };
+		47E4F7E82463422D0005BCC0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +194,7 @@
 			children = (
 				47209ACD1D9E92CC0010BCDE /* TPInAppReceipt.podspec */,
 				476C665022C3C12900D973F9 /* LICENSE */,
+				47E4F7E82463422D0005BCC0 /* README.md */,
 				47209A031D9E0FD60010BCDE /* TPInAppReceipt */,
 				47209A0E1D9E0FD60010BCDE /* TPInAppReceiptTests */,
 				4773653922E6920B006FC04A /* TPInAppReceiptWatch */,
@@ -811,7 +813,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.4;
+				MARKETING_VERSION = 2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = TPInAppReceipt;
 				SKIP_INSTALL = YES;
@@ -837,7 +839,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.4;
+				MARKETING_VERSION = 2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = TPInAppReceipt;
 				SKIP_INSTALL = YES;
