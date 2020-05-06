@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="160" src="www/logo.png" />
+  <img height="160" src="https://github.com/tikhop/TPInAppReceipt/blob/master/www/logo.png" />
 </p>
 
 
@@ -115,7 +115,12 @@ Use this method to request a new receipt if the receipt is invalid or missing.
 
 ```swift
 InAppReceipt.refresh { (error) in
-  print(error)
+  if let err = error
+  {
+    print(err)
+  }else{
+    initializeReceipt()
+  }
 }
 
 ```
