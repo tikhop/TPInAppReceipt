@@ -3,7 +3,7 @@
 //  TPInAppReceipt
 //
 //  Created by Pavel Tikhonenko on 19/01/17.
-//  Copyright © 2017 Pavel Tikhonenko. All rights reserved.
+//  Copyright © 2017-2020 Pavel Tikhonenko. All rights reserved.
 //
 
 import Foundation
@@ -31,6 +31,10 @@ public struct InAppPurchase
     /// Cancellation Date in string format. Returns `nil` if the purchase is not a renewable subscription
     public var cancellationDateString: String? = nil
 
+    /// This value is `true`if the customer’s subscription is currently in the free trial period, or `false` if not.
+    /// Returns `nil` if the purchase is not a renewable subscription
+    public var subscriptionTrialPeriod: Bool? = nil
+    
     /// This value is `true` if the customer’s subscription is currently in an introductory price period, or `false` if not.
     /// Returns `nil` if the purchase is not a renewable subscription
     public var subscriptionIntroductoryPricePeriod: Bool? = nil
@@ -85,6 +89,8 @@ public struct InAppPurchase
                     cancellationDateString = str == "" ? nil : str
                 case .webOrderLineItemID:
                     webOrderLineItemID = ASN1.readInt(from: &value)
+                case .subscriptionTrialPeriod:
+                    subscriptionTrialPeriod = ASN1.readInt(from: &value) != 0
                 case .subscriptionIntroductoryPricePeriod:
                     subscriptionIntroductoryPricePeriod = ASN1.readInt(from: &value) != 0
                 default:

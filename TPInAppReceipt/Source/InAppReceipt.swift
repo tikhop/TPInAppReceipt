@@ -3,7 +3,7 @@
 //  TPReceiptValidator
 //
 //  Created by Pavel Tikhonenko on 28/09/16.
-//  Copyright © 2016 Pavel Tikhonenko. All rights reserved.
+//  Copyright © 2016-2020 Pavel Tikhonenko. All rights reserved.
 //
 
 import Foundation
@@ -28,6 +28,7 @@ public enum InAppReceiptField: Int
     case subscriptionExpirationDate = 1708
     case webOrderLineItemID = 1711
     case cancellationDate = 1712
+    case subscriptionTrialPeriod = 1713
     case subscriptionIntroductoryPricePeriod = 1719
 }
 

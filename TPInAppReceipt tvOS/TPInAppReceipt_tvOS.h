@@ -3,7 +3,7 @@
 //  TPInAppReceipt tvOS
 //
 //  Created by Pavel Tikhonenko on 23/07/2019.
-//  Copyright © 2019 Pavel Tikhonenko. All rights reserved.
+//  Copyright © 2019-2020 Pavel Tikhonenko. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
