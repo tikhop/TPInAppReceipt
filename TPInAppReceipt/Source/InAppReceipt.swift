@@ -10,14 +10,17 @@ import Foundation
 
 public enum InAppReceiptField: Int
 {
+	case environment = 0 // Sandbox, Production, ProductionSandbox
     case bundleIdentifier = 2
     case appVersion = 3
     case opaqueValue = 4
     case receiptHash = 5 // SHA-1 Hash
+	case receiptCreationDate = 12
     case inAppPurchaseReceipt = 17 // The receipt for an in-app purchase.
+	//TODO: case originalPurchaseDate = 18
     case originalAppVersion = 19
     case expirationDate = 21
-    case receiptCreationDate = 12
+    
     
     case quantity = 1701
     case productIdentifier = 1702
@@ -25,11 +28,13 @@ public enum InAppReceiptField: Int
     case purchaseDate = 1704
     case originalTransactionIdentifier = 1705
     case originalPurchaseDate = 1706
+	case productType = 1707
     case subscriptionExpirationDate = 1708
     case webOrderLineItemID = 1711
     case cancellationDate = 1712
     case subscriptionTrialPeriod = 1713
     case subscriptionIntroductoryPricePeriod = 1719
+	case promotionalOfferIdentifier = 1721
 }
 
 public struct InAppReceipt
@@ -226,7 +231,8 @@ public extension InAppReceipt
         let filtered = purchases(ofProductIdentifier: productIdentifier)
         
         var lastInterval: TimeInterval = 0
-        for iap in filtered {
+        for iap in filtered
+		{
             if !(iap.productIdentifier == productIdentifier) {
                 continue
             }

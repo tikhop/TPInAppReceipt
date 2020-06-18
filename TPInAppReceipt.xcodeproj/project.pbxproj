@@ -139,6 +139,7 @@
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		47D213391E4738AB00994B00 /* Initialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Initialization.swift; sourceTree = "<group>"; };
 		47E4F7E82463422D0005BCC0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		47E4F7E9246373F20005BCC0 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +196,7 @@
 				47209ACD1D9E92CC0010BCDE /* TPInAppReceipt.podspec */,
 				476C665022C3C12900D973F9 /* LICENSE */,
 				47E4F7E82463422D0005BCC0 /* README.md */,
+				47E4F7E9246373F20005BCC0 /* Package.swift */,
 				47209A031D9E0FD60010BCDE /* TPInAppReceipt */,
 				47209A0E1D9E0FD60010BCDE /* TPInAppReceiptTests */,
 				4773653922E6920B006FC04A /* TPInAppReceiptWatch */,
@@ -461,7 +463,7 @@
 		472099F81D9E0FD60010BCDE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1020;
+				LastSwiftUpdateCheck = 1140;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Pavel Tikhonenko";
 				TargetAttributes = {

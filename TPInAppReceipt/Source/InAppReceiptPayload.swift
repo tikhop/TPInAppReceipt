@@ -37,9 +37,12 @@ public struct InAppReceiptPayload
     /// The date when the app receipt was created.
     public let creationDate: String
     
+	/// Receipt's environment
+	public let environment: String
+	
     /// Initialize a `InAppReceipt` passing all values
     ///
-    init(bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: String?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, creationDate: String)
+	init(bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: String?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, creationDate: String, environment: String)
     {
         self.bundleIdentifier = bundleIdentifier
         self.appVersion = appVersion
@@ -50,6 +53,7 @@ public struct InAppReceiptPayload
         self.opaqueValue = opaqueValue
         self.receiptHash = receiptHash
         self.creationDate = creationDate
+		self.environment = environment
     }
 }
 
@@ -70,7 +74,8 @@ public extension InAppReceiptPayload
         var receiptHash = Data()
         var expirationDate: String? = ""
         var receiptCreationDate: String = ""
-        
+		var environment: String = ""
+		
         let payload = ASN1Object(data: asn1Data)
         payload.enumerateInAppReceiptAttributes { (attribute) in
             if let field = InAppReceiptField(rawValue: attribute.type), var value = attribute.value.extractValue() as? Data
@@ -96,6 +101,8 @@ public extension InAppReceiptPayload
                     expirationDate = ASN1.readString(from: &value, encoding: .ascii)
                 case .receiptCreationDate:
                     receiptCreationDate = ASN1.readString(from: &value, encoding: .ascii)
+				case .environment:
+					environment = ASN1.readString(from: &value, encoding: .utf8)
                 default:
                     print("attribute.type = \(String(describing: attribute.type)))")
                 }
@@ -111,5 +118,6 @@ public extension InAppReceiptPayload
         self.opaqueValue = opaqueValue
         self.receiptHash = receiptHash
         self.creationDate = receiptCreationDate
+		self.environment = environment
     }
 }

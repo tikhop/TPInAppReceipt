@@ -10,9 +10,30 @@ import Foundation
 
 public struct InAppPurchase
 {
+	public enum `Type`: Int
+	{
+		/// Type that we can't recognize for some reason
+		case unknown = -1
+		
+		/// Type that customers purchase once. They don't expire.
+		case nonConsumable
+		
+		/// Type that are depleted after one use. Customers can purchase them multiple times.
+		case consumable
+		
+		/// Type that customers purchase once and that renew automatically on a recurring basis until customers decide to cancel.
+		case nonRenewingSubscription
+		
+		/// Type that customers purchase and it provides access over a limited duration and don't renew automatically. Customers can purchase them again.
+		case autoRenewableSubscription
+	}
+	
     /// The product identifier which purchase related to
     public var productIdentifier: String
     
+	/// Product type
+	public var productType: Type = .unknown
+	
     /// Transaction identifier
     public var transactionIdentifier: String
     
@@ -32,18 +53,21 @@ public struct InAppPurchase
     public var cancellationDateString: String? = nil
 
     /// This value is `true`if the customer’s subscription is currently in the free trial period, or `false` if not.
-    /// Returns `nil` if the purchase is not a renewable subscription
-    public var subscriptionTrialPeriod: Bool? = nil
+    public var subscriptionTrialPeriod: Bool = false
     
     /// This value is `true` if the customer’s subscription is currently in an introductory price period, or `false` if not.
-    /// Returns `nil` if the purchase is not a renewable subscription
-    public var subscriptionIntroductoryPricePeriod: Bool? = nil
+    public var subscriptionIntroductoryPricePeriod: Bool = false
     
-    ///
+    /// A unique identifier for purchase events across devices, including subscription-renewal events. This value is the primary key for identifying subscription purchases.
     public var webOrderLineItemID: Int? = nil
     
-    /// Quantity
-    public var quantity: Int
+	/// The value is an identifier of the subscription offer that the user redeemed.
+	/// Returns `nil` if  the user didn't use any subscription offers.
+	public var promotionalOfferIdentifier: String? = nil
+	
+    /// The number of consumable products purchased
+	/// The default value is `1` unless modified with a mutable payment. The maximum value is 10.
+    public var quantity: Int = 1
     
     public init()
     {
@@ -52,7 +76,6 @@ public struct InAppPurchase
         transactionIdentifier = ""
         purchaseDateString = ""
         originalPurchaseDateString = ""
-        quantity = 0
     }
     
     public init(asn1Data: Data)
@@ -73,6 +96,8 @@ public struct InAppPurchase
                     quantity = ASN1.readInt(from: &value)
                 case .productIdentifier:
                     productIdentifier = ASN1.readString(from: &value, encoding: .utf8)
+				case .productType:
+					productType = Type(rawValue: ASN1.readInt(from: &value)) ?? .unknown
                 case .transactionIdentifier:
                     transactionIdentifier = ASN1.readString(from: &value, encoding: .utf8)
                 case .purchaseDate:
@@ -93,6 +118,8 @@ public struct InAppPurchase
                     subscriptionTrialPeriod = ASN1.readInt(from: &value) != 0
                 case .subscriptionIntroductoryPricePeriod:
                     subscriptionIntroductoryPricePeriod = ASN1.readInt(from: &value) != 0
+				case .promotionalOfferIdentifier:
+					promotionalOfferIdentifier = ASN1.readString(from: &value, encoding: .utf8)
                 default:
                     break
                 }
