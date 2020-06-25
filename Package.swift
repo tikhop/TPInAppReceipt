@@ -7,4 +7,4 @@ let package = Package(name: "TPInAppReceipt",
 					  products: [.library(name: "TPInAppReceipt", targets: ["TPInAppReceipt"])],
 					  targets: [.target(name: "TPInAppReceipt",
 										path: "TPInAppReceipt/Source",
-										resources: [.process("AppleIncRootCertificate.cer")])])
+										resources: [.copy("AppleIncRootCertificate.cer")])])

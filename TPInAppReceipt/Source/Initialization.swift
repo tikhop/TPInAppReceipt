@@ -61,6 +61,13 @@ public extension Bundle
     
     class func lookUp(forResource name: String, ofType ext: String?) -> String?
     {
+		#if swift(>=5.3)
+		if let p = Bundle.module.path(forResource: name, ofType: ext)
+		{
+			return p
+		}
+		#endif
+		
         if let p = Bundle(for: _TPInAppReceipt.self).path(forResource: name, ofType: ext)
         {
             return p

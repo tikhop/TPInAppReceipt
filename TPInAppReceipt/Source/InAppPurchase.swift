@@ -157,7 +157,7 @@ public extension InAppPurchase
     func isActiveAutoRenewableSubscription(forDate date: Date) -> Bool
     {
         assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
-        
+		
         if(self.cancellationDateString != nil && self.cancellationDateString != "")
         {
             return false
