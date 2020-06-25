@@ -259,6 +259,7 @@
 		47209ABB1D9E111C0010BCDE /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */,
 				47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */,
 				47589AEA1E32D6BB0047DFCD /* InAppReceiptPayload.swift */,
 				47589AE81E31B2F90047DFCD /* InAppPurchase.swift */,
@@ -317,7 +318,6 @@
 			isa = PBXGroup;
 			children = (
 				47209A051D9E0FD60010BCDE /* Info.plist */,
-				47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
