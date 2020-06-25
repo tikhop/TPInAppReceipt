@@ -78,8 +78,13 @@ extension PKCS7Wrapper
         return iTunesCertContainer.rawData
     }
     
-	func extractiTunesPublicKeyContrainer(from iTunesCertContainer: Data) -> Data?
-    {  
+    func extractiTunesPublicKeyContrainer() -> Data?
+    {
+        guard let iTunesCertContainer = extractiTunesCertContainer() else
+        {
+            return nil
+        }
+            
         let asn1iTunesCertData = ASN1Object(data: iTunesCertContainer)
         let firstBlock = asn1iTunesCertData.enumerated().map({ $0 })[0].element
         let iTunesPublicKeyContainer = firstBlock.enumerated().map({ $0 })[6].element
@@ -87,9 +92,14 @@ extension PKCS7Wrapper
         return iTunesPublicKeyContainer.rawData
     }
     
-    func extractWorldwideDeveloperCertContainer(from iTunesCertContainer: Data) -> Data?
+    func extractWorldwideDeveloperCertContainer() -> Data?
     {
-        let asn1signedData = ASN1Object(data: iTunesCertContainer)
+        guard let signedData = extractContent(by: PKC7.OID.signedData) else
+        {
+            return nil
+        }
+        
+        let asn1signedData = ASN1Object(data: signedData)
         
         let firstBlock = asn1signedData.enumerated().map({ $0 })[0].element
         let secondBlock = firstBlock.enumerated().map({ $0 })[3].element

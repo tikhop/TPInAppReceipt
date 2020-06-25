@@ -138,7 +138,7 @@ public extension InAppReceipt
            throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesCertificate))
         }
         
-		guard let worldwideDeveloperCertData = pkcs7Container.extractWorldwideDeveloperCertContainer(from: iTunesCertData) else {
+        guard let worldwideDeveloperCertData = pkcs7Container.extractWorldwideDeveloperCertContainer() else {
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadWorldwideDeveloperCertificate))
         }
         
@@ -212,9 +212,7 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .signatureValidation(.signatureNotFound))
         }
         
-		guard let itunesCertContainer = pkcs7Container.extractiTunesCertContainer(),
-			let iTunesPublicKeyContainer = pkcs7Container.extractiTunesPublicKeyContrainer(from: itunesCertContainer) else
-		{
+        guard let iTunesPublicKeyContainer = pkcs7Container.extractiTunesPublicKeyContrainer() else {
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesPublicKey))
         }
         
