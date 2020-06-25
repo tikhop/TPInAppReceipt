@@ -68,3 +68,5 @@ fastlane/test_output
 
 # AppCode
 .idea
+
+TPInAppReceiptTests/MyDevice.swift

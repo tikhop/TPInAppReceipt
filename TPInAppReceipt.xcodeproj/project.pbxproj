@@ -90,6 +90,9 @@
 		479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
 		47D2133A1E4738AB00994B00 /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D213391E4738AB00994B00 /* Initialization.swift */; };
 		47D2133B1E4738AB00994B00 /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D213391E4738AB00994B00 /* Initialization.swift */; };
+		47E27420249C347100D42D6A /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2741F249C347100D42D6A /* PerformanceTests.swift */; };
+		47E27424249C37C800D42D6A /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E27423249C37C800D42D6A /* Device.swift */; };
+		47E27427249C380C00D42D6A /* MyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E27426249C380C00D42D6A /* MyDevice.swift */; };
 		F7B797AC1E43C0FB008A2619 /* InAppReceiptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10738491DC109D48ABBBDEAE /* InAppReceiptTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -138,6 +141,9 @@
 		4773656622E69311006FC04A /* TPInAppReceipt_tvOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPInAppReceipt_tvOS.h; sourceTree = "<group>"; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		47D213391E4738AB00994B00 /* Initialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Initialization.swift; sourceTree = "<group>"; };
+		47E2741F249C347100D42D6A /* PerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
+		47E27423249C37C800D42D6A /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		47E27426249C380C00D42D6A /* MyDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDevice.swift; sourceTree = "<group>"; };
 		47E4F7E82463422D0005BCC0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		47E4F7E9246373F20005BCC0 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -234,6 +240,9 @@
 				47209A111D9E0FD60010BCDE /* Info.plist */,
 				10738491DC109D48ABBBDEAE /* InAppReceiptTests.swift */,
 				472316AA22CD6FC600D08357 /* ASN1Tests.swift */,
+				47E2741F249C347100D42D6A /* PerformanceTests.swift */,
+				47E27423249C37C800D42D6A /* Device.swift */,
+				47E27426249C380C00D42D6A /* MyDevice.swift */,
 			);
 			path = TPInAppReceiptTests;
 			sourceTree = "<group>";
@@ -585,8 +594,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47E27427249C380C00D42D6A /* MyDevice.swift in Sources */,
 				472316AB22CD6FC600D08357 /* ASN1Tests.swift in Sources */,
 				F7B797AC1E43C0FB008A2619 /* InAppReceiptTests.swift in Sources */,
+				47E27420249C347100D42D6A /* PerformanceTests.swift in Sources */,
+				47E27424249C37C800D42D6A /* Device.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

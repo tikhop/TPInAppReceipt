@@ -72,7 +72,8 @@ public struct InAppReceipt
         self.pkcs7Container = pkcs7
         self.payload = payload
         
-        if(rootCertPath != nil){
+        if(rootCertPath != nil)
+		{
             self.rootCertificatePath = rootCertPath
         } else {
             self.rootCertificatePath = Bundle.lookUp(forResource: "AppleIncRootCertificate", ofType: "cer")

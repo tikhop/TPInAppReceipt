@@ -85,7 +85,8 @@ public extension InAppReceipt
         try checkAppleRootCertExistence()
         
         // only check certificate chain of trust and signature validity after these version
-        if #available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 5.0, *) {
+        if #available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 5.0, *)
+		{
             try checkChainOfTrust()
             try checkSignatureValidity()
         }
@@ -137,7 +138,7 @@ public extension InAppReceipt
            throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesCertificate))
         }
         
-        guard let worldwideDeveloperCertData = pkcs7Container.extractWorldwideDeveloperCertContainer() else {
+		guard let worldwideDeveloperCertData = pkcs7Container.extractWorldwideDeveloperCertContainer(from: iTunesCertData) else {
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadWorldwideDeveloperCertificate))
         }
         
@@ -211,7 +212,9 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .signatureValidation(.signatureNotFound))
         }
         
-        guard let iTunesPublicKeyContainer = pkcs7Container.extractiTunesPublicKeyContrainer() else {
+		guard let itunesCertContainer = pkcs7Container.extractiTunesCertContainer(),
+			let iTunesPublicKeyContainer = pkcs7Container.extractiTunesPublicKeyContrainer(from: itunesCertContainer) else
+		{
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesPublicKey))
         }
         
@@ -260,7 +263,7 @@ fileprivate func guid() -> Data
 {
     
 #if !targetEnvironment(macCatalyst) && targetEnvironment(simulator) // Debug purpose only
-    var uuidBytes = UUID(uuidString: "A2BDE35A-B11A-44B0-95AB-7BBA7A2890C8")!.uuid
+    var uuidBytes = UUID(uuidString: "22C105F3-61B5-4FE4-8CB2-30AD9723D345")!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
 #elseif !targetEnvironment(macCatalyst) && (os(iOS) || os(watchOS) || os(tvOS))
     var uuidBytes = UIDevice.current.identifierForVendor!.uuid
