@@ -68,11 +68,6 @@ public extension Bundle
 		}
 		#endif
 		
-        if let p = Bundle(for: _TPInAppReceipt.self).path(forResource: name, ofType: ext)
-        {
-            return p
-        }
-        
         if let p = Bundle.main.path(forResource: name, ofType: ext)
         {
             return p
@@ -91,4 +86,3 @@ public extension Bundle
     }
 }
 
-fileprivate class _TPInAppReceipt {}
