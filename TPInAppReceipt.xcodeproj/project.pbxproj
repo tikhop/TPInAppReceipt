@@ -232,9 +232,9 @@
 		47209A031D9E0FD60010BCDE /* TPInAppReceipt */ = {
 			isa = PBXGroup;
 			children = (
+				47209A051D9E0FD60010BCDE /* Info.plist */,
 				47209A041D9E0FD60010BCDE /* TPInAppReceipt.h */,
 				47209ABB1D9E111C0010BCDE /* Source */,
-				476C664822C3101000D973F9 /* Resources */,
 			);
 			path = TPInAppReceipt;
 			sourceTree = "<group>";
@@ -264,7 +264,6 @@
 		47209ABB1D9E111C0010BCDE /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */,
 				47209ABE1D9E111C0010BCDE /* InAppReceipt.swift */,
 				47589AEA1E32D6BB0047DFCD /* InAppReceiptPayload.swift */,
 				47589AE81E31B2F90047DFCD /* InAppPurchase.swift */,
@@ -276,6 +275,7 @@
 				4728B65722BE3CF800607E5E /* ASN1 */,
 				476C64BC22BE6DB300D973F9 /* PKC7 */,
 				47209A1B1D9E11140010BCDE /* Vendor */,
+				47D0F44724A6084C00CEF2E8 /* Resources */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -320,14 +320,6 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
-		476C664822C3101000D973F9 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				47209A051D9E0FD60010BCDE /* Info.plist */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
 		4773653922E6920B006FC04A /* TPInAppReceiptWatch */ = {
 			isa = PBXGroup;
 			children = (
@@ -342,6 +334,14 @@
 				4773656622E69311006FC04A /* TPInAppReceipt_tvOS.h */,
 			);
 			path = "TPInAppReceipt tvOS";
+			sourceTree = "<group>";
+		};
+		47D0F44724A6084C00CEF2E8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
