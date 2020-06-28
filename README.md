@@ -53,7 +53,7 @@ In any swift file you'd like to use TPInAppReceipt, import the framework with `i
 To integrate using Apple's Swift package manager, add the following as a dependency to your `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/tikhop/TPInAppReceipt.git", .upToNextMajor(from: "2.6.0"))
+.package(url: "https://github.com/tikhop/TPInAppReceipt.git", .upToNextMajor(from: "2.7.0"))
 ```
 
 Then, specify `"TPInAppReceipt"` as a dependency of the Target in which you wish to use TPInAppReceipt.
@@ -62,10 +62,6 @@ Lastly, run the following command:
 ```swift
 swift package update
 ```
-
-**Note:**
-Currenty, SwiftPM doesn't support the feature of adding resources to package and therefore you have to add the Apple Root Certificate manually. You can find it [here](https://www.apple.com/certificateauthority/). 
-
 
 ### Carthage
 
@@ -83,7 +79,7 @@ If this is your first time using Carthage in the project, you'll need to go thro
 ### Requirements
 
 - iOS 9.0+ / OSX 10.11+
-- Swift 5.0+
+- Swift 5.3+
 
 Usage
 -------------
