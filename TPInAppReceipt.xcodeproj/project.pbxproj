@@ -87,12 +87,16 @@
 		4773655022E692CA006FC04A /* PKC7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C64BD22BE6DC100D973F9 /* PKC7.swift */; };
 		4773655E22E692CE006FC04A /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476C663E22C1DAC000D973F9 /* Array+Extension.swift */; };
 		4773656822E69311006FC04A /* TPInAppReceipt_tvOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 4773656622E69311006FC04A /* TPInAppReceipt_tvOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		47980BAA24A73C55004E5B5D /* MyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47980BA924A73C55004E5B5D /* MyDevice.swift */; };
 		479DC54D1DA0B8BB00D9A5E3 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */; };
 		47D2133A1E4738AB00994B00 /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D213391E4738AB00994B00 /* Initialization.swift */; };
 		47D2133B1E4738AB00994B00 /* Initialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D213391E4738AB00994B00 /* Initialization.swift */; };
 		47E27420249C347100D42D6A /* PerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E2741F249C347100D42D6A /* PerformanceTests.swift */; };
 		47E27424249C37C800D42D6A /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E27423249C37C800D42D6A /* Device.swift */; };
+		47E27427249C380C00D42D6A /* MyDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E27426249C380C00D42D6A /* MyDevice.swift */; };
+		47FD0A2024A5F27D00276705 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FD0A1F24A5F27D00276705 /* Bundle+Extension.swift */; };
+		47FD0A2124A5F27D00276705 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FD0A1F24A5F27D00276705 /* Bundle+Extension.swift */; };
+		47FD0A2224A5F27D00276705 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FD0A1F24A5F27D00276705 /* Bundle+Extension.swift */; };
+		47FD0A2324A5F27D00276705 /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FD0A1F24A5F27D00276705 /* Bundle+Extension.swift */; };
 		F7B797AC1E43C0FB008A2619 /* InAppReceiptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10738491DC109D48ABBBDEAE /* InAppReceiptTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -139,13 +143,15 @@
 		4773653A22E6920B006FC04A /* TPInAppReceiptWatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPInAppReceiptWatch.h; sourceTree = "<group>"; };
 		4773656422E69310006FC04A /* TPInAppReceipt_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TPInAppReceipt_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4773656622E69311006FC04A /* TPInAppReceipt_tvOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TPInAppReceipt_tvOS.h; sourceTree = "<group>"; };
-		47980BA924A73C55004E5B5D /* MyDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDevice.swift; sourceTree = "<group>"; };
+		47980BAB24A75E37004E5B5D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		47D213391E4738AB00994B00 /* Initialization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Initialization.swift; sourceTree = "<group>"; };
 		47E2741F249C347100D42D6A /* PerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
 		47E27423249C37C800D42D6A /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		47E27426249C380C00D42D6A /* MyDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDevice.swift; sourceTree = "<group>"; };
 		47E4F7E82463422D0005BCC0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		47E4F7E9246373F20005BCC0 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		47FD0A1F24A5F27D00276705 /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +197,7 @@
 		470D079B203B4FC600F3335F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				47980BAB24A75E37004E5B5D /* Security.framework */,
 				472316AC22CD768200D08357 /* Security.framework */,
 			);
 			name = Frameworks;
@@ -227,9 +234,9 @@
 		47209A031D9E0FD60010BCDE /* TPInAppReceipt */ = {
 			isa = PBXGroup;
 			children = (
+				47209A051D9E0FD60010BCDE /* Info.plist */,
 				47209A041D9E0FD60010BCDE /* TPInAppReceipt.h */,
 				47209ABB1D9E111C0010BCDE /* Source */,
-				476C664822C3101000D973F9 /* Resources */,
 			);
 			path = TPInAppReceipt;
 			sourceTree = "<group>";
@@ -242,7 +249,7 @@
 				472316AA22CD6FC600D08357 /* ASN1Tests.swift */,
 				47E2741F249C347100D42D6A /* PerformanceTests.swift */,
 				47E27423249C37C800D42D6A /* Device.swift */,
-				47980BA924A73C55004E5B5D /* MyDevice.swift */,
+				47E27426249C380C00D42D6A /* MyDevice.swift */,
 			);
 			path = TPInAppReceiptTests;
 			sourceTree = "<group>";
@@ -270,6 +277,7 @@
 				4728B65722BE3CF800607E5E /* ASN1 */,
 				476C64BC22BE6DB300D973F9 /* PKC7 */,
 				47209A1B1D9E11140010BCDE /* Vendor */,
+				47D0F44724A6084C00CEF2E8 /* Resources */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -309,17 +317,9 @@
 				479DC54C1DA0B8BB00D9A5E3 /* Date+Extension.swift */,
 				47589AE61E31AE6F0047DFCD /* PKCS7Helper.swift */,
 				47209ABC1D9E111C0010BCDE /* ASN1Helper.swift */,
+				47FD0A1F24A5F27D00276705 /* Bundle+Extension.swift */,
 			);
 			name = Extensions;
-			sourceTree = "<group>";
-		};
-		476C664822C3101000D973F9 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				47209A051D9E0FD60010BCDE /* Info.plist */,
-				47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */,
-			);
-			name = Resources;
 			sourceTree = "<group>";
 		};
 		4773653922E6920B006FC04A /* TPInAppReceiptWatch */ = {
@@ -336,6 +336,14 @@
 				4773656622E69311006FC04A /* TPInAppReceipt_tvOS.h */,
 			);
 			path = "TPInAppReceipt tvOS";
+			sourceTree = "<group>";
+		};
+		47D0F44724A6084C00CEF2E8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				47209AC41D9E112C0010BCDE /* AppleIncRootCertificate.cer */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -473,7 +481,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1140;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Pavel Tikhonenko";
 				TargetAttributes = {
 					47209A001D9E0FD60010BCDE = {
@@ -587,6 +595,7 @@
 				47589AE51E319A220047DFCD /* Validation.swift in Sources */,
 				47589AE71E31AE6F0047DFCD /* PKCS7Helper.swift in Sources */,
 				4728B65922BE3DB900607E5E /* Asn1Coder.swift in Sources */,
+				47FD0A2024A5F27D00276705 /* Bundle+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -594,9 +603,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47E27427249C380C00D42D6A /* MyDevice.swift in Sources */,
 				472316AB22CD6FC600D08357 /* ASN1Tests.swift in Sources */,
 				F7B797AC1E43C0FB008A2619 /* InAppReceiptTests.swift in Sources */,
-				47980BAA24A73C55004E5B5D /* MyDevice.swift in Sources */,
 				47E27420249C347100D42D6A /* PerformanceTests.swift in Sources */,
 				47E27424249C37C800D42D6A /* Device.swift in Sources */,
 			);
@@ -624,6 +633,7 @@
 				47589AFB1E333F450047DFCD /* Validation.swift in Sources */,
 				47589AFD1E333F450047DFCD /* PKCS7Helper.swift in Sources */,
 				476C64CB22BFC94400D973F9 /* Asn1Coder.swift in Sources */,
+				47FD0A2124A5F27D00276705 /* Bundle+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,6 +659,7 @@
 				4773654A22E692C4006FC04A /* ASN1Helper.swift in Sources */,
 				4773654922E692C4006FC04A /* PKCS7Helper.swift in Sources */,
 				4773654F22E692C7006FC04A /* ASN1Object+Sequence.swift in Sources */,
+				47FD0A2224A5F27D00276705 /* Bundle+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -674,6 +685,7 @@
 				47343F5722FBEC0000B37ED7 /* InAppReceipt.swift in Sources */,
 				47343F5422FBEBFB00B37ED7 /* Date+Extension.swift in Sources */,
 				47343F5622FBEBFB00B37ED7 /* ASN1Helper.swift in Sources */,
+				47FD0A2324A5F27D00276705 /* Bundle+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,6 +725,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -778,6 +791,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
