@@ -827,7 +827,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.6.1;
+				MARKETING_VERSION = 2.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = TPInAppReceipt;
 				SKIP_INSTALL = YES;
@@ -853,7 +853,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.6.1;
+				MARKETING_VERSION = 2.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = TPInAppReceipt;
 				SKIP_INSTALL = YES;
@@ -902,7 +902,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 2.6.1;
+				MARKETING_VERSION = 2.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = TPInAppReceipt;
 				SDKROOT = macosx;
@@ -929,7 +929,7 @@
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				MARKETING_VERSION = 2.6.1;
+				MARKETING_VERSION = 2.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = TPInAppReceipt;
 				SDKROOT = macosx;
@@ -958,7 +958,7 @@
 				INFOPLIST_FILE = TPInAppReceipt/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.6.1;
+				MARKETING_VERSION = 2.6.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
@@ -991,7 +991,7 @@
 				INFOPLIST_FILE = TPInAppReceipt/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.6.1;
+				MARKETING_VERSION = 2.6.2;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1022,7 +1022,7 @@
 				INFOPLIST_FILE = TPInAppReceipt/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.6.1;
+				MARKETING_VERSION = 2.6.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
@@ -1054,7 +1054,7 @@
 				INFOPLIST_FILE = TPInAppReceipt/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.6.1;
+				MARKETING_VERSION = 2.6.2;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tikhop.TPInAppReceipt;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
