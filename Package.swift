@@ -7,7 +7,7 @@ let package = Package(
 	platforms: [.macOS(.v10_11),
 				.iOS(.v9),
 				.tvOS(.v9),
-				.watchOS(.v2)],
+				.watchOS("6.2")],
     products: [
         .library(name: "TPInAppReceipt", targets: ["TPInAppReceipt"]),
     ],
