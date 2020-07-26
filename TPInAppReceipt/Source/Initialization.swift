@@ -41,13 +41,17 @@ public extension Bundle
     /// - throws: An error if receipt file not found or 'Data' can't be created
     func appStoreReceiptData() throws -> Data
     {
-        guard let receiptUrl = appStoreReceiptURL,
-            try receiptUrl.checkResourceIsReachable() else
-        {
-            throw IARError.initializationFailed(reason: .appStoreReceiptNotFound)
-        }
-        
-        return try Data(contentsOf: receiptUrl)
+		guard let receiptUrl = appStoreReceiptURL,
+			FileManager.default.fileExists(atPath: receiptUrl.path) else
+		{
+			throw IARError.initializationFailed(reason: .appStoreReceiptNotFound)
+		}
+		
+		do {
+			return try Data(contentsOf: receiptUrl)
+		}catch{
+			throw IARError.initializationFailed(reason: .appStoreReceiptNotFound)
+		}
     }
     
     /// Retrieve local App Store Receip Data in base64 string
