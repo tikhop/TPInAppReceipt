@@ -22,9 +22,12 @@ class PerformanceTests: XCTestCase
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 	}
 	
-
+	func testInit()
+	{
+		let r = try! InAppReceipt(receiptData: defaultDevice.receipt)
+	}
 	
-	func testValidationPerformance() {
+	func testValidationPerformance() { //  / 0.004
 		// This is an example of a performance test case.
 		self.measure {
 			do
@@ -36,7 +39,7 @@ class PerformanceTests: XCTestCase
 		}
 	}
 	
-	func testHashValidationPerformance() {
+	func testHashValidationPerformance() { // 0.000022
 		// This is an example of a performance test case.
 		self.measure {
 			do
@@ -48,7 +51,7 @@ class PerformanceTests: XCTestCase
 		}
 	}
 	
-	func testSignatureValidationPerformance() {
+	func testSignatureValidationPerformance() { // 0.006
 		// This is an example of a performance test case.
 		self.measure {
 			do
@@ -60,7 +63,7 @@ class PerformanceTests: XCTestCase
 		}
 	}
 	
-	func testBundleValidationPerformance() {
+	func testBundleValidationPerformance() { // 0.000012
 		// This is an example of a performance test case.
 		self.measure {
 			do
