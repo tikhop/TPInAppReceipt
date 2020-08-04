@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "TPInAppReceipt"
-s.version      = "2.6.2"
+s.version      = "3.0.0"
 s.summary      = "Reading and Validating In App Purchase Receipt Locally"
 s.description  = "A lightweight iOS/OSX library for reading and validating Apple In App Purchase Receipt locally. Pure swift, No OpenSSL!"
 
@@ -11,15 +11,16 @@ s.source       = { :git => "https://github.com/tikhop/TPInAppReceipt.git", :tag 
 
 s.author       = { "Pavel Tikhonenko" => "hi@tikhop.com" }
 
-s.swift_versions = ['5.0', '5.1', '5.2']
+s.swift_versions = ['5.3']
 s.ios.deployment_target = '9.0'
 s.osx.deployment_target = '10.10'
 s.tvos.deployment_target = '9.0'
 s.watchos.deployment_target = '2.0'
 s.requires_arc = true
+s.dependency 'ASN1Swift', "~> 0.1"
 
-s.source_files  = "TPInAppReceipt/Source/*.{swift}", "TPInAppReceipt/Source/Vendor/CryptoSwift/*.{swift}"
+s.source_files  = "Sources/*.{swift}", "Sources/Vendor/CryptoSwift/*.{swift}"
 
-s.resources  = "TPInAppReceipt/AppleIncRootCertificate.cer"
+s.resources  = "Sources/AppleIncRootCertificate.cer"
 
 end

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ASN1Swift
 
 public enum InAppReceiptField: Int
 {
@@ -40,7 +41,7 @@ public enum InAppReceiptField: Int
 public struct InAppReceipt
 {
     /// Raw pkcs7 container
-    internal var pkcs7Container: PKCS7Wrapper
+    internal var pkcs7Container: PKCS7Container
     
     /// Payload of the receipt.
     /// Payload object contains all meta information.
@@ -54,20 +55,28 @@ public struct InAppReceipt
     ///
     /// - parameter receiptData: `Data` object that represents receipt
     public init(receiptData: Data, rootCertPath: String? = nil) throws
-    {
-        let pkcs7 = try PKCS7Wrapper(receipt: receiptData)
+	{
+		let asn1decoder = ASN1Decoder()
+		let pkcs7: PKCS7Container
+		do
+		{
+			pkcs7 = try asn1decoder.decode(_PKCS7Container.self, from: receiptData)
+		}catch{
+			pkcs7 = try asn1decoder.decode(__PKCS7Container.self, from: receiptData)
+		}
+		//let pkcs7 = try asn1decoder.
         self.init(pkcs7: pkcs7, rootCertPath: rootCertPath)
     }
     
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
     /// - parameter pkcs7: `PKCS7Wrapper` pkcs7 container of the receipt 
-    init(pkcs7: PKCS7Wrapper, rootCertPath: String? = nil)
+    init(pkcs7: PKCS7Container, rootCertPath: String? = nil)
     {
-        self.init(pkcs7: pkcs7, payload: InAppReceiptPayload(asn1Data: pkcs7.extractInAppPayload()!), rootCertPath: rootCertPath)
+		self.init(pkcs7: pkcs7, payload: InAppReceiptPayload(pkcs7payload: pkcs7.payload), rootCertPath: rootCertPath)
     }
     
-    init(pkcs7: PKCS7Wrapper, payload: InAppReceiptPayload, rootCertPath: String?)
+    init(pkcs7: PKCS7Container, payload: InAppReceiptPayload, rootCertPath: String?)
     {
         self.pkcs7Container = pkcs7
         self.payload = payload

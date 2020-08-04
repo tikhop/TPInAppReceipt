@@ -13,26 +13,26 @@ class InAppReceiptTests: XCTestCase
         
     }
     
-    func testGetSignature()
-    {
-		let receipt = try! InAppReceipt(receiptData: defaultDevice.receipt)
-        guard let signature = receipt.pkcs7Container.extractSignature() else {
-            XCTFail("Unable to extract signature")
-            return
-        }
-        
-        // Signature length is 256
-        XCTAssertEqual(signature.bytes.count, 256)
-    }
-    
-    func testGetItunesKey()
-    {
-        let receipt = try! InAppReceipt(receiptData: defaultDevice.receipt)
-		guard let _ = receipt.pkcs7Container.extractiTunesPublicKeyContrainer() else {
-            XCTFail("Unable to extract signature")
-            return
-        }
-    }
+//    func testGetSignature()
+//    {
+//		let receipt = try! InAppReceipt(receiptData: defaultDevice.receipt)
+//        guard let signature = receipt.pkcs7Container.extractSignature() else {
+//            XCTFail("Unable to extract signature")
+//            return
+//        }
+//        
+//        // Signature length is 256
+//        XCTAssertEqual(signature.bytes.count, 256)
+//    }
+//    
+//    func testGetItunesKey()
+//    {
+//        let receipt = try! InAppReceipt(receiptData: defaultDevice.receipt)
+//		guard let _ = receipt.pkcs7Container.extractiTunesPublicKeyContrainer() else {
+//            XCTFail("Unable to extract signature")
+//            return
+//        }
+//    }
     
 //    func testActiveAutoRenewableSubscriptionPurchasesWithoutCancellation()
 //    {

@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "ASN1Swift",
+        "repositoryURL": "https://github.com/tikhop/ASN1Swift",
+        "state": {
+          "branch": "master",
+          "revision": "adf63ac9cf1c8d013f57f9fdf82c6ad12d6cd5e8",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
