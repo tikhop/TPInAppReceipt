@@ -99,7 +99,7 @@ struct ASN1Object
             guard let c = Class(rawValue: (raw >> 6) & 0b11),
                 let e = EncodingType(rawValue: (raw >> 5) & 0b1) else
             {
-                throw ASN1Error.initializationFailed(reason: .dataIsInvalid)
+                throw IARError.initializationFailed(reason: .dataIsInvalid)
             }
             
             self.class = c

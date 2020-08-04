@@ -41,52 +41,41 @@ public enum InAppReceiptField: Int
 public class InAppReceipt
 {
     /// Raw pkcs7 container
-    internal var pkcs7Container: PKCS7Container
+    internal var receipt: _InAppReceipt
     
     /// Payload of the receipt.
     /// Payload object contains all meta information.
-    internal var payload: InAppReceiptPayload
+	internal var payload: InAppReceiptPayload { receipt.receiptPayload }
     
     /// root certificate path, used to check signature
     /// added for testing purpose , as unit test can't read main bundle
     internal var rootCertificatePath: String?
     
+	/// Raw data
+	private var rawData: Data
+	
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
     /// - parameter receiptData: `Data` object that represents receipt
-	public convenience init(receiptData: Data, rootCertPath: String? = nil) throws
+	public init(receiptData: Data, rootCertPath: String? = nil) throws
 	{
 		let asn1decoder = ASN1Decoder()
-		let pkcs7: PKCS7Container
-		do
+		let pkcs7: _InAppReceipt
+		
+		if let container = try? asn1decoder.decode(_PKCS7Container.self, from: receiptData)
 		{
-			pkcs7 = try asn1decoder.decode(_PKCS7Container.self, from: receiptData)
-		}catch{
-			pkcs7 = try asn1decoder.decode(__PKCS7Container.self, from: receiptData)
+			pkcs7 = container
+		}else if let container = try? asn1decoder.decode(__PKCS7Container.self, from: receiptData)
+		{
+			pkcs7 = container
+		}else{
+			throw IARError.initializationFailed(reason: .pkcs7ParsingError)
 		}
-		//let pkcs7 = try asn1decoder.
-        self.init(pkcs7: pkcs7, rootCertPath: rootCertPath)
-    }
-    
-    /// Initialize a `InAppReceipt` with asn1 payload
-    ///
-    /// - parameter pkcs7: `PKCS7Wrapper` pkcs7 container of the receipt 
-	convenience init(pkcs7: PKCS7Container, rootCertPath: String? = nil)
-    {
-		self.init(pkcs7: pkcs7, payload: InAppReceiptPayload(pkcs7payload: pkcs7.payload), rootCertPath: rootCertPath)
-    }
-    
-    init(pkcs7: PKCS7Container, payload: InAppReceiptPayload, rootCertPath: String?)
-    {
-        self.pkcs7Container = pkcs7
-        self.payload = payload
-        
-        if(rootCertPath != nil)
-		{
-            self.rootCertificatePath = rootCertPath
-        } else {
-            self.rootCertificatePath = Bundle.lookUp(forResource: "AppleIncRootCertificate", ofType: "cer")
-        }
+
+		
+		self.receipt = pkcs7
+		self.rawData = receiptData
+		self.rootCertificatePath = rootCertPath ?? Bundle.lookUp(forResource: "AppleIncRootCertificate", ofType: "cer")
     }
 }
 
@@ -157,7 +146,7 @@ public extension InAppReceipt
     /// In App Receipt in base64
     var base64: String
     {
-        return pkcs7Container.base64
+		return rawData.base64EncodedString()
     }
     
     /// Return original transaction identifier if there is a purchase for a specific product identifier
@@ -236,7 +225,6 @@ public extension InAppReceipt
     /// - parameter productIdentifier: Product name
     func lastAutoRenewableSubscriptionPurchase(ofProductIdentifier productIdentifier: String) -> InAppPurchase?
     {
-        
         var purchase: InAppPurchase? = nil
         let filtered = purchases(ofProductIdentifier: productIdentifier)
         
@@ -291,6 +279,6 @@ internal extension InAppReceipt
     /// signature for validation
     var signature: Data?
     {
-        return pkcs7Container.extractSignature()
+        return receipt.extractSignature()
     }
 }

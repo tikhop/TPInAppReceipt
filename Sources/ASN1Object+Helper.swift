@@ -38,7 +38,7 @@ extension ASN1Object
     {
         guard asn1data.count > 0 else
         {
-            throw ASN1Error.initializationFailed(reason: .dataIsInvalid)
+            throw IARError.initializationFailed(reason: .dataIsInvalid)
         }
         
         let raw = asn1data[asn1data.startIndex]
@@ -47,7 +47,7 @@ extension ASN1Object
         guard let c = Identifier.Class(rawValue: (raw >> 6) & 0b11),
             let e = Identifier.EncodingType(rawValue: (raw >> 5) & 0b1) else
         {
-            throw ASN1Error.initializationFailed(reason: .dataIsInvalid)
+            throw IARError.initializationFailed(reason: .dataIsInvalid)
         }
         
         return Identifier(raw: raw, tagNumber: tagNumber, class: c, encodingType: e)
@@ -55,7 +55,7 @@ extension ASN1Object
     
     static func extractLenght(from asn1data: inout Data) throws -> Length
     {
-        if asn1data.count < 2 { throw ASN1Error.initializationFailed(reason: .dataIsInvalid) } //invalid data
+        if asn1data.count < 2 { throw IARError.initializationFailed(reason: .dataIsInvalid) } //invalid data
         
         let startIdx = asn1data.startIndex
         
@@ -68,7 +68,7 @@ extension ASN1Object
             
             if (offset + l) > asn1data.endIndex
             {
-                throw ASN1Error.initializationFailed(reason: .dataIsInvalid)
+                throw IARError.initializationFailed(reason: .dataIsInvalid)
             }
             
             let start = startIdx + offset

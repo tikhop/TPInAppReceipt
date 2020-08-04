@@ -100,12 +100,12 @@ public extension InAppReceipt
     /// - throws: An error in the InAppReceipt domain, if verification can't be completed
     fileprivate func checkSignatureExistance() throws
     {
-        guard pkcs7Container.checkContentExistance(by: PKC7.OID.signedData) else
+        guard receipt.checkContentExistance(by: PKC7.OID.signedData) else
         {
             throw IARError.validationFailed(reason: .signatureValidation(.receiptSignedDataNotFound))
         }
         
-        guard pkcs7Container.checkContentExistance(by: PKC7.OID.data) else
+        guard receipt.checkContentExistance(by: PKC7.OID.data) else
         {
             throw IARError.validationFailed(reason: .signatureValidation(.receiptDataNotFound))
         }
@@ -136,12 +136,12 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncRootCertificate))
         }
         
-        guard let iTunesCertData = pkcs7Container.extractiTunesCertContainer() else
+        guard let iTunesCertData = receipt.extractiTunesCertContainer() else
         {
            throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesCertificate))
         }
         
-        guard let worldwideDeveloperCertData = pkcs7Container.extractWorldwideDeveloperCertContainer() else {
+        guard let worldwideDeveloperCertData = receipt.extractWorldwideDeveloperCertContainer() else {
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadWorldwideDeveloperCertificate))
         }
         
@@ -215,7 +215,7 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .signatureValidation(.signatureNotFound))
         }
         
-        guard let iTunesPublicKeyContainer = pkcs7Container.extractiTunesPublicKeyContrainer() else {
+        guard let iTunesPublicKeyContainer = receipt.extractiTunesPublicKeyContrainer() else {
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesPublicKey))
         }
         
@@ -231,7 +231,7 @@ public extension InAppReceipt
         }
         
         var umErrorCF: Unmanaged<CFError>? = nil
-        guard SecKeyVerifySignature(iTunesPublicKeySec, .rsaSignatureMessagePKCS1v15SHA1, pkcs7Container.extractInAppPayload()! as CFData, signature as CFData, &umErrorCF) else {
+        guard SecKeyVerifySignature(iTunesPublicKeySec, .rsaSignatureMessagePKCS1v15SHA1, receipt.extractInAppPayload()! as CFData, signature as CFData, &umErrorCF) else {
             /*
             let error = umErrorCF?.takeRetainedValue() as Error? as NSError?
             print("error is \(error)")

@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension PKCS7Container
+extension PKCS7
 {
     func extractInAppPayload() -> Data?
     {
