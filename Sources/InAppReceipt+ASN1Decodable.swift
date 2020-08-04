@@ -71,7 +71,7 @@ extension InAppReceiptPayload: PKCS7Payload
 				case .receiptHash:
 					receiptHash = valueData
 				case .inAppPurchaseReceipt:
-					purchases.append(InAppPurchase(asn1Data: valueData))
+					purchases.append(try asn1Decoder.decode(InAppPurchase.self, from: valueData))
 					break
 				case .originalAppVersion:
 					originalAppVersion = try asn1Decoder.decode(String.self, from: valueData)
@@ -101,6 +101,79 @@ extension InAppReceiptPayload: PKCS7Payload
 				  receiptHash: receiptHash,
 				  creationDate: receiptCreationDate,
 				  environment: environment)
+	}
+}
+
+extension InAppPurchase: ASN1Decodable
+{
+	public init(from decoder: Decoder) throws
+	{
+		
+		self.init()
+		
+		var container = try decoder.unkeyedContainer()
+		let asn1Decoder = ASN1Decoder()
+		
+		while !container.isAtEnd
+		{
+			do
+			{
+				let attribute = try container.decode(ReceiptAttribute.self)
+				
+				guard let field = InAppReceiptField(rawValue: attribute.type) else
+				{
+					continue
+				}
+				
+				let octetString = attribute.value
+				let valueData = try asn1Decoder.decode(Data.self, from: octetString, template: .universal(ASN1Identifier.Tag.octetString))
+				
+				switch field
+				{
+				case .quantity:
+					quantity = try asn1Decoder.decode(Int.self, from: valueData)
+				case .productIdentifier:
+					productIdentifier = try asn1Decoder.decode(String.self, from: valueData)
+				case .productType:
+					productType = Type(rawValue: try asn1Decoder.decode(Int.self, from: valueData)) ?? .unknown
+				case .transactionIdentifier:
+					transactionIdentifier = try asn1Decoder.decode(String.self, from: valueData)
+				case .purchaseDate:
+					purchaseDateString = try asn1Decoder.decode(String.self, from: valueData, template: .universal(ASN1Identifier.Tag.ia5String))
+				case .originalTransactionIdentifier:
+					originalTransactionIdentifier = try asn1Decoder.decode(String.self, from: valueData)
+				case .originalPurchaseDate:
+					originalPurchaseDateString = try asn1Decoder.decode(String.self, from: valueData, template: .universal(ASN1Identifier.Tag.ia5String))
+				case .subscriptionExpirationDate:
+					if !valueData.isEmpty
+					{
+						let str = try asn1Decoder.decode(String.self, from: valueData, template: .universal(ASN1Identifier.Tag.ia5String))
+						subscriptionExpirationDateString = str == "" ? nil : str
+					}
+				case .cancellationDate:
+					if !valueData.isEmpty
+					{
+						let str = try asn1Decoder.decode(String.self, from: valueData, template: .universal(ASN1Identifier.Tag.ia5String))
+						cancellationDateString = str == "" ? nil : str
+					}
+				case .webOrderLineItemID:
+					webOrderLineItemID = try asn1Decoder.decode(Int.self, from: valueData)
+				case .subscriptionTrialPeriod:
+					subscriptionTrialPeriod = (try asn1Decoder.decode(Int.self, from: valueData)) != 0
+				case .subscriptionIntroductoryPricePeriod:
+					subscriptionIntroductoryPricePeriod = (try asn1Decoder.decode(Int.self, from: valueData)) != 0
+				case .promotionalOfferIdentifier:
+					promotionalOfferIdentifier = try asn1Decoder.decode(String.self, from: valueData)
+				default:
+					break
+				}
+			}
+		}
+	}
+	
+	public static var template: ASN1Template
+	{
+		return ASN1Template.universal(ASN1Identifier.Tag.set).constructed()
 	}
 }
 

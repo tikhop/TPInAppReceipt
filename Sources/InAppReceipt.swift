@@ -40,7 +40,7 @@ public enum InAppReceiptField: Int
 
 public class InAppReceipt
 {
-    /// Raw pkcs7 container
+    /// PKCS7 container
     internal var receipt: _InAppReceipt
     
     /// Payload of the receipt.
@@ -195,8 +195,6 @@ public extension InAppReceipt
                 return $0.purchaseDate > $1.purchaseDate
             })
         }
-        
-        
     }
     
     /// Returns `InAppPurchase` if there is a purchase for a specific product identifier,
@@ -216,7 +214,6 @@ public extension InAppReceipt
         }
 
         return nil
-
     }
 
     /// Returns the last `InAppPurchase` if there is one for a specific product identifier,
@@ -242,6 +239,7 @@ public extension InAppReceipt
                 }
             }
         }
+		
         return purchase
     }
     

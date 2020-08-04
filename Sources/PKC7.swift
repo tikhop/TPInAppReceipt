@@ -58,25 +58,7 @@ extension PKCS7
     /// - Returns: Data slice make sure you allocate memory and copy bytes for long term usage
     func extractContent(by oid: PKC7.OID, from data: inout Data) -> Data?
     {
-        if !ASN1Object.isDataValid(checkingLength: false, &data) { return nil }
-        
-        do
-        {
-            let r = checkContentExistance(by: oid, in: &data)
-            
-            guard r.0, let offset = r.offset else
-            {
-                return nil
-            }
-            
-            var contentData = data[offset..<data.endIndex]
-            let _ = try ASN1Object.extractIdentifier(from: &contentData)
-            let contentDataLength = try ASN1Object.extractLenght(from: &contentData)
-            let contentEnd = offset + ASN1Object.identifierLenght + contentDataLength.offset + contentDataLength.value
-            return data[offset..<contentEnd]
-        }catch{
-            return nil
-        }
+        return nil
     }
     
     /// Check if any data available for provided pkcs7 oid
@@ -100,43 +82,6 @@ extension PKCS7
     /// - Returns: Data slice make sure you allocate memory and copy bytes for long term usage
     func checkContentExistance(by oid: PKC7.OID, in data: inout Data) -> (Bool, offset: Int?)
     {
-        if !ASN1Object.isDataValid(checkingLength: false, &data) { return (false, nil) }
-        
-        do
-        {
-            let id = try ASN1Object.extractIdentifier(from: &data)
-            let l = try ASN1Object.extractLenght(from: &data)
-            
-            var cStart = data.startIndex + ASN1Object.identifierLenght + l.offset
-            let cEnd = data.endIndex
-            
-            if id.encodingType == .constructed
-            {
-                return checkContentExistance(by: oid, in: &data[cStart..<cEnd])
-            }
-            
-            var foundedOid: String?
-            
-            if id.type == .objectIdentifier
-            {
-                let end = cStart + l.value
-                var slice = data[cStart..<end]
-                foundedOid = ASN1.readOid(contentData: &slice)
-            }
-            
-            cStart += l.value
-            
-            guard let fOid = foundedOid, fOid == oid.rawValue else
-            {
-                return checkContentExistance(by: oid, in: &data[cStart..<cEnd])
-            }
-            
-            var contentData = data[cStart..<cEnd]
-            let _ = try ASN1Object.extractIdentifier(from: &contentData)
-            let _ = try ASN1Object.extractLenght(from: &contentData)
-            return (true, cStart)
-        }catch{
-            return (false, nil)
-        }
+		return (false, nil)
     }
 }

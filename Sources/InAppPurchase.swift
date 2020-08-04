@@ -77,55 +77,6 @@ public struct InAppPurchase
         purchaseDateString = ""
         originalPurchaseDateString = ""
     }
-    
-    public init(asn1Data: Data)
-    {
-        self.init(asn1Obj: ASN1Object(data: asn1Data))
-    }
-    
-    init(asn1Obj: ASN1Object)
-    {
-        self.init()
-        
-        asn1Obj.enumerateInAppReceiptAttributes { (attribute) in
-            if let field = InAppReceiptField(rawValue: attribute.type), var value = attribute.value.extractValue() as? Data
-            {
-                switch field
-                {
-                case .quantity:
-                    quantity = ASN1.readInt(from: &value)
-                case .productIdentifier:
-                    productIdentifier = ASN1.readString(from: &value, encoding: .utf8)
-				case .productType:
-					productType = Type(rawValue: ASN1.readInt(from: &value)) ?? .unknown
-                case .transactionIdentifier:
-                    transactionIdentifier = ASN1.readString(from: &value, encoding: .utf8)
-                case .purchaseDate:
-                    purchaseDateString = ASN1.readString(from: &value, encoding: .ascii)
-                case .originalTransactionIdentifier:
-                    originalTransactionIdentifier = ASN1.readString(from: &value, encoding: .utf8)
-                case .originalPurchaseDate:
-                    originalPurchaseDateString = ASN1.readString(from: &value, encoding: .ascii)
-                case .subscriptionExpirationDate:
-                    let str = ASN1.readString(from: &value, encoding: .ascii)
-                    subscriptionExpirationDateString = str == "" ? nil : str
-                case .cancellationDate:
-                    let str = ASN1.readString(from: &value, encoding: .ascii)
-                    cancellationDateString = str == "" ? nil : str
-                case .webOrderLineItemID:
-                    webOrderLineItemID = ASN1.readInt(from: &value)
-                case .subscriptionTrialPeriod:
-                    subscriptionTrialPeriod = ASN1.readInt(from: &value) != 0
-                case .subscriptionIntroductoryPricePeriod:
-                    subscriptionIntroductoryPricePeriod = ASN1.readInt(from: &value) != 0
-				case .promotionalOfferIdentifier:
-					promotionalOfferIdentifier = ASN1.readString(from: &value, encoding: .utf8)
-                default:
-                    break
-                }
-            }
-        }
-    }
 }
 
 public extension InAppPurchase
