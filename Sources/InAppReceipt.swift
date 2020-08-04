@@ -38,7 +38,7 @@ public enum InAppReceiptField: Int
 	case promotionalOfferIdentifier = 1721
 }
 
-public struct InAppReceipt
+public class InAppReceipt
 {
     /// Raw pkcs7 container
     internal var pkcs7Container: PKCS7Container
@@ -54,7 +54,7 @@ public struct InAppReceipt
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
     /// - parameter receiptData: `Data` object that represents receipt
-    public init(receiptData: Data, rootCertPath: String? = nil) throws
+	public convenience init(receiptData: Data, rootCertPath: String? = nil) throws
 	{
 		let asn1decoder = ASN1Decoder()
 		let pkcs7: PKCS7Container
@@ -71,7 +71,7 @@ public struct InAppReceipt
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
     /// - parameter pkcs7: `PKCS7Wrapper` pkcs7 container of the receipt 
-    init(pkcs7: PKCS7Container, rootCertPath: String? = nil)
+	convenience init(pkcs7: PKCS7Container, rootCertPath: String? = nil)
     {
 		self.init(pkcs7: pkcs7, payload: InAppReceiptPayload(pkcs7payload: pkcs7.payload), rootCertPath: rootCertPath)
     }
