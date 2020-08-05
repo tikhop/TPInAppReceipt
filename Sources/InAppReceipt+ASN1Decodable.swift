@@ -16,6 +16,63 @@ protocol _InAppReceipt: PKCS7
 	var iTunesPublicKeyData: Data? { get }
 	var worldwideDeveloperCertificateData: Data? { get }
 	var signatureData: Data { get }
+	var digestAlgorithm: SecKeyAlgorithm? { get }
+}
+
+extension PKCS7Container
+{
+	var payload: PKCS7Payload
+	{
+		return signedData.contentInfo.payload
+	}
+		
+	var digestAlgorithm: SecKeyAlgorithm?
+	{
+		guard let algName = signedData.alg.items.first?.algorithm else
+		{
+			return nil
+		}
+		
+		guard let alg = OID(rawValue: algName)?.encryptionAlgorithm() else
+		{
+			return nil
+		}
+		
+		return alg
+	}
+	
+	var worldwideDeveloperCertificateData: Data?
+	{
+		let arr = signedData.certificates.certificates
+		
+		guard arr.count >= 2 else
+		{
+			return nil
+		}
+		
+		return arr[1].rawData
+	}
+	
+	var signatureData: Data
+	{
+		return signedData.signerInfos.encryptedDigest
+	}
+	
+	var iTunesCertificateContainer: PKCS7Container.Certificate?
+	{
+		return signedData.certificates.certificates.first
+	}
+	
+	var iTunesCertificateData: Data?
+	{
+		return iTunesCertificateContainer?.rawData
+	}
+	
+	var iTunesPublicKeyData: Data?
+	{
+		return iTunesCertificateContainer?.cert.subjectPublicKeyInfo
+	}
+	
 }
 
 extension _InAppReceipt
@@ -232,8 +289,10 @@ struct ReceiptAttribute: ASN1Decodable
 /// In App Receipt
 class PKCS7Container: _InAppReceipt
 {
+	
+	
 	var oid: ASN1SkippedField
-	var signedData: SignedData
+	private(set) var signedData: SignedData
 	
 	enum CodingKeys: ASN1CodingKey
 	{
@@ -253,46 +312,15 @@ class PKCS7Container: _InAppReceipt
 	}
 }
 
-extension PKCS7Container
-{
-	var payload: PKCS7Payload
-	{
-		return signedData.contentInfo.payload
-	}
-	
-	var worldwideDeveloperCertificateData: Data?
-	{
-		let arr = signedData.certificates.certificates
-		
-		guard arr.count >= 2 else
-		{
-			return nil
-		}
-		
-		return arr[1].rawData
-	}
-	
-	var signatureData: Data
-	{
-		return signedData.signerInfos.encryptedDigest
-	}
-	
-	var iTunesCertificateContainer: PKCS7Container.Certificate?
-	{
-		return signedData.certificates.certificates.first
-	}
-	
-	var iTunesCertificateData: Data?
-	{
-		return iTunesCertificateContainer?.rawData
-	}
-	
-	var iTunesPublicKeyData: Data?
-	{
-		return iTunesCertificateContainer?.cert.subjectPublicKeyInfo
-	}
-}
 
+
+extension PKCS7Container.SignedData
+{
+//	var digestAlgorithm: DigestAlgorithmIdentifiers
+//	{
+//		return alg.items.first?
+//	}
+}
 extension PKCS7Container
 {
 	struct SignedData: ASN1Decodable
@@ -303,7 +331,7 @@ extension PKCS7Container
 		}
 		
 		var version: Int
-		var alg: ASN1SkippedField
+		var alg: DigestAlgorithmIdentifiersContainer
 		var contentInfo: ContentInfo
 		var certificates: CetrificatesContaner
 		var signerInfos: SignerInfos
@@ -323,7 +351,7 @@ extension PKCS7Container
 				case .version:
 					return .universal(ASN1Identifier.Tag.integer)
 				case .alg:
-					return ASN1Template.universal(ASN1Identifier.Tag.set).constructed()
+					return DigestAlgorithmIdentifiersContainer.template
 				case .contentInfo:
 					return ContentInfo.template
 				case .certificates:
@@ -332,6 +360,56 @@ extension PKCS7Container
 					return SignerInfos.template
 				}
 			}
+		}
+	}
+	
+	struct DigestAlgorithmIdentifiersContainer: ASN1Decodable
+	{
+		var items: [Item]
+		
+		init(from decoder: Decoder) throws
+		{
+			var container: UnkeyedDecodingContainer = try decoder.unkeyedContainer()
+			
+			var items: [Item] = []
+			
+			while !container.isAtEnd
+			{
+				items.append(try container.decode(Item.self))
+			}
+			
+			self.items = items
+		}
+		
+		static var template: ASN1Template { ASN1Template.universal(ASN1Identifier.Tag.set).constructed() }
+		
+		struct Item: ASN1Decodable
+		{
+			var algorithm: String
+			var parameters: ASN1Null
+			
+			enum CodingKeys: ASN1CodingKey
+			{
+				case algorithm
+				case parameters
+				
+				var template: ASN1Template
+				{
+					switch self
+					{
+					case .algorithm:
+						return .universal(ASN1Identifier.Tag.objectIdentifier)
+					case .parameters:
+						return .universal(ASN1Identifier.Tag.null)
+					}
+				}
+			}
+			
+			static var template: ASN1Template
+			{
+				return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
+			}
+			
 		}
 	}
 	

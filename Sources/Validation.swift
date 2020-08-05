@@ -224,11 +224,12 @@ public extension InAppReceipt
         }
         
         var umErrorCF: Unmanaged<CFError>? = nil
-        guard SecKeyVerifySignature(iTunesPublicKeySec, .rsaSignatureMessagePKCS1v15SHA1, payloadRawData as CFData, signature as CFData, &umErrorCF) else {
-            /*
+		guard let alg = receipt.digestAlgorithm,
+			  SecKeyVerifySignature(iTunesPublicKeySec, alg, payloadRawData as CFData, signature as CFData, &umErrorCF) else {
+            
             let error = umErrorCF?.takeRetainedValue() as Error? as NSError?
             print("error is \(error)")
-             */
+             
             throw IARError.validationFailed(reason: .signatureValidation(.invalidSignature))
         }
         
