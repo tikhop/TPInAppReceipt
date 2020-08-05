@@ -11,6 +11,7 @@ import ASN1Swift
 protocol _InAppReceipt: PKCS7
 {
 	var receiptPayload: InAppReceiptPayload { get }
+	var signatureData: Data { get }
 }
 
 extension _InAppReceipt
@@ -239,6 +240,11 @@ extension PKCS7Container
 	{
 		return signedData.contentInfo.payload
 	}
+	
+	var signatureData: Data
+	{
+		return signedData.signerInfos.encryptedDigest
+	}
 }
 
 extension PKCS7Container
@@ -254,7 +260,7 @@ extension PKCS7Container
 		var alg: ASN1SkippedField
 		var contentInfo: ContentInfo
 		var certificates: ASN1SkippedField
-		var signerInfos: ASN1SkippedField
+		var signerInfos: SignerInfos
 		
 		enum CodingKeys: ASN1CodingKey
 		{
@@ -277,7 +283,7 @@ extension PKCS7Container
 				case .certificates:
 					return ASN1Template.contextSpecific(0).constructed().implicit(tag: ASN1Identifier.Tag.set)
 				case .signerInfos:
-					return ASN1Template.universal(ASN1Identifier.Tag.set).constructed()
+					return SignerInfos.template
 				}
 			}
 		}
@@ -367,6 +373,48 @@ extension PKCS7Container
 			}
 		}
 	}
+	
+	struct SignerInfos: ASN1Decodable
+	{
+		static var template: ASN1Template
+		{
+			return ASN1Template.universal(ASN1Identifier.Tag.set).constructed().explicit(tag: ASN1Identifier.Tag.sequence).constructed()
+		}
+		
+		var version: Int
+		var signerIdentifier: ASN1SkippedField
+		var digestAlgorithm: ASN1SkippedField
+		var digestEncryptionAlgorithm: ASN1SkippedField
+		var encryptedDigest: Data
+		
+		enum CodingKeys: ASN1CodingKey
+		{
+			case version
+			case signerIdentifier
+			case digestAlgorithm
+			case digestEncryptionAlgorithm
+			case encryptedDigest
+			
+			var template: ASN1Template
+			{
+				switch self
+				{
+				case .version:
+					return .universal(ASN1Identifier.Tag.integer)
+				case .signerIdentifier:
+					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
+				case .digestAlgorithm:
+					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
+				case .digestEncryptionAlgorithm:
+					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
+				case .encryptedDigest:
+					return .universal(ASN1Identifier.Tag.octetString)
+				}
+			}
+		}
+	}
+	
+	
 	
 	/// Legacy payload format
 	struct _PayloadContainer: ASN1Decodable

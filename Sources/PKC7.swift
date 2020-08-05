@@ -59,35 +59,10 @@ extension PKCS7
     {
         return nil
     }
-    
-    /// Check if any data available for provided pkcs7 oid
-    ///
-    ///
-    func checkContentExistance(by oid: PKC7.OID) -> Bool
-    {
-        var raw = Data()
-        
-        let r = checkContentExistance(by: oid, in: &raw)
-        guard r.0, let _ = r.offset else
-        {
-            return false
-        }
-        
-        return true
-    }
-    
-    /// Extract content by pkcs7 oid
-    ///
-    /// - Returns: Data slice make sure you allocate memory and copy bytes for long term usage
-    func checkContentExistance(by oid: PKC7.OID, in data: inout Data) -> (Bool, offset: Int?)
-    {
-		return (false, nil)
-    }
+
 }
 
 struct CertificateSet: ASN1Decodable
 {
 	static var template: ASN1Template { return ASN1Template.contextSpecific(0).constructed().implicit(tag: ASN1Identifier.Tag.set)}
-	
-	
 }

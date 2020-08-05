@@ -267,6 +267,6 @@ internal extension InAppReceipt
     /// signature for validation
     var signature: Data?
     {
-        return receipt.extractSignature()
+        return receipt.signatureData
     }
 }

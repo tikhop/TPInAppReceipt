@@ -84,7 +84,6 @@ public extension InAppReceipt
     /// - throws: An error in the InAppReceipt domain, if verification can't be completed
     func verifySignature() throws
     {
-        try checkSignatureExistance()
         try checkAppleRootCertExistence()
         
         // only check certificate chain of trust and signature validity after these version
@@ -92,22 +91,6 @@ public extension InAppReceipt
 		{
             try checkChainOfTrust()
             try checkSignatureValidity()
-        }
-    }
-    
-    /// Verifies existance of the signature inside pkcs7 container
-    ///
-    /// - throws: An error in the InAppReceipt domain, if verification can't be completed
-    fileprivate func checkSignatureExistance() throws
-    {
-        guard receipt.checkContentExistance(by: PKC7.OID.signedData) else
-        {
-            throw IARError.validationFailed(reason: .signatureValidation(.receiptSignedDataNotFound))
-        }
-        
-        guard receipt.checkContentExistance(by: PKC7.OID.data) else
-        {
-            throw IARError.validationFailed(reason: .signatureValidation(.receiptDataNotFound))
         }
     }
     
