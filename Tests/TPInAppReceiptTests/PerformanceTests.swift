@@ -36,7 +36,7 @@ class PerformanceTests: XCTestCase
 		}
 	}
 
-	func testHashValidationPerformance() { // 0.000022
+	func testHashValidationPerformance() { // 0.000022 // 0.000034
 		// This is an example of a performance test case.
 		self.measure {
 			do
@@ -48,7 +48,7 @@ class PerformanceTests: XCTestCase
 		}
 	}
 
-	func testSignatureValidationPerformance() { // 0.006
+	func testSignatureValidationPerformance() { // 0.006 // 0.002499
 		// This is an example of a performance test case.
 		self.measure {
 			do
@@ -60,7 +60,7 @@ class PerformanceTests: XCTestCase
 		}
 	}
 
-	func testBundleValidationPerformance() { // 0.000012
+	func testBundleValidationPerformance() { // 0.000012 // 0.000007
 		// This is an example of a performance test case.
 		self.measure {
 			do

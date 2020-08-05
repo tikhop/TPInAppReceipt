@@ -453,7 +453,7 @@ extension PKCS7Container
 			let dec = decoder as! ASN1DecoderProtocol
 			let container = try decoder.container(keyedBy: CodingKeys.self)
 			
-			self.rawData = try dec.extractValueData()
+			self.rawData = dec.dataToDecode
 			self.cert = try container.decode(TPSCertificate.self, forKey: .cert)
 			self.signatureAlgorithm = try container.decode(ASN1SkippedField.self, forKey: .signatureAlgorithm)
 			self.signatureValue = try container.decode(Data.self, forKey: .signatureValue)
@@ -511,20 +511,22 @@ extension PKCS7Container
 			}
 		}
 		
-//		init(from decoder: Decoder) throws
-//		{
-//			let dec = decoder as! ASN1DecoderProtocol
-//			let container = try decoder.container(keyedBy: CodingKeys.self)
-//
-//			self.version = try container.decode(Int.self, forKey: .version)
-//			self.serialNumber = try container.decode(Int.self, forKey: .serialNumber)
-//			self.signature = Data()
-//			self.issuer = Data()
-//			self.validity = Data()
-//			self.subject = Data()
-//			self.subjectPublicKeyInfo = Data()
-//			self.extensions = Data()
-//		}
+		init(from decoder: Decoder) throws
+		{
+			let container = try decoder.container(keyedBy: CodingKeys.self)
+
+			self.version = try container.decode(Int.self, forKey: .version)
+			self.serialNumber = try container.decode(Int.self, forKey: .serialNumber)
+			self.signature = try container.decode(ASN1SkippedField.self, forKey: .signature)
+			self.issuer = try container.decode(ASN1SkippedField.self, forKey: .issuer)
+			self.validity = try container.decode(ASN1SkippedField.self, forKey: .validity)
+			self.subject = try container.decode(ASN1SkippedField.self, forKey: .subject)
+			
+			let subDec = try container.superDecoder(forKey: .subjectPublicKeyInfo) as! ASN1DecoderProtocol
+			self.subjectPublicKeyInfo = subDec.dataToDecode
+			
+			self.extensions = try container.decode(ASN1SkippedField.self, forKey: .extensions)
+		}
 		
 		static var template: ASN1Template
 		{
