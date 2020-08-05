@@ -263,10 +263,33 @@ internal extension InAppReceipt
     {
         return payload.receiptHash
     }
-    
-    /// signature for validation
-    var signature: Data?
-    {
-        return receipt.signatureData
-    }
+}
+
+public extension InAppReceipt
+{
+	/// signature for validation
+	var signature: Data?
+	{
+		return receipt.signatureData
+	}
+	
+	var worldwideDeveloperCertificateData: Data?
+	{
+		return receipt.worldwideDeveloperCertificateData
+	}
+	
+	var iTunesCertificateData: Data?
+	{
+		return receipt.iTunesCertificateData
+	}
+	
+	var iTunesPublicKeyData: Data?
+	{
+		return receipt.iTunesPublicKeyData
+	}
+	
+	var payloadRawData: Data
+	{
+		return payload.rawData
+	}
 }

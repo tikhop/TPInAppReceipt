@@ -119,12 +119,13 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncRootCertificate))
         }
         
-        guard let iTunesCertData = receipt.extractiTunesCertContainer() else
+        guard let iTunesCertData = iTunesCertificateData else
         {
            throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesCertificate))
         }
         
-        guard let worldwideDeveloperCertData = receipt.extractWorldwideDeveloperCertContainer() else {
+        guard let worldwideDeveloperCertData = worldwideDeveloperCertificateData else
+		{
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadWorldwideDeveloperCertificate))
         }
         
@@ -198,7 +199,7 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .signatureValidation(.signatureNotFound))
         }
         
-        guard let iTunesPublicKeyContainer = receipt.extractiTunesPublicKeyContrainer() else {
+        guard let iTunesPublicKeyContainer = receipt.iTunesPublicKeyData else {
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesPublicKey))
         }
         
@@ -214,7 +215,7 @@ public extension InAppReceipt
         }
         
         var umErrorCF: Unmanaged<CFError>? = nil
-        guard SecKeyVerifySignature(iTunesPublicKeySec, .rsaSignatureMessagePKCS1v15SHA1, receipt.extractInAppPayload()! as CFData, signature as CFData, &umErrorCF) else {
+        guard SecKeyVerifySignature(iTunesPublicKeySec, .rsaSignatureMessagePKCS1v15SHA1, payloadRawData as CFData, signature as CFData, &umErrorCF) else {
             /*
             let error = umErrorCF?.takeRetainedValue() as Error? as NSError?
             print("error is \(error)")

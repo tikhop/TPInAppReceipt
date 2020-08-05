@@ -11,6 +11,10 @@ import ASN1Swift
 protocol _InAppReceipt: PKCS7
 {
 	var receiptPayload: InAppReceiptPayload { get }
+	
+	var iTunesCertificateData: Data? { get }
+	var iTunesPublicKeyData: Data? { get }
+	var worldwideDeveloperCertificateData: Data? { get }
 	var signatureData: Data { get }
 }
 
@@ -23,13 +27,27 @@ extension InAppReceiptPayload: PKCS7Payload
 {
 	static var template: ASN1Template
 	{
-		return ASN1Template.universal(ASN1Identifier.Tag.octetString).explicit(tag: ASN1Identifier.Tag.set).constructed()
+		return ASN1Template.universal(ASN1Identifier.Tag.octetString)
 	}
 		
+	enum CodingKeys: ASN1CodingKey
+	{
+		case set
+		
+		var template: ASN1Template
+		{
+			return ASN1Template.universal(ASN1Identifier.Tag.set).constructed()
+		}
+	}
+	
 	init(from decoder: Decoder) throws
 	{
-		var container = try decoder.unkeyedContainer()
+		let asn1d = decoder as! ASN1DecoderProtocol
+		let c = try decoder.container(keyedBy: CodingKeys.self)
 		
+		var container = try c.nestedUnkeyedContainer(forKey: .set)
+		
+		let rawData: Data = try asn1d.extractValueData()
 		var bundleIdentifier = ""
 		var bundleIdentifierData = Data()
 		var appVersion = ""
@@ -40,7 +58,7 @@ extension InAppReceiptPayload: PKCS7Payload
 		var expirationDate: String? = ""
 		var receiptCreationDate: String = ""
 		var environment: String = ""
-
+		
 		var attr: [ReceiptAttribute] = []
 		
 		let asn1Decoder = ASN1Decoder()
@@ -100,7 +118,8 @@ extension InAppReceiptPayload: PKCS7Payload
 				  opaqueValue: opaqueValue,
 				  receiptHash: receiptHash,
 				  creationDate: receiptCreationDate,
-				  environment: environment)
+				  environment: environment,
+				  rawData: rawData)
 	}
 }
 
@@ -241,9 +260,36 @@ extension PKCS7Container
 		return signedData.contentInfo.payload
 	}
 	
+	var worldwideDeveloperCertificateData: Data?
+	{
+		let arr = signedData.certificates.certificates
+		
+		guard arr.count >= 2 else
+		{
+			return nil
+		}
+		
+		return arr[1].rawData
+	}
+	
 	var signatureData: Data
 	{
 		return signedData.signerInfos.encryptedDigest
+	}
+	
+	var iTunesCertificateContainer: PKCS7Container.Certificate?
+	{
+		return signedData.certificates.certificates.first
+	}
+	
+	var iTunesCertificateData: Data?
+	{
+		return iTunesCertificateContainer?.rawData
+	}
+	
+	var iTunesPublicKeyData: Data?
+	{
+		return iTunesCertificateContainer?.cert.subjectPublicKeyInfo
 	}
 }
 
@@ -259,7 +305,7 @@ extension PKCS7Container
 		var version: Int
 		var alg: ASN1SkippedField
 		var contentInfo: ContentInfo
-		var certificates: ASN1SkippedField
+		var certificates: CetrificatesContaner
 		var signerInfos: SignerInfos
 		
 		enum CodingKeys: ASN1CodingKey
@@ -281,7 +327,7 @@ extension PKCS7Container
 				case .contentInfo:
 					return ContentInfo.template
 				case .certificates:
-					return ASN1Template.contextSpecific(0).constructed().implicit(tag: ASN1Identifier.Tag.set)
+					return CetrificatesContaner.template
 				case .signerInfos:
 					return SignerInfos.template
 				}
@@ -371,6 +417,141 @@ extension PKCS7Container
 					return InAppReceiptPayload.template
 				}
 			}
+		}
+	}
+	
+	struct Certificate: ASN1Decodable
+	{
+		var cert: TPSCertificate
+		var signatureAlgorithm: ASN1SkippedField
+		var signatureValue: Data
+		
+		var rawData: Data
+		
+		enum CodingKeys: ASN1CodingKey
+		{
+			case cert
+			case signatureAlgorithm
+			case signatureValue
+			
+			var template: ASN1Template
+			{
+				switch self
+				{
+				case .cert:
+					return TPSCertificate.template
+				case .signatureAlgorithm:
+					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
+				case .signatureValue:
+					return ASN1Template.universal(ASN1Identifier.Tag.bitString)
+				}
+			}
+		}
+		
+		init(from decoder: Decoder) throws
+		{
+			let dec = decoder as! ASN1DecoderProtocol
+			let container = try decoder.container(keyedBy: CodingKeys.self)
+			
+			self.rawData = try dec.extractValueData()
+			self.cert = try container.decode(TPSCertificate.self, forKey: .cert)
+			self.signatureAlgorithm = try container.decode(ASN1SkippedField.self, forKey: .signatureAlgorithm)
+			self.signatureValue = try container.decode(Data.self, forKey: .signatureValue)
+		}
+		
+		static var template: ASN1Template
+		{
+			return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
+		}
+	}
+	
+	struct TPSCertificate: ASN1Decodable
+	{
+		var version: Int
+		var serialNumber: Int
+		var signature: ASN1SkippedField
+		var issuer: ASN1SkippedField
+		var validity: ASN1SkippedField
+		var subject: ASN1SkippedField
+		var subjectPublicKeyInfo: Data // We will need only this field
+		var extensions: ASN1SkippedField
+		
+		enum CodingKeys: ASN1CodingKey
+		{
+			case version
+			case serialNumber
+			case signature
+			case issuer
+			case validity
+			case subject
+			case subjectPublicKeyInfo
+			case extensions
+			
+			var template: ASN1Template
+			{
+				switch self
+				{
+				case .version:
+					return ASN1Template.contextSpecific(0).constructed().explicit(tag: ASN1Identifier.Tag.integer)
+				case .serialNumber:
+					return ASN1Template.universal(ASN1Identifier.Tag.integer)
+				case .signature:
+					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
+				case .issuer:
+					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
+				case .validity:
+					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
+				case .subject:
+					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
+				case .subjectPublicKeyInfo:
+					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
+				case .extensions:
+					return ASN1Template.contextSpecific(3).constructed().explicit(tag: ASN1Identifier.Tag.sequence).constructed()
+				}
+			}
+		}
+		
+//		init(from decoder: Decoder) throws
+//		{
+//			let dec = decoder as! ASN1DecoderProtocol
+//			let container = try decoder.container(keyedBy: CodingKeys.self)
+//
+//			self.version = try container.decode(Int.self, forKey: .version)
+//			self.serialNumber = try container.decode(Int.self, forKey: .serialNumber)
+//			self.signature = Data()
+//			self.issuer = Data()
+//			self.validity = Data()
+//			self.subject = Data()
+//			self.subjectPublicKeyInfo = Data()
+//			self.extensions = Data()
+//		}
+		
+		static var template: ASN1Template
+		{
+			return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
+		}
+	}
+	
+	struct CetrificatesContaner: ASN1Decodable
+	{
+		let certificates: [Certificate]
+		
+		init(from decoder: Decoder) throws
+		{
+			var container: UnkeyedDecodingContainer = try decoder.unkeyedContainer()
+			
+			var certificates: [Certificate] = []
+			
+			while !container.isAtEnd {
+				certificates.append(try container.decode(Certificate.self))
+			}
+			
+			self.certificates = certificates
+		}
+		
+		static var template: ASN1Template
+		{
+			return ASN1Template.contextSpecific(0).constructed().implicit(tag: ASN1Identifier.Tag.sequence)
 		}
 	}
 	
