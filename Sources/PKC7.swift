@@ -41,7 +41,6 @@ protocol PKCS7Payload: ASN1Decodable
 }
 
 
-
 extension PKCS7
 {
     /// Find content by pkcs7 oid
@@ -84,4 +83,11 @@ extension PKCS7
     {
 		return (false, nil)
     }
+}
+
+struct CertificateSet: ASN1Decodable
+{
+	static var template: ASN1Template { return ASN1Template.contextSpecific(0).constructed().implicit(tag: ASN1Identifier.Tag.set)}
+	
+	
 }

@@ -26,7 +26,7 @@ class PerformanceTests: XCTestCase
 	
 //	func testValidationPerformance() { //  / 0.004
 //		// This is an example of a performance test case.
-//		self.measure {
+//		`self.measure {`
 //			do
 //			{
 //				try receipt.verify()

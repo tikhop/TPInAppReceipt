@@ -11,13 +11,19 @@ final class TPInAppReceiptTests: XCTestCase {
 
 	func testNewReceipt()
 	{
-		let r = try! InAppReceipt(receiptData: newReceipt)
-		XCTAssert(true)
+		self.measure {
+			let r = try! InAppReceipt(receiptData: newReceipt)
+			XCTAssert(true)
+		}
+		
 	}
 	
 	func testLegacyReceipt()
 	{
-		let r = try! InAppReceipt(receiptData: receipt)
+		self.measure {
+			let r = try! InAppReceipt(receiptData: receipt)
+		}
+		
 	}
 	
     static var allTests = [

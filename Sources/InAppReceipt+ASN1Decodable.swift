@@ -40,7 +40,6 @@ extension InAppReceiptPayload: PKCS7Payload
 		var receiptCreationDate: String = ""
 		var environment: String = ""
 
-		
 		var attr: [ReceiptAttribute] = []
 		
 		let asn1Decoder = ASN1Decoder()
@@ -113,21 +112,21 @@ extension InAppPurchase: ASN1Decodable
 		
 		var container = try decoder.unkeyedContainer()
 		let asn1Decoder = ASN1Decoder()
-		
+
 		while !container.isAtEnd
 		{
 			do
 			{
 				let attribute = try container.decode(ReceiptAttribute.self)
-				
+
 				guard let field = InAppReceiptField(rawValue: attribute.type) else
 				{
 					continue
 				}
-				
+
 				let octetString = attribute.value
 				let valueData = try asn1Decoder.decode(Data.self, from: octetString, template: .universal(ASN1Identifier.Tag.octetString))
-				
+
 				switch field
 				{
 				case .quantity:
@@ -211,7 +210,7 @@ struct ReceiptAttribute: ASN1Decodable
 }
 
 /// In App Receipt
-class _PKCS7Container: _InAppReceipt
+class PKCS7Container: _InAppReceipt
 {
 	var oid: ASN1SkippedField
 	var signedData: SignedData
@@ -234,15 +233,15 @@ class _PKCS7Container: _InAppReceipt
 	}
 }
 
-extension _PKCS7Container
+extension PKCS7Container
 {
 	var payload: PKCS7Payload
 	{
-		return signedData.contentInfo.payload.payload
+		return signedData.contentInfo.payload
 	}
 }
 
-extension _PKCS7Container
+extension PKCS7Container
 {
 	struct SignedData: ASN1Decodable
 	{
@@ -254,12 +253,16 @@ extension _PKCS7Container
 		var version: Int
 		var alg: ASN1SkippedField
 		var contentInfo: ContentInfo
+		var certificates: ASN1SkippedField
+		var signerInfos: ASN1SkippedField
 		
 		enum CodingKeys: ASN1CodingKey
 		{
 			case version
 			case alg
 			case contentInfo
+			case certificates
+			case signerInfos
 			
 			var template: ASN1Template
 			{
@@ -271,6 +274,10 @@ extension _PKCS7Container
 					return ASN1Template.universal(ASN1Identifier.Tag.set).constructed()
 				case .contentInfo:
 					return ContentInfo.template
+				case .certificates:
+					return ASN1Template.contextSpecific(0).constructed().implicit(tag: ASN1Identifier.Tag.set)
+				case .signerInfos:
+					return ASN1Template.universal(ASN1Identifier.Tag.set).constructed()
 				}
 			}
 		}
@@ -284,9 +291,26 @@ extension _PKCS7Container
 		}
 		
 		var oid: ASN1SkippedField
-		var payload: PayloadContainer
+		var payload: InAppReceiptPayload
 		
 		enum CodingKeys: ASN1CodingKey
+		{
+			case oid
+			case payload
+
+			var template: ASN1Template
+			{
+				switch self
+				{
+				case .oid:
+					return .universal(ASN1Identifier.Tag.objectIdentifier)
+				case .payload:
+					return PayloadContainer.template
+				}
+			}
+		}
+		
+		enum LegacyCodingKeys: ASN1CodingKey
 		{
 			case oid
 			case payload
@@ -298,8 +322,24 @@ extension _PKCS7Container
 				case .oid:
 					return .universal(ASN1Identifier.Tag.objectIdentifier)
 				case .payload:
-					return PayloadContainer.template
+					return _PayloadContainer.template
 				}
+			}
+		}
+		
+		init(from decoder: Decoder) throws
+		{
+			do
+			{
+				let container = try decoder.container(keyedBy: CodingKeys.self)
+				oid = try container.decode(ASN1SkippedField.self, forKey: .oid)
+				let payloadContainer = try container.decode(PayloadContainer.self, forKey: .payload)
+				payload = payloadContainer.payload
+			}catch{
+				let container = try decoder.container(keyedBy: LegacyCodingKeys.self)
+				oid = try container.decode(ASN1SkippedField.self, forKey: .oid)
+				let payloadContainer = try container.decode(_PayloadContainer.self, forKey: .payload)
+				payload = payloadContainer.payload
 			}
 		}
 	}
@@ -327,103 +367,9 @@ extension _PKCS7Container
 			}
 		}
 	}
-}
-
-/// Legacy In App Receipt
-class __PKCS7Container: _InAppReceipt
-{
-	var oid: ASN1SkippedField
-	var signedData: SignedData
 	
-	enum CodingKeys: ASN1CodingKey
-	{
-		case oid
-		case signedData
-		
-		var template: ASN1Template
-		{
-			switch self
-			{
-			case .oid:
-				return .universal(ASN1Identifier.Tag.objectIdentifier)
-			case .signedData:
-				return SignedData.template
-			}
-		}
-	}
-}
-
-extension __PKCS7Container
-{
-	var payload: PKCS7Payload
-	{
-		return signedData.contentInfo.payload.payload
-	}
-}
-
-extension __PKCS7Container
-{
-	struct SignedData: ASN1Decodable
-	{
-		static var template: ASN1Template
-		{
-			return ASN1Template.contextSpecific(0).constructed().explicit(tag: 16).constructed()
-		}
-		
-		var version: Int
-		var alg: ASN1SkippedField
-		var contentInfo: ContentInfo
-		
-		enum CodingKeys: ASN1CodingKey
-		{
-			case version
-			case alg
-			case contentInfo
-			
-			var template: ASN1Template
-			{
-				switch self
-				{
-				case .version:
-					return .universal(ASN1Identifier.Tag.integer)
-				case .alg:
-					return ASN1Template.universal(ASN1Identifier.Tag.set).constructed()
-				case .contentInfo:
-					return ContentInfo.template
-				}
-			}
-		}
-	}
-	
-	struct ContentInfo: ASN1Decodable
-	{
-		static var template: ASN1Template
-		{
-			return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-		}
-		
-		var oid: ASN1SkippedField
-		var payload: PayloadContainer
-		
-		enum CodingKeys: ASN1CodingKey
-		{
-			case oid
-			case payload
-			
-			var template: ASN1Template
-			{
-				switch self
-				{
-				case .oid:
-					return .universal(ASN1Identifier.Tag.objectIdentifier)
-				case .payload:
-					return PayloadContainer.template
-				}
-			}
-		}
-	}
-	
-	struct PayloadContainer: ASN1Decodable
+	/// Legacy payload format
+	struct _PayloadContainer: ASN1Decodable
 	{
 		var payload: InAppReceiptPayload
 		

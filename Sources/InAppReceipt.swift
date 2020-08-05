@@ -60,18 +60,8 @@ public class InAppReceipt
 	public init(receiptData: Data, rootCertPath: String? = nil) throws
 	{
 		let asn1decoder = ASN1Decoder()
-		let pkcs7: _InAppReceipt
+		let pkcs7 = try asn1decoder.decode(PKCS7Container.self, from: receiptData)
 		
-		if let container = try? asn1decoder.decode(_PKCS7Container.self, from: receiptData)
-		{
-			pkcs7 = container
-		}else if let container = try? asn1decoder.decode(__PKCS7Container.self, from: receiptData)
-		{
-			pkcs7 = container
-		}else{
-			throw IARError.initializationFailed(reason: .pkcs7ParsingError)
-		}
-
 		
 		self.receipt = pkcs7
 		self.rawData = receiptData
