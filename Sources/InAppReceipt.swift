@@ -65,7 +65,14 @@ public class InAppReceipt
 		
 		self.receipt = pkcs7
 		self.rawData = receiptData
-		self.rootCertificatePath = rootCertPath ?? Bundle.lookUp(forResource: "AppleIncRootCertificate", ofType: "cer")
+		
+		#if DEBUG
+		let certificateName = "StoreKitTestCertificate"
+		#else
+		let certificateName = "AppleIncRootCertificate"
+		#endif
+		
+		self.rootCertificatePath = rootCertPath ?? Bundle.lookUp(forResource: certificateName, ofType: "cer")
     }
 }
 

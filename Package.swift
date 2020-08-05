@@ -19,7 +19,7 @@ let package = Package(
 			dependencies: ["ASN1Swift"],
 			path: "Sources",
 			exclude: ["Bundle+Extension.swift"],
-			resources: [.process("AppleIncRootCertificate.cer")]
+			resources: [.process("AppleIncRootCertificate.cer"), .process("StoreKitTestCertificate.cer")]
 		),
 		.testTarget(
 			name: "TPInAppReceiptTests",

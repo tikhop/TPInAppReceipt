@@ -89,8 +89,12 @@ public extension InAppReceipt
         // only check certificate chain of trust and signature validity after these version
         if #available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 5.0, *)
 		{
-            try checkChainOfTrust()
-            try checkSignatureValidity()
+			#if DEBUG
+			try checkSignatureValidity()
+			#else
+			try checkChainOfTrust()
+			try checkSignatureValidity()
+			#endif
         }
     }
     
@@ -156,7 +160,7 @@ public extension InAppReceipt
         }
         
         // verify iTunes cert in the receipt is signed by worldwide developer cert, which is signed by Apple Root Cert
-        let iTunesCertVerifystatus = SecTrustCreateWithCertificates([iTunesCertSec, worldwideDevCertSec ,rootCertSec] as AnyObject,
+        let iTunesCertVerifystatus = SecTrustCreateWithCertificates([iTunesCertSec, worldwideDevCertSec, rootCertSec] as AnyObject,
                                                                     policy,
                                                                     &iTunesTrust)
         
@@ -199,6 +203,11 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .signatureValidation(.signatureNotFound))
         }
         
+		guard let path = rootCertificatePath, let rootCertData = try? Data(contentsOf: URL(fileURLWithPath: path)) else
+		{
+			throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncRootCertificate))
+		}
+		
         guard let iTunesPublicKeyContainer = receipt.iTunesPublicKeyData else {
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesPublicKey))
         }
