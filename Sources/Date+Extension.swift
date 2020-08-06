@@ -23,6 +23,7 @@ public extension String
         
         let formatter = ISO8601DateFormatter()
         formatter.timeZone = TimeZone(abbreviation: "UTC")
+        formatter.formatOptions = .withInternetDateTime
 
         let date = formatter.date(from: self)
         return date
@@ -31,6 +32,7 @@ public extension String
     func rfc3339date() -> Date?
     {
         let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = .withInternetDateTime
         formatter.timeZone = TimeZone(abbreviation: "UTC")
 
         let date = formatter.date(from: self)
