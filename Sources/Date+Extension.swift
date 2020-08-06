@@ -21,22 +21,20 @@ public extension String
     func utcTime() -> Date?
     {
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYMMDDHHmmss'Z'"
+        let formatter = ISO8601DateFormatter()
         formatter.timeZone = TimeZone(abbreviation: "UTC")
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        
+        formatter.formatOptions = .withInternetDateTime
+
         let date = formatter.date(from: self)
         return date
     }
     
     func rfc3339date() -> Date?
     {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = .withInternetDateTime
         formatter.timeZone = TimeZone(abbreviation: "UTC")
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        
+
         let date = formatter.date(from: self)
         return date
     }
