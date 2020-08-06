@@ -117,9 +117,9 @@ public extension InAppReceipt
     }
     
     /// The date that the app receipt expires
-    var expirationDate: String?
+    var expirationDate: Date?
     {
-        return payload.expirationDate
+		return payload.expirationDate?.rfc3339date()
     }
     
     /// Returns `true` if any purchases exist, `false` otherwise
@@ -135,9 +135,9 @@ public extension InAppReceipt
     }
     
     /// The date when the app receipt was created.
-    var creationDate: String
+    var creationDate: Date
     {
-        return payload.creationDate
+		return payload.creationDate.rfc3339date()!
     }
     
     /// In App Receipt in base64

@@ -17,10 +17,10 @@ s.osx.deployment_target = '10.10'
 s.tvos.deployment_target = '9.0'
 s.watchos.deployment_target = '2.0'
 s.requires_arc = true
-s.dependency 'ASN1Swift', "~> 0.1"
+s.dependency 'ASN1Swift', "~> 1.0.0"
 
-s.source_files  = "Sources/*.{swift}", "Sources/Vendor/CryptoSwift/*.{swift}"
+s.source_files  = "Sources/*.{swift}"
 
-s.resources  = "Sources/AppleIncRootCertificate.cer"
+s.resources  = "Sources/AppleIncRootCertificate.cer", "Sources/StoreKitTestCertificate.cer"
 
 end
