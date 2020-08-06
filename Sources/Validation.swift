@@ -203,11 +203,6 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .signatureValidation(.signatureNotFound))
         }
         
-		guard let path = rootCertificatePath, let rootCertData = try? Data(contentsOf: URL(fileURLWithPath: path)) else
-		{
-			throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncRootCertificate))
-		}
-		
         guard let iTunesPublicKeyContainer = receipt.iTunesPublicKeyData else {
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesPublicKey))
         }
