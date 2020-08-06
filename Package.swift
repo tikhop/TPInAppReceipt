@@ -5,8 +5,8 @@ import PackageDescription
 let package = Package(
     name: "TPInAppReceipt",
 	platforms: [.macOS(.v10_11),
-				.iOS(.v9),
-				.tvOS(.v9),
+				.iOS(.v10),
+				.tvOS(.v10),
 				.watchOS("6.2")],
 	
     products: [
