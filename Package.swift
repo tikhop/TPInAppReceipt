@@ -6,7 +6,7 @@ let package = Package(
     name: "TPInAppReceipt",
 	platforms: [.macOS(.v10_12),
 				.iOS(.v10),
-				.tvOS(.v9),
+				.tvOS(.v10),
 				.watchOS("6.2")],
 	
     products: [
