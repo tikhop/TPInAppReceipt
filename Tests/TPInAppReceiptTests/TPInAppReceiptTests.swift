@@ -21,7 +21,7 @@ final class TPInAppReceiptTests: XCTestCase {
 	func testLegacyReceipt()
 	{
 		self.measure {
-			let r = try! InAppReceipt(receiptData: receipt)
+			let r = try! InAppReceipt(receiptData: legacyReceipt)
 		}
 		
 	}
