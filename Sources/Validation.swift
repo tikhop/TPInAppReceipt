@@ -257,10 +257,7 @@ public extension InAppReceipt
 fileprivate func guid() -> Data
 {
     
-#if !targetEnvironment(macCatalyst) && targetEnvironment(simulator) // Debug purpose only
-    var uuidBytes = UUID(uuidString: "22C105F3-61B5-4FE4-8CB2-30AD9723D345")!.uuid
-    return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
-#elseif os(watchOS)
+#if os(watchOS)
     var uuidBytes = WKInterfaceDevice.current().identifierForVendor!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
 #elseif !targetEnvironment(macCatalyst) && (os(iOS) || os(tvOS))
