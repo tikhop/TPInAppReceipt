@@ -1,34 +1,39 @@
 //
-//  File.swift
-//  
+//  InAppReceipt+ASN1Decodable.swift
+//  TPInAppReceipt
 //
-//  Created by Pavel Tikhonenko on 04.08.2020.
+//  Created by Pavel Tikhonenko on 04/08/20.
+//  Copyright © 2017-2020 Pavel Tikhonenko. All rights reserved.
 //
 
 import Foundation
 import ASN1Swift
 
-protocol _InAppReceipt: PKCS7
+class _InAppReceipt
 {
-	var receiptPayload: InAppReceiptPayload { get }
+	private var pkcs7container: PKCS7Container
 	
-	var iTunesCertificateData: Data? { get }
-	var iTunesPublicKeyData: Data? { get }
-	var worldwideDeveloperCertificateData: Data? { get }
-	var signatureData: Data { get }
-	var digestAlgorithm: SecKeyAlgorithm? { get }
+	var payload: InAppReceiptPayload!
+	
+	init(rawData: Data) throws
+	{
+		let asn1decoder = ASN1Decoder()
+		self.pkcs7container = try asn1decoder.decode(PKCS7Container.self, from: rawData)
+		
+		do
+		{
+			self.payload = try asn1decoder.decode(PayloadContainer.self, from: pkcs7container.signedData.contentInfo.payload.rawData).payload
+		}catch{
+			self.payload = try asn1decoder.decode(_PayloadContainer.self, from: pkcs7container.signedData.contentInfo.payload.rawData).payload
+		}
+	}
 }
 
-extension PKCS7Container
+extension _InAppReceipt
 {
-	var payload: PKCS7Payload
-	{
-		return signedData.contentInfo.payload
-	}
-		
 	var digestAlgorithm: SecKeyAlgorithm?
 	{
-		guard let algName = signedData.alg.items.first?.algorithm else
+		guard let algName = pkcs7container.signedData.alg.items.first?.algorithm else
 		{
 			return nil
 		}
@@ -43,7 +48,7 @@ extension PKCS7Container
 	
 	var worldwideDeveloperCertificateData: Data?
 	{
-		let arr = signedData.certificates.certificates
+		let arr = pkcs7container.signedData.certificates.certificates
 		
 		guard arr.count >= 2 else
 		{
@@ -55,12 +60,12 @@ extension PKCS7Container
 	
 	var signatureData: Data
 	{
-		return signedData.signerInfos.encryptedDigest
+		return pkcs7container.signedData.signerInfos.encryptedDigest
 	}
 	
 	var iTunesCertificateContainer: PKCS7Container.Certificate?
 	{
-		return signedData.certificates.certificates.first
+		return pkcs7container.signedData.certificates.certificates.first
 	}
 	
 	var iTunesCertificateData: Data?
@@ -72,15 +77,9 @@ extension PKCS7Container
 	{
 		return iTunesCertificateContainer?.cert.subjectPublicKeyInfo
 	}
-	
 }
 
-extension _InAppReceipt
-{
-	var receiptPayload: InAppReceiptPayload { return payload as! InAppReceiptPayload }
-}
-
-extension InAppReceiptPayload: PKCS7Payload
+extension InAppReceiptPayload: ASN1Decodable
 {
 	static var template: ASN1Template
 	{
@@ -100,9 +99,6 @@ extension InAppReceiptPayload: PKCS7Payload
 	init(from decoder: Decoder) throws
 	{
 		let asn1d = decoder as! ASN1DecoderProtocol
-		let c = try decoder.container(keyedBy: CodingKeys.self)
-		
-		var container = try c.nestedUnkeyedContainer(forKey: .set)
 		
 		let rawData: Data = try asn1d.extractValueData()
 		var bundleIdentifier = ""
@@ -116,50 +112,47 @@ extension InAppReceiptPayload: PKCS7Payload
 		var receiptCreationDate: String = ""
 		var environment: String = ""
 		
-		var attr: [ReceiptAttribute] = []
-		
-		let asn1Decoder = ASN1Decoder()
+		let c = try decoder.container(keyedBy: CodingKeys.self)
+		var container = try c.nestedUnkeyedContainer(forKey: .set) as! ASN1UnkeyedDecodingContainerProtocol
 		
 		while !container.isAtEnd
 		{
 			do
 			{
-				let attribute = try container.decode(ReceiptAttribute.self)
+				var attributeContainer = try container.nestedUnkeyedContainer(for: ReceiptAttribute.template) as! ASN1UnkeyedDecodingContainerProtocol
+				let type: Int = try attributeContainer.decode(Int.self)
+				let _ = try attributeContainer.decode(Int.self) // Consume
+				var valueContainer = try attributeContainer.nestedUnkeyedContainer(for: .universal(ASN1Identifier.Tag.octetString)) as! ASN1UnkeyedDecodingContainerProtocol
 				
-				guard let receiptField = InAppReceiptField(rawValue: attribute.type) else
+				guard let field = InAppReceiptField(rawValue: type) else
 				{
 					continue
 				}
 				
-				let octetString = attribute.value
-				
-				switch (receiptField)
+				switch (field)
 				{
 				case .bundleIdentifier:
-					bundleIdentifier = try asn1Decoder.decode(String.self, from: octetString)
-					bundleIdentifierData = octetString //valueData TODO: check this
+					bundleIdentifier = try valueContainer.decode(String.self)
+					bundleIdentifierData = valueContainer.valueData
 				case .appVersion:
-					//let valueData = try asn1Decoder.decode(Data.self, from: octetString, template: .universal(ASN1Identifier.Tag.octetString))
-					appVersion = try asn1Decoder.decode(String.self, from: octetString)
+					appVersion = try valueContainer.decode(String.self)
 				case .opaqueValue:
-					opaqueValue = octetString
+					opaqueValue = valueContainer.valueData
 				case .receiptHash:
-					receiptHash = octetString
+					receiptHash = valueContainer.valueData
 				case .inAppPurchaseReceipt:
-					purchases.append(try asn1Decoder.decode(InAppPurchase.self, from: octetString))
+					purchases.append(try valueContainer.decode(InAppPurchase.self))
 				case .originalAppVersion:
-					originalAppVersion = try asn1Decoder.decode(String.self, from: octetString)
+					originalAppVersion = try valueContainer.decode(String.self)
 				case .expirationDate:
-					expirationDate = try asn1Decoder.decode(String.self, from: octetString, template: .universal(ASN1Identifier.Tag.ia5String))
+					expirationDate = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
 				case .receiptCreationDate:
-					receiptCreationDate = try asn1Decoder.decode(String.self, from: octetString, template: .universal(ASN1Identifier.Tag.ia5String))
+					receiptCreationDate = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
 				case .environment:
-					environment = try asn1Decoder.decode(String.self, from: octetString)
+					environment = try valueContainer.decode(String.self)
 				default:
-					print("attribute.type = \(String(describing: attribute.type)))")
+					print("attribute.type = \(String(describing: type)))")
 				}
-				
-				attr.append(attribute)
 			}catch{
 				assertionFailure("Something wrong here")
 			}
@@ -183,61 +176,54 @@ extension InAppPurchase: ASN1Decodable
 {
 	public init(from decoder: Decoder) throws
 	{
-		
 		self.init()
 		
-		var container = try decoder.unkeyedContainer()
-		let asn1Decoder = ASN1Decoder()
+		var container = try decoder.unkeyedContainer() as! ASN1UnkeyedDecodingContainerProtocol
 		
 		while !container.isAtEnd
 		{
 			do
 			{
-				let attribute = try container.decode(ReceiptAttribute.self)
+				var attributeContainer = try container.nestedUnkeyedContainer(for: ReceiptAttribute.template) as! ASN1UnkeyedDecodingContainerProtocol
+				let type: Int = try attributeContainer.decode(Int.self)
+				let _ = try attributeContainer.decode(Int.self) // Consume
+				var valueContainer = try attributeContainer.nestedUnkeyedContainer(for: .universal(ASN1Identifier.Tag.octetString)) as! ASN1UnkeyedDecodingContainerProtocol
 				
-				guard let field = InAppReceiptField(rawValue: attribute.type) else
+				guard let field = InAppReceiptField(rawValue: type) else
 				{
 					continue
 				}
 				
-				let octetString = attribute.value
-				
 				switch field
 				{
 				case .quantity:
-					quantity = try asn1Decoder.decode(Int.self, from: octetString)
+					quantity = try valueContainer.decode(Int.self)
 				case .productIdentifier:
-					productIdentifier = try asn1Decoder.decode(String.self, from: octetString)
+					productIdentifier = try valueContainer.decode(String.self)
 				case .productType:
-					productType = Type(rawValue: try asn1Decoder.decode(Int.self, from: octetString)) ?? .unknown
+					productType = Type(rawValue: try valueContainer.decode(Int.self)) ?? .unknown
 				case .transactionIdentifier:
-					transactionIdentifier = try asn1Decoder.decode(String.self, from: octetString)
+					transactionIdentifier = try valueContainer.decode(String.self)
 				case .purchaseDate:
-					purchaseDateString = try asn1Decoder.decode(String.self, from: octetString, template: .universal(ASN1Identifier.Tag.ia5String))
+					purchaseDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
 				case .originalTransactionIdentifier:
-					originalTransactionIdentifier = try asn1Decoder.decode(String.self, from: octetString)
+					originalTransactionIdentifier = try valueContainer.decode(String.self)
 				case .originalPurchaseDate:
-					originalPurchaseDateString = try asn1Decoder.decode(String.self, from: octetString, template: .universal(ASN1Identifier.Tag.ia5String))
+					originalPurchaseDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
 				case .subscriptionExpirationDate:
-					if !octetString.isEmpty
-					{
-						let str = try asn1Decoder.decode(String.self, from: octetString, template: .universal(ASN1Identifier.Tag.ia5String))
-						subscriptionExpirationDateString = str == "" ? nil : str
-					}
+					let str = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
+					subscriptionExpirationDateString = str == "" ? nil : str
 				case .cancellationDate:
-					if !octetString.isEmpty
-					{
-						let str = try asn1Decoder.decode(String.self, from: octetString, template: .universal(ASN1Identifier.Tag.ia5String))
-						cancellationDateString = str == "" ? nil : str
-					}
+					let str = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
+					cancellationDateString = str == "" ? nil : str
 				case .webOrderLineItemID:
-					webOrderLineItemID = try asn1Decoder.decode(Int.self, from: octetString)
+					webOrderLineItemID = try valueContainer.decode(Int.self)
 				case .subscriptionTrialPeriod:
-					subscriptionTrialPeriod = (try asn1Decoder.decode(Int.self, from: octetString)) != 0
+					subscriptionTrialPeriod = (try valueContainer.decode(Int.self)) != 0
 				case .subscriptionIntroductoryPricePeriod:
-					subscriptionIntroductoryPricePeriod = (try asn1Decoder.decode(Int.self, from: octetString)) != 0
+					subscriptionIntroductoryPricePeriod = (try valueContainer.decode(Int.self)) != 0
 				case .promotionalOfferIdentifier:
-					promotionalOfferIdentifier = try asn1Decoder.decode(String.self, from: octetString)
+					promotionalOfferIdentifier = try valueContainer.decode(String.self)
 				default:
 					break
 				}
@@ -283,416 +269,50 @@ struct ReceiptAttribute: ASN1Decodable
 	}
 }
 
-/// In App Receipt
-class PKCS7Container: _InAppReceipt
+struct PayloadContainer: ASN1Decodable
 {
-	var oid: ASN1SkippedField
-	private(set) var signedData: SignedData
+	var payload: InAppReceiptPayload
+	
+	static var template: ASN1Template
+	{
+		return ASN1Template.contextSpecific(0).constructed().explicit(tag: ASN1Identifier.Tag.octetString).constructed()
+	}
 	
 	enum CodingKeys: ASN1CodingKey
 	{
-		case oid
-		case signedData
+		case payload
 		
 		var template: ASN1Template
 		{
 			switch self
 			{
-			case .oid:
-				return .universal(ASN1Identifier.Tag.objectIdentifier)
-			case .signedData:
-				return SignedData.template
+			case .payload:
+				return InAppReceiptPayload.template
 			}
 		}
 	}
 }
 
-
-
-extension PKCS7Container.SignedData
+/// Legacy payload format
+struct _PayloadContainer: ASN1Decodable
 {
-//	var digestAlgorithm: DigestAlgorithmIdentifiers
-//	{
-//		return alg.items.first?
-//	}
-}
-extension PKCS7Container
-{
-	struct SignedData: ASN1Decodable
+	var payload: InAppReceiptPayload
+	
+	static var template: ASN1Template
 	{
-		static var template: ASN1Template
-		{
-			return ASN1Template.contextSpecific(0).constructed().explicit(tag: 16).constructed()
-		}
-		
-		var version: Int
-		var alg: DigestAlgorithmIdentifiersContainer
-		var contentInfo: ContentInfo
-		var certificates: CetrificatesContaner
-		var signerInfos: SignerInfos
-		
-		enum CodingKeys: ASN1CodingKey
-		{
-			case version
-			case alg
-			case contentInfo
-			case certificates
-			case signerInfos
-			
-			var template: ASN1Template
-			{
-				switch self
-				{
-				case .version:
-					return .universal(ASN1Identifier.Tag.integer)
-				case .alg:
-					return DigestAlgorithmIdentifiersContainer.template
-				case .contentInfo:
-					return ContentInfo.template
-				case .certificates:
-					return CetrificatesContaner.template
-				case .signerInfos:
-					return SignerInfos.template
-				}
-			}
-		}
+		return ASN1Template.contextSpecific(0).constructed()
 	}
 	
-	struct DigestAlgorithmIdentifiersContainer: ASN1Decodable
+	enum CodingKeys: ASN1CodingKey
 	{
-		var items: [Item]
+		case payload
 		
-		init(from decoder: Decoder) throws
+		var template: ASN1Template
 		{
-			var container: UnkeyedDecodingContainer = try decoder.unkeyedContainer()
-			
-			var items: [Item] = []
-			
-			while !container.isAtEnd
+			switch self
 			{
-				items.append(try container.decode(Item.self))
-			}
-			
-			self.items = items
-		}
-		
-		static var template: ASN1Template { ASN1Template.universal(ASN1Identifier.Tag.set).constructed() }
-		
-		struct Item: ASN1Decodable
-		{
-			var algorithm: String
-			var parameters: ASN1Null
-			
-			enum CodingKeys: ASN1CodingKey
-			{
-				case algorithm
-				case parameters
-				
-				var template: ASN1Template
-				{
-					switch self
-					{
-					case .algorithm:
-						return .universal(ASN1Identifier.Tag.objectIdentifier)
-					case .parameters:
-						return .universal(ASN1Identifier.Tag.null)
-					}
-				}
-			}
-			
-			static var template: ASN1Template
-			{
-				return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-			}
-			
-		}
-	}
-	
-	struct ContentInfo: ASN1Decodable
-	{
-		static var template: ASN1Template
-		{
-			return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-		}
-		
-		var oid: ASN1SkippedField
-		var payload: InAppReceiptPayload
-		
-		enum CodingKeys: ASN1CodingKey
-		{
-			case oid
-			case payload
-
-			var template: ASN1Template
-			{
-				switch self
-				{
-				case .oid:
-					return .universal(ASN1Identifier.Tag.objectIdentifier)
-				case .payload:
-					return PayloadContainer.template
-				}
-			}
-		}
-		
-		enum LegacyCodingKeys: ASN1CodingKey
-		{
-			case oid
-			case payload
-			
-			var template: ASN1Template
-			{
-				switch self
-				{
-				case .oid:
-					return .universal(ASN1Identifier.Tag.objectIdentifier)
-				case .payload:
-					return _PayloadContainer.template
-				}
-			}
-		}
-		
-		init(from decoder: Decoder) throws
-		{
-			do
-			{
-				let container = try decoder.container(keyedBy: CodingKeys.self)
-				oid = try container.decode(ASN1SkippedField.self, forKey: .oid)
-				let payloadContainer = try container.decode(PayloadContainer.self, forKey: .payload)
-				payload = payloadContainer.payload
-			}catch{
-				let container = try decoder.container(keyedBy: LegacyCodingKeys.self)
-				oid = try container.decode(ASN1SkippedField.self, forKey: .oid)
-				let payloadContainer = try container.decode(_PayloadContainer.self, forKey: .payload)
-				payload = payloadContainer.payload
-			}
-		}
-	}
-	
-	struct PayloadContainer: ASN1Decodable
-	{
-		var payload: InAppReceiptPayload
-		
-		static var template: ASN1Template
-		{
-			return ASN1Template.contextSpecific(0).constructed().explicit(tag: ASN1Identifier.Tag.octetString).constructed()
-		}
-		
-		enum CodingKeys: ASN1CodingKey
-		{
-			case payload
-			
-			var template: ASN1Template
-			{
-				switch self
-				{
-				case .payload:
-					return InAppReceiptPayload.template
-				}
-			}
-		}
-	}
-	
-	struct Certificate: ASN1Decodable
-	{
-		var cert: TPSCertificate
-		var signatureAlgorithm: ASN1SkippedField
-		var signatureValue: Data
-		
-		var rawData: Data
-		
-		enum CodingKeys: ASN1CodingKey
-		{
-			case cert
-			case signatureAlgorithm
-			case signatureValue
-			
-			var template: ASN1Template
-			{
-				switch self
-				{
-				case .cert:
-					return TPSCertificate.template
-				case .signatureAlgorithm:
-					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-				case .signatureValue:
-					return ASN1Template.universal(ASN1Identifier.Tag.bitString)
-				}
-			}
-		}
-		
-		init(from decoder: Decoder) throws
-		{
-			let dec = decoder as! ASN1DecoderProtocol
-			let container = try decoder.container(keyedBy: CodingKeys.self)
-			
-			self.rawData = dec.dataToDecode
-			self.cert = try container.decode(TPSCertificate.self, forKey: .cert)
-			self.signatureAlgorithm = try container.decode(ASN1SkippedField.self, forKey: .signatureAlgorithm)
-			self.signatureValue = try container.decode(Data.self, forKey: .signatureValue)
-		}
-		
-		static var template: ASN1Template
-		{
-			return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-		}
-	}
-	
-	struct TPSCertificate: ASN1Decodable
-	{
-		var version: Int
-		var serialNumber: Int
-		var signature: ASN1SkippedField
-		var issuer: ASN1SkippedField
-		var validity: ASN1SkippedField
-		var subject: ASN1SkippedField
-		var subjectPublicKeyInfo: Data // We will need only this field
-		var extensions: ASN1SkippedField
-		
-		enum CodingKeys: ASN1CodingKey
-		{
-			case version
-			case serialNumber
-			case signature
-			case issuer
-			case validity
-			case subject
-			case subjectPublicKeyInfo
-			case extensions
-			
-			var template: ASN1Template
-			{
-				switch self
-				{
-				case .version:
-					return ASN1Template.contextSpecific(0).constructed().explicit(tag: ASN1Identifier.Tag.integer)
-				case .serialNumber:
-					return ASN1Template.universal(ASN1Identifier.Tag.integer)
-				case .signature:
-					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-				case .issuer:
-					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-				case .validity:
-					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-				case .subject:
-					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-				case .subjectPublicKeyInfo:
-					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-				case .extensions:
-					return ASN1Template.contextSpecific(3).constructed().explicit(tag: ASN1Identifier.Tag.sequence).constructed()
-				}
-			}
-		}
-		
-		init(from decoder: Decoder) throws
-		{
-			let container = try decoder.container(keyedBy: CodingKeys.self)
-
-			self.version = try container.decode(Int.self, forKey: .version)
-			self.serialNumber = try container.decode(Int.self, forKey: .serialNumber)
-			self.signature = try container.decode(ASN1SkippedField.self, forKey: .signature)
-			self.issuer = try container.decode(ASN1SkippedField.self, forKey: .issuer)
-			self.validity = try container.decode(ASN1SkippedField.self, forKey: .validity)
-			self.subject = try container.decode(ASN1SkippedField.self, forKey: .subject)
-			
-			let subDec = try container.superDecoder(forKey: .subjectPublicKeyInfo) as! ASN1DecoderProtocol
-			self.subjectPublicKeyInfo = subDec.dataToDecode
-			
-			self.extensions = try container.decode(ASN1SkippedField.self, forKey: .extensions)
-		}
-		
-		static var template: ASN1Template
-		{
-			return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-		}
-	}
-	
-	struct CetrificatesContaner: ASN1Decodable
-	{
-		let certificates: [Certificate]
-		
-		init(from decoder: Decoder) throws
-		{
-			var container: UnkeyedDecodingContainer = try decoder.unkeyedContainer()
-			
-			var certificates: [Certificate] = []
-			
-			while !container.isAtEnd {
-				certificates.append(try container.decode(Certificate.self))
-			}
-			
-			self.certificates = certificates
-		}
-		
-		static var template: ASN1Template
-		{
-			return ASN1Template.contextSpecific(0).constructed().implicit(tag: ASN1Identifier.Tag.sequence)
-		}
-	}
-	
-	struct SignerInfos: ASN1Decodable
-	{
-		static var template: ASN1Template
-		{
-			return ASN1Template.universal(ASN1Identifier.Tag.set).constructed().explicit(tag: ASN1Identifier.Tag.sequence).constructed()
-		}
-		
-		var version: Int
-		var signerIdentifier: ASN1SkippedField
-		var digestAlgorithm: ASN1SkippedField
-		var digestEncryptionAlgorithm: ASN1SkippedField
-		var encryptedDigest: Data
-		
-		enum CodingKeys: ASN1CodingKey
-		{
-			case version
-			case signerIdentifier
-			case digestAlgorithm
-			case digestEncryptionAlgorithm
-			case encryptedDigest
-			
-			var template: ASN1Template
-			{
-				switch self
-				{
-				case .version:
-					return .universal(ASN1Identifier.Tag.integer)
-				case .signerIdentifier:
-					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-				case .digestAlgorithm:
-					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-				case .digestEncryptionAlgorithm:
-					return ASN1Template.universal(ASN1Identifier.Tag.sequence).constructed()
-				case .encryptedDigest:
-					return .universal(ASN1Identifier.Tag.octetString)
-				}
-			}
-		}
-	}
-	
-	
-	
-	/// Legacy payload format
-	struct _PayloadContainer: ASN1Decodable
-	{
-		var payload: InAppReceiptPayload
-		
-		static var template: ASN1Template
-		{
-			return ASN1Template.contextSpecific(0).constructed()
-		}
-		
-		enum CodingKeys: ASN1CodingKey
-		{
-			case payload
-			
-			var template: ASN1Template
-			{
-				switch self
-				{
-				case .payload:
-					return InAppReceiptPayload.template
-				}
+			case .payload:
+				return InAppReceiptPayload.template
 			}
 		}
 	}

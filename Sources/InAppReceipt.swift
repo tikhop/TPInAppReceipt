@@ -45,7 +45,7 @@ public class InAppReceipt
     
     /// Payload of the receipt.
     /// Payload object contains all meta information.
-	internal var payload: InAppReceiptPayload { receipt.receiptPayload }
+	internal var payload: InAppReceiptPayload { receipt.payload }
     
     /// root certificate path, used to check signature
     /// added for testing purpose , as unit test can't read main bundle
@@ -59,11 +59,7 @@ public class InAppReceipt
     /// - parameter receiptData: `Data` object that represents receipt
 	public init(receiptData: Data, rootCertPath: String? = nil) throws
 	{
-		let asn1decoder = ASN1Decoder()
-		let pkcs7 = try asn1decoder.decode(PKCS7Container.self, from: receiptData)
-		
-		
-		self.receipt = pkcs7
+		self.receipt = try _InAppReceipt(rawData: receiptData)
 		self.rawData = receiptData
 		
 		#if DEBUG

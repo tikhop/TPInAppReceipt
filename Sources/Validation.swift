@@ -223,7 +223,7 @@ public extension InAppReceipt
 			  SecKeyVerifySignature(iTunesPublicKeySec, alg, payloadRawData as CFData, signature as CFData, &umErrorCF) else {
             
             let error = umErrorCF?.takeRetainedValue() as Error? as NSError?
-            print("error is \(error)")
+			print("error is \(String(describing: error))")
              
             throw IARError.validationFailed(reason: .signatureValidation(.invalidSignature))
         }

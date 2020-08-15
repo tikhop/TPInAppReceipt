@@ -13,7 +13,7 @@ final class TPInAppReceiptTests: XCTestCase {
 	{
 		self.measure {
 			let r = try! InAppReceipt(receiptData: newReceipt)
-			XCTAssert(true)
+			//XCTAssert(r.appVersion == 1)
 		}
 		
 	}
