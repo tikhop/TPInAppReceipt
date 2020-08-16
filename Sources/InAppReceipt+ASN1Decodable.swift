@@ -121,37 +121,34 @@ extension InAppReceiptPayload: ASN1Decodable
 			{
 				var attributeContainer = try container.nestedUnkeyedContainer(for: ReceiptAttribute.template) as! ASN1UnkeyedDecodingContainerProtocol
 				let type: Int = try attributeContainer.decode(Int.self)
-				let _ = try attributeContainer.decode(Int.self) // Consume
+				let _ = try attributeContainer.decode(ASN1SkippedField.self, template: .universal(ASN1Identifier.Tag.integer)) // Consume
 				var valueContainer = try attributeContainer.nestedUnkeyedContainer(for: .universal(ASN1Identifier.Tag.octetString)) as! ASN1UnkeyedDecodingContainerProtocol
 				
-				guard let field = InAppReceiptField(rawValue: type) else
-				{
-					continue
-				}
+			
 				
-				switch (field)
+				switch type
 				{
-				case .bundleIdentifier:
+				case InAppReceiptField.bundleIdentifier:
 					bundleIdentifier = try valueContainer.decode(String.self)
 					bundleIdentifierData = valueContainer.valueData
-				case .appVersion:
+				case InAppReceiptField.appVersion:
 					appVersion = try valueContainer.decode(String.self)
-				case .opaqueValue:
+				case InAppReceiptField.opaqueValue:
 					opaqueValue = valueContainer.valueData
-				case .receiptHash:
+				case InAppReceiptField.receiptHash:
 					receiptHash = valueContainer.valueData
-				case .inAppPurchaseReceipt:
+				case InAppReceiptField.inAppPurchaseReceipt:
 					purchases.append(try valueContainer.decode(InAppPurchase.self))
-				case .originalAppVersion:
+				case InAppReceiptField.originalAppVersion:
 					originalAppVersion = try valueContainer.decode(String.self)
-				case .expirationDate:
+				case InAppReceiptField.expirationDate:
 					expirationDate = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
-				case .receiptCreationDate:
+				case InAppReceiptField.receiptCreationDate:
 					receiptCreationDate = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
-				case .environment:
+				case InAppReceiptField.environment:
 					environment = try valueContainer.decode(String.self)
 				default:
-					print("attribute.type = \(String(describing: type)))")
+					break
 				}
 			}catch{
 				assertionFailure("Something wrong here")
@@ -186,43 +183,39 @@ extension InAppPurchase: ASN1Decodable
 			{
 				var attributeContainer = try container.nestedUnkeyedContainer(for: ReceiptAttribute.template) as! ASN1UnkeyedDecodingContainerProtocol
 				let type: Int = try attributeContainer.decode(Int.self)
-				let _ = try attributeContainer.decode(Int.self) // Consume
+				let _ = try attributeContainer.decode(ASN1SkippedField.self, template: .universal(ASN1Identifier.Tag.integer)) // Consume
 				var valueContainer = try attributeContainer.nestedUnkeyedContainer(for: .universal(ASN1Identifier.Tag.octetString)) as! ASN1UnkeyedDecodingContainerProtocol
+				//let attribute = try container.decode(ReceiptAttribute.self)
 				
-				guard let field = InAppReceiptField(rawValue: type) else
+				switch type
 				{
-					continue
-				}
-				
-				switch field
-				{
-				case .quantity:
+				case InAppReceiptField.quantity:
 					quantity = try valueContainer.decode(Int.self)
-				case .productIdentifier:
+				case InAppReceiptField.productIdentifier:
 					productIdentifier = try valueContainer.decode(String.self)
-				case .productType:
+				case InAppReceiptField.productType:
 					productType = Type(rawValue: try valueContainer.decode(Int.self)) ?? .unknown
-				case .transactionIdentifier:
+				case InAppReceiptField.transactionIdentifier:
 					transactionIdentifier = try valueContainer.decode(String.self)
-				case .purchaseDate:
+				case InAppReceiptField.purchaseDate:
 					purchaseDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
-				case .originalTransactionIdentifier:
+				case InAppReceiptField.originalTransactionIdentifier:
 					originalTransactionIdentifier = try valueContainer.decode(String.self)
-				case .originalPurchaseDate:
+				case InAppReceiptField.originalPurchaseDate:
 					originalPurchaseDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
-				case .subscriptionExpirationDate:
+				case InAppReceiptField.subscriptionExpirationDate:
 					let str = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
 					subscriptionExpirationDateString = str == "" ? nil : str
-				case .cancellationDate:
+				case InAppReceiptField.cancellationDate:
 					let str = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
 					cancellationDateString = str == "" ? nil : str
-				case .webOrderLineItemID:
+				case InAppReceiptField.webOrderLineItemID:
 					webOrderLineItemID = try valueContainer.decode(Int.self)
-				case .subscriptionTrialPeriod:
+				case InAppReceiptField.subscriptionTrialPeriod:
 					subscriptionTrialPeriod = (try valueContainer.decode(Int.self)) != 0
-				case .subscriptionIntroductoryPricePeriod:
+				case InAppReceiptField.subscriptionIntroductoryPricePeriod:
 					subscriptionIntroductoryPricePeriod = (try valueContainer.decode(Int.self)) != 0
-				case .promotionalOfferIdentifier:
+				case InAppReceiptField.promotionalOfferIdentifier:
 					promotionalOfferIdentifier = try valueContainer.decode(String.self)
 				default:
 					break

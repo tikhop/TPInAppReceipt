@@ -9,33 +9,33 @@
 import Foundation
 import ASN1Swift
 
-public enum InAppReceiptField: Int
+public struct InAppReceiptField
 {
-	case environment = 0 // Sandbox, Production, ProductionSandbox
-    case bundleIdentifier = 2
-    case appVersion = 3
-    case opaqueValue = 4
-    case receiptHash = 5 // SHA-1 Hash
-	case receiptCreationDate = 12
-    case inAppPurchaseReceipt = 17 // The receipt for an in-app purchase.
+	static let environment = 0 // Sandbox, Production, ProductionSandbox
+	static let bundleIdentifier = 2
+	static let appVersion = 3
+	static let opaqueValue = 4
+	static let receiptHash = 5 // SHA-1 Hash
+	static let receiptCreationDate = 12
+	static let inAppPurchaseReceipt = 17 // The receipt for an in-app purchase.
 	//TODO: case originalPurchaseDate = 18
-    case originalAppVersion = 19
-    case expirationDate = 21
+	static let originalAppVersion = 19
+	static let expirationDate = 21
     
     
-    case quantity = 1701
-    case productIdentifier = 1702
-    case transactionIdentifier = 1703
-    case purchaseDate = 1704
-    case originalTransactionIdentifier = 1705
-    case originalPurchaseDate = 1706
-	case productType = 1707
-    case subscriptionExpirationDate = 1708
-    case webOrderLineItemID = 1711
-    case cancellationDate = 1712
-    case subscriptionTrialPeriod = 1713
-    case subscriptionIntroductoryPricePeriod = 1719
-	case promotionalOfferIdentifier = 1721
+	static let quantity = 1701
+	static let productIdentifier = 1702
+	static let transactionIdentifier = 1703
+	static let purchaseDate = 1704
+	static let originalTransactionIdentifier = 1705
+	static let originalPurchaseDate = 1706
+	static let productType = 1707
+	static let subscriptionExpirationDate = 1708
+	static let webOrderLineItemID = 1711
+	static let cancellationDate = 1712
+	static let subscriptionTrialPeriod = 1713
+	static let subscriptionIntroductoryPricePeriod = 1719
+	static let promotionalOfferIdentifier = 1721
 }
 
 public class InAppReceipt
