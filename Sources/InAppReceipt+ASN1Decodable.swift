@@ -120,11 +120,9 @@ extension InAppReceiptPayload: ASN1Decodable
 			do
 			{
 				var attributeContainer = try container.nestedUnkeyedContainer(for: ReceiptAttribute.template) as! ASN1UnkeyedDecodingContainerProtocol
-				let type: Int = try attributeContainer.decode(Int.self)
-				let _ = try attributeContainer.decode(ASN1SkippedField.self, template: .universal(ASN1Identifier.Tag.integer)) // Consume
+				let type: Int32 = try attributeContainer.decode(Int32.self)
+				let _ = try attributeContainer.skip(template: .universal(ASN1Identifier.Tag.integer)) // Consume
 				var valueContainer = try attributeContainer.nestedUnkeyedContainer(for: .universal(ASN1Identifier.Tag.octetString)) as! ASN1UnkeyedDecodingContainerProtocol
-				
-			
 				
 				switch type
 				{
@@ -182,8 +180,8 @@ extension InAppPurchase: ASN1Decodable
 			do
 			{
 				var attributeContainer = try container.nestedUnkeyedContainer(for: ReceiptAttribute.template) as! ASN1UnkeyedDecodingContainerProtocol
-				let type: Int = try attributeContainer.decode(Int.self)
-				let _ = try attributeContainer.decode(ASN1SkippedField.self, template: .universal(ASN1Identifier.Tag.integer)) // Consume
+				let type: Int32 = try attributeContainer.decode(Int32.self)
+				let _ = try attributeContainer.skip(template: .universal(ASN1Identifier.Tag.integer)) // Consume
 				var valueContainer = try attributeContainer.nestedUnkeyedContainer(for: .universal(ASN1Identifier.Tag.octetString)) as! ASN1UnkeyedDecodingContainerProtocol
 				//let attribute = try container.decode(ReceiptAttribute.self)
 				
@@ -194,7 +192,7 @@ extension InAppPurchase: ASN1Decodable
 				case InAppReceiptField.productIdentifier:
 					productIdentifier = try valueContainer.decode(String.self)
 				case InAppReceiptField.productType:
-					productType = Type(rawValue: try valueContainer.decode(Int.self)) ?? .unknown
+					productType = Type(rawValue: try valueContainer.decode(Int32.self)) ?? .unknown
 				case InAppReceiptField.transactionIdentifier:
 					transactionIdentifier = try valueContainer.decode(String.self)
 				case InAppReceiptField.purchaseDate:
@@ -212,9 +210,9 @@ extension InAppPurchase: ASN1Decodable
 				case InAppReceiptField.webOrderLineItemID:
 					webOrderLineItemID = try valueContainer.decode(Int.self)
 				case InAppReceiptField.subscriptionTrialPeriod:
-					subscriptionTrialPeriod = (try valueContainer.decode(Int.self)) != 0
+					subscriptionTrialPeriod = (try valueContainer.decode(Int32.self)) != 0
 				case InAppReceiptField.subscriptionIntroductoryPricePeriod:
-					subscriptionIntroductoryPricePeriod = (try valueContainer.decode(Int.self)) != 0
+					subscriptionIntroductoryPricePeriod = (try valueContainer.decode(Int32.self)) != 0
 				case InAppReceiptField.promotionalOfferIdentifier:
 					promotionalOfferIdentifier = try valueContainer.decode(String.self)
 				default:

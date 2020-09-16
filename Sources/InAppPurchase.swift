@@ -10,7 +10,7 @@ import Foundation
 
 public struct InAppPurchase
 {
-	public enum `Type`: Int
+	public enum `Type`: Int32
 	{
 		/// Type that we can't recognize for some reason
 		case unknown = -1
