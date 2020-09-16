@@ -11,11 +11,10 @@
 [![Platform](https://img.shields.io/cocoapods/p/TPInAppReceipt.svg?style=flat)]()
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tikhop/TPInAppReceipt/master/LICENSE)
 
-A lightweight iOS/OSX library for reading and validating Apple In App Purchase Receipt locally.
+A lightweight library for reading and validating Apple In App Purchase Receipt locally.
 
 ## Features
 
-- [x] ~~OpenSSL~~
 - [x] Extract all In-App Receipt Attributes
 - [x] Hash Verification
 - [x] Verify Bundle Version and Identifiers
