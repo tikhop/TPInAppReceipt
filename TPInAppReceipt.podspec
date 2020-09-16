@@ -18,12 +18,10 @@ s.tvos.deployment_target = '10.0'
 s.watchos.deployment_target = '6.2'
 s.requires_arc = true
 
-
-
 s.source_files  = "Sources/*.{swift}"
 
 s.resources  = "Sources/AppleIncRootCertificate.cer", "Sources/StoreKitTestCertificate.cer"
 
-s.dependency 'ASN1Swift'
+s.dependency 'ASN1Swift', '~> 1.2.2'
 
 end
