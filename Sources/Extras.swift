@@ -65,8 +65,6 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
     func requestDidFinish(_ request: SKRequest)
     {
         requestDidFinish(with: nil)
-        //fixes '"[BackgroundTask] Background Task 1 ("SKReceiptRefreshRequest"), was created over 30 seconds ago....'
-        //by bradleyandrew
         receiptRefreshRequest.cancel()
     }
     
@@ -82,8 +80,6 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
         DispatchQueue.main.async { [weak self] in
             self?.completion?(error)
         }
-        //fixes '"[BackgroundTask] Background Task 1 ("SKReceiptRefreshRequest"), was created over 30 seconds ago....'
-        //by bradleyandrew
         receiptRefreshRequest.cancel()
     }
 }
