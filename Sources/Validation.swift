@@ -54,7 +54,7 @@ public extension InAppReceipt
         #else
         guard let bid = Bundle.main.bundleIdentifier, bid == bundleIdentifier else
         {
-            throw IARError.validationFailed(reason: .bundleIdentifierVefirication)
+            throw IARError.validationFailed(reason: .bundleIdentifierVerification)
         }
         
         #if targetEnvironment(macCatalyst)

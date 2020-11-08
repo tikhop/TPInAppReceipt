@@ -38,7 +38,7 @@ public enum IARError: Error
     {
         case hashValidation
         case signatureValidation(SignatureValidationFailureReason)
-        case bundleIdentifierVefirication
+        case bundleIdentifierVerification
         case bundleVersionVefirication
     }
     

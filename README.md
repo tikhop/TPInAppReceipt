@@ -166,7 +166,7 @@ do {
 } catch IARError.validationFailed(reason: .hashValidation) 
 {
     // Do smth
-} catch IARError.validationFailed(reason: .bundleIdentifierVefirication) 
+} catch IARError.validationFailed(reason: .bundleIdentifierVerification) 
 {
     // Do smth
 } catch IARError.validationFailed(reason: .signatureValidation) 
