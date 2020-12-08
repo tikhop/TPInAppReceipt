@@ -5,9 +5,9 @@
         "package": "ASN1Swift",
         "repositoryURL": "https://github.com/tikhop/ASN1Swift",
         "state": {
-          "branch": "master",
-          "revision": "8100641d7b4b64f04a440b1e86d75dd315ca59fb",
-          "version": null
+          "branch": null,
+          "revision": "0f3150de37d38190768caaff19c498d85efad715",
+          "version": "1.2.3"
         }
       }
     ]

@@ -15,7 +15,7 @@ class PerformanceTests: XCTestCase
 	
 	override func setUp()
 	{
-		receipt = try! InAppReceipt(receiptData: legacyReceipt)
+		receipt = try! InAppReceipt(receiptData: crashReceipt)
 	}
 	
 	override func tearDown() {

@@ -52,7 +52,7 @@ In any swift file you'd like to use TPInAppReceipt, import the framework with `i
 To integrate using Apple's Swift package manager, add the following as a dependency to your `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/tikhop/TPInAppReceipt.git", .branch("develop"))
+.package(url: "https://github.com/tikhop/TPInAppReceipt.git", .upToNextMajor(from: "3.0.0"))
 ```
 
 Then, specify `"TPInAppReceipt"` as a dependency of the Target in which you wish to use TPInAppReceipt.
@@ -166,7 +166,7 @@ do {
 } catch IARError.validationFailed(reason: .hashValidation) 
 {
     // Do smth
-} catch IARError.validationFailed(reason: .bundleIdentifierVefirication) 
+} catch IARError.validationFailed(reason: .bundleIdentifierVerification) 
 {
     // Do smth
 } catch IARError.validationFailed(reason: .signatureValidation) 

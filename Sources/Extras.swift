@@ -65,6 +65,7 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
     func requestDidFinish(_ request: SKRequest)
     {
         requestDidFinish(with: nil)
+        receiptRefreshRequest.cancel()
     }
     
     func request(_ request: SKRequest, didFailWithError error: Error)
@@ -79,6 +80,7 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
         DispatchQueue.main.async { [weak self] in
             self?.completion?(error)
         }
+        receiptRefreshRequest.cancel()
     }
 }
 
