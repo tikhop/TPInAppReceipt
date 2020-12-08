@@ -251,7 +251,15 @@ public extension InAppReceipt
 
 fileprivate func guid() -> Data
 {
-    
+	if #available(OSX 11.0, *)
+	{
+		if ProcessInfo.processInfo.isiOSAppOnMac || ProcessInfo.processInfo.isMacCatalystApp
+		{
+			return macos_guid()
+		}
+	}
+	
+	
 #if os(watchOS)
     var uuidBytes = WKInterfaceDevice.current().identifierForVendor!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
@@ -259,60 +267,64 @@ fileprivate func guid() -> Data
     var uuidBytes = UIDevice.current.identifierForVendor!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
 #elseif targetEnvironment(macCatalyst) || os(macOS)
-    
-    var masterPort = mach_port_t()
-    var kernResult: kern_return_t = IOMasterPort(mach_port_t(MACH_PORT_NULL), &masterPort)
-    if (kernResult != KERN_SUCCESS)
-    {
-        assertionFailure("Failed to initialize master port")
-    }
-    
-    let matchingDict = IOBSDNameMatching(masterPort, 0, "en0")
-    if (matchingDict == nil)
-    {
-        assertionFailure("Failed to retrieve guid")
-    }
-    
-    var iterator = io_iterator_t()
-    kernResult = IOServiceGetMatchingServices(masterPort, matchingDict, &iterator)
-    if (kernResult != KERN_SUCCESS)
-    {
-        assertionFailure("Failed to retrieve guid")
-    }
-    
-    var guidData: Data?
-    var service = IOIteratorNext(iterator)
-    var parentService = io_object_t()
-    
-    defer
-    {
-        IOObjectRelease(iterator)
-    }
-    
-    while(service != 0)
-    {
-        kernResult = IORegistryEntryGetParentEntry(service, kIOServicePlane, &parentService)
-        
-        if (kernResult == KERN_SUCCESS)
-        {
-            guidData = IORegistryEntryCreateCFProperty(parentService, "IOMACAddress" as CFString, nil, 0).takeRetainedValue() as? Data
-            
-            IOObjectRelease(parentService)
-        }
-        IOObjectRelease(service)
-        
-        if  guidData != nil {
-            break
-        }else{
-            service = IOIteratorNext(iterator)
-        }
-    }
-    
-    if guidData == nil
-    {
-        assertionFailure("Failed to retrieve guid")
-    }
-    
-    return guidData!    
+	return macos_guid()
 #endif
+}
+
+fileprivate func macos_guid() -> Data
+{
+	var masterPort = mach_port_t()
+	var kernResult: kern_return_t = IOMasterPort(mach_port_t(MACH_PORT_NULL), &masterPort)
+	if (kernResult != KERN_SUCCESS)
+	{
+		assertionFailure("Failed to initialize master port")
+	}
+	
+	let matchingDict = IOBSDNameMatching(masterPort, 0, "en0")
+	if (matchingDict == nil)
+	{
+		assertionFailure("Failed to retrieve guid")
+	}
+	
+	var iterator = io_iterator_t()
+	kernResult = IOServiceGetMatchingServices(masterPort, matchingDict, &iterator)
+	if (kernResult != KERN_SUCCESS)
+	{
+		assertionFailure("Failed to retrieve guid")
+	}
+	
+	var guidData: Data?
+	var service = IOIteratorNext(iterator)
+	var parentService = io_object_t()
+	
+	defer
+	{
+		IOObjectRelease(iterator)
+	}
+	
+	while(service != 0)
+	{
+		kernResult = IORegistryEntryGetParentEntry(service, kIOServicePlane, &parentService)
+		
+		if (kernResult == KERN_SUCCESS)
+		{
+			guidData = IORegistryEntryCreateCFProperty(parentService, "IOMACAddress" as CFString, nil, 0).takeRetainedValue() as? Data
+			
+			IOObjectRelease(parentService)
+		}
+		IOObjectRelease(service)
+		
+		if  guidData != nil {
+			break
+		}else{
+			service = IOIteratorNext(iterator)
+		}
+	}
+	
+	if guidData == nil
+	{
+		assertionFailure("Failed to retrieve guid")
+	}
+	
+	return guidData!
 }
