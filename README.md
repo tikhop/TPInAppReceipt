@@ -5,7 +5,7 @@
 
 # TPInAppReceipt
 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+![Swift](https://github.com/tikhop/TPInAppReceipt/workflows/Swift/badge.svg?branch=master)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TPInAppReceipt.svg)](https://cocoapods.org/pods/TPInAppReceipt)
 [![Swift Package Manager compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 [![Platform](https://img.shields.io/cocoapods/p/TPInAppReceipt.svg?style=flat)]()
@@ -61,19 +61,6 @@ Lastly, run the following command:
 ```swift
 swift package update
 ```
-
-### Carthage
-
-Make the following entry in your Cartfile:
-
-```
-github "tikhop/TPInAppReceipt" 
-```
-
-Then run `carthage update`.
-
-If this is your first time using Carthage in the project, you'll need to go through some additional steps as explained [over at Carthage](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
-
 
 ### Requirements
 
