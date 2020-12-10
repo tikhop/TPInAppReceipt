@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 s.name         = "TPInAppReceipt"
-s.version      = "3.0.0"
+s.version      = "3.0.2"
 s.summary      = "Reading and Validating In App Purchase Receipt Locally"
 s.description  = "A lightweight iOS/OSX library for reading and validating Apple In App Purchase Receipt locally. Pure swift, No OpenSSL!"
 
@@ -22,6 +22,6 @@ s.source_files  = "Sources/*.{swift}"
 
 s.resources  = "Sources/AppleIncRootCertificate.cer", "Sources/StoreKitTestCertificate.cer"
 
-s.dependency 'ASN1Swift', '~> 1.2.2'
+s.dependency 'ASN1Swift', '~> 1.2.3'
 
 end
