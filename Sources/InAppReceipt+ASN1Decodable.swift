@@ -110,6 +110,7 @@ extension InAppReceiptPayload: ASN1Decodable
 		var receiptHash = Data()
 		var expirationDate: Date?
 		var receiptCreationDate: Date!
+		var ageRating: String = ""
 		var environment: String = ""
 		
 		let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -145,6 +146,8 @@ extension InAppReceiptPayload: ASN1Decodable
 				case InAppReceiptField.receiptCreationDate:
 					let receiptCreationDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
 					receiptCreationDate = receiptCreationDateString.rfc3339date()
+				case InAppReceiptField.ageRating:
+					ageRating = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
 				case InAppReceiptField.environment:
 					environment = try valueContainer.decode(String.self)
 				default:
@@ -164,6 +167,7 @@ extension InAppReceiptPayload: ASN1Decodable
 				  opaqueValue: opaqueValue,
 				  receiptHash: receiptHash,
 				  creationDate: receiptCreationDate,
+				  ageRating: ageRating,
 				  environment: environment,
 				  rawData: rawData)
 	}

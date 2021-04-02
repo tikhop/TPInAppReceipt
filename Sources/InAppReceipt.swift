@@ -16,6 +16,7 @@ public struct InAppReceiptField
 	static let appVersion: Int32 = 3
 	static let opaqueValue: Int32 = 4
 	static let receiptHash: Int32 = 5 // SHA-1 Hash
+	static let ageRating: Int32 = 10 // SHA-1 Hash
 	static let receiptCreationDate: Int32 = 12
 	static let inAppPurchaseReceipt: Int32 = 17 // The receipt for an in-app purchase.
 	//TODO: case originalPurchaseDate = 18
@@ -136,6 +137,10 @@ public extension InAppReceipt
 		return payload.creationDate
     }
     
+	var ageRating: String
+	{
+		return payload.ageRating
+	}
     /// In App Receipt in base64
     var base64: String
     {

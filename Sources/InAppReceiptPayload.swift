@@ -38,6 +38,9 @@ struct InAppReceiptPayload
     /// The date when the app receipt was created.
 	let creationDate: Date
     
+	/// Age Rating of the app
+	let ageRating: String
+	
 	/// Receipt's environment
 	let environment: String
 	
@@ -46,7 +49,7 @@ struct InAppReceiptPayload
 	
     /// Initialize a `InAppReceipt` passing all values
     ///
-	init(bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: Date?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, creationDate: Date, environment: String, rawData: Data)
+	init(bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: Date?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, creationDate: Date, ageRating: String, environment: String, rawData: Data)
     {
         self.bundleIdentifier = bundleIdentifier
         self.appVersion = appVersion
@@ -57,6 +60,7 @@ struct InAppReceiptPayload
         self.opaqueValue = opaqueValue
         self.receiptHash = receiptHash
         self.creationDate = creationDate
+		self.ageRating = ageRating
 		self.environment = environment
 		self.rawData = rawData
     }

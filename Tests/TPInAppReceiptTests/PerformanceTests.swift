@@ -27,10 +27,9 @@ class PerformanceTests: XCTestCase
 		self.measure {
 			do
 			{
-				let receipt = try! InAppReceipt(receiptData: legacyReceipt)
-				print(123)
+				let receipt = try InAppReceipt(receiptData: legacyReceipt)
 			}catch{
-				XCTFail("Unable to verify: \(error)")
+				XCTFail("Unable to parse: \(error)")
 			}
 		}
 	}
