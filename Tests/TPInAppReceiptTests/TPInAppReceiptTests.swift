@@ -12,8 +12,8 @@ final class TPInAppReceiptTests: XCTestCase {
 	func testNewReceipt()
 	{
 		self.measure {
-			let r = try! InAppReceipt(receiptData: watchReceipt)
-			//XCTAssert(r.appVersion == 1)
+			let r = try! InAppReceipt(receiptData: newReceipt)
+			print(r.creationDate)
 		}
 		
 	}

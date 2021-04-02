@@ -115,7 +115,7 @@ public extension InAppReceipt
     /// The date that the app receipt expires
     var expirationDate: Date?
     {
-		return payload.expirationDate?.rfc3339date()
+		return payload.expirationDate
     }
     
     /// Returns `true` if any purchases exist, `false` otherwise
@@ -130,10 +130,10 @@ public extension InAppReceipt
         return activeAutoRenewableSubscriptionPurchases.count > 0
     }
     
-    /// The date when the app receipt was created.
+    
     var creationDate: Date
     {
-		return payload.creationDate.rfc3339date()!
+		return payload.creationDate
     }
     
     /// In App Receipt in base64

@@ -108,8 +108,8 @@ extension InAppReceiptPayload: ASN1Decodable
 		var purchases = [InAppPurchase]()
 		var opaqueValue = Data()
 		var receiptHash = Data()
-		var expirationDate: String? = ""
-		var receiptCreationDate: String = ""
+		var expirationDate: Date?
+		var receiptCreationDate: Date!
 		var environment: String = ""
 		
 		let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -140,9 +140,11 @@ extension InAppReceiptPayload: ASN1Decodable
 				case InAppReceiptField.originalAppVersion:
 					originalAppVersion = try valueContainer.decode(String.self)
 				case InAppReceiptField.expirationDate:
-					expirationDate = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
+					let expirationDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
+					expirationDate = expirationDateString.rfc3339date()
 				case InAppReceiptField.receiptCreationDate:
-					receiptCreationDate = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
+					let receiptCreationDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
+					receiptCreationDate = receiptCreationDateString.rfc3339date()
 				case InAppReceiptField.environment:
 					environment = try valueContainer.decode(String.self)
 				default:
@@ -171,9 +173,13 @@ extension InAppPurchase: ASN1Decodable
 {
 	public init(from decoder: Decoder) throws
 	{
-		self.init()
-		
 		var container = try decoder.unkeyedContainer() as! ASN1UnkeyedDecodingContainerProtocol
+		
+		var originalTransactionIdentifier = ""
+		var productIdentifier = ""
+		var transactionIdentifier = ""
+		var purchaseDate: Date!
+		var originalPurchaseDate: Date!
 		
 		while !container.isAtEnd
 		{
@@ -196,17 +202,21 @@ extension InAppPurchase: ASN1Decodable
 				case InAppReceiptField.transactionIdentifier:
 					transactionIdentifier = try valueContainer.decode(String.self)
 				case InAppReceiptField.purchaseDate:
-					purchaseDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
+					let purchaseDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
+					purchaseDate = purchaseDateString.rfc3339date()!
 				case InAppReceiptField.originalTransactionIdentifier:
 					originalTransactionIdentifier = try valueContainer.decode(String.self)
 				case InAppReceiptField.originalPurchaseDate:
-					originalPurchaseDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
+					let originalPurchaseDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
+					originalPurchaseDate = originalPurchaseDateString.rfc3339date()!
 				case InAppReceiptField.subscriptionExpirationDate:
 					let str = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
-					subscriptionExpirationDateString = str == "" ? nil : str
+					let subscriptionExpirationDateString = str == "" ? nil : str
+					subscriptionExpirationDate = subscriptionExpirationDateString?.rfc3339date()
 				case InAppReceiptField.cancellationDate:
 					let str = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
-					cancellationDateString = str == "" ? nil : str
+					let cancellationDateString = str == "" ? nil : str
+					cancellationDate = cancellationDateString?.rfc3339date()
 				case InAppReceiptField.webOrderLineItemID:
 					webOrderLineItemID = try valueContainer.decode(Int.self)
 				case InAppReceiptField.subscriptionTrialPeriod:
@@ -220,6 +230,12 @@ extension InAppPurchase: ASN1Decodable
 				}
 			}
 		}
+		
+		self.originalTransactionIdentifier = originalTransactionIdentifier
+		self.productIdentifier = productIdentifier
+		self.transactionIdentifier = transactionIdentifier
+		self.purchaseDate = purchaseDate
+		self.originalPurchaseDate = originalPurchaseDate
 	}
 	
 	public static var template: ASN1Template

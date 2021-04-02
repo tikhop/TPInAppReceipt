@@ -15,14 +15,25 @@ class PerformanceTests: XCTestCase
 	
 	override func setUp()
 	{
-		receipt = try! InAppReceipt(receiptData: crashReceipt)
+		receipt = try! InAppReceipt(receiptData: legacyReceipt)
 	}
 	
 	override func tearDown() {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 	}
 	
-	
+	func testParsingPerformance() { //  / 0.004
+		// This is an example of a performance test case.
+		self.measure {
+			do
+			{
+				let receipt = try! InAppReceipt(receiptData: legacyReceipt)
+				print(123)
+			}catch{
+				XCTFail("Unable to verify: \(error)")
+			}
+		}
+	}
 	
 	func testValidationPerformance() { //  / 0.004
 		// This is an example of a performance test case.

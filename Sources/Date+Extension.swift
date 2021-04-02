@@ -18,24 +18,16 @@ public extension Date
 
 public extension String
 {
-    func utcTime() -> Date?
-    {
-        
-        let formatter = ISO8601DateFormatter()
-        formatter.timeZone = TimeZone(abbreviation: "UTC")
-        formatter.formatOptions = .withInternetDateTime
-
-        let date = formatter.date(from: self)
-        return date
-    }
-    
     func rfc3339date() -> Date?
     {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = .withInternetDateTime
-        formatter.timeZone = TimeZone(abbreviation: "UTC")
-
-        let date = formatter.date(from: self)
+        let date = rfc3339DateFormater.date(from: self)
         return date
     }
 }
+
+fileprivate var rfc3339DateFormater: ISO8601DateFormatter = {
+	let formatter = ISO8601DateFormatter()
+	formatter.formatOptions = .withInternetDateTime
+	formatter.timeZone = TimeZone(abbreviation: "UTC")
+	return formatter
+}()
