@@ -3,7 +3,7 @@
 //  TPReceiptValidator
 //
 //  Created by Pavel Tikhonenko on 28/09/16.
-//  Copyright © 2016-2020 Pavel Tikhonenko. All rights reserved.
+//  Copyright © 2016-2021 Pavel Tikhonenko. All rights reserved.
 //
 
 import Foundation

@@ -3,7 +3,7 @@
 //  TPInAppReceipt
 //
 //  Created by Pavel Tikhonenko on 13.02.2020.
-//  Copyright © 2020 Pavel Tikhonenko. All rights reserved.
+//  Copyright © 2021 Pavel Tikhonenko. All rights reserved.
 //
 
 #if canImport(StoreKit)
