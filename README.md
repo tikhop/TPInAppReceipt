@@ -17,9 +17,9 @@ A lightweight library for reading and validating Apple In App Purchase Receipt l
 
 - [x] Extract all In-App Receipt Attributes
 - [x] Hash Verification
-- [x] Verify Bundle Version and Identifiers
+- [x] Bundle Version and Identifiers Verification
 - [x] Signature Verification
-
+- [x] Works with StoreKitTest
 
 Installation
 ------------
@@ -178,7 +178,10 @@ try? r.verifySignature()
 * [Apple - About Receipt Validation](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Introduction.html)
 * [Apple - Receipt Validation Programming Guide](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Chapters/ReceiptFields.html#//apple_ref/doc/uid/TP40010573-CH106-SW1)
 * [Apple - Validating Receipts Locally](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Chapters/ValidateLocally.html)
+* [fluffy.es - Tutorial: Read and validate in-app purchase receipt locally using TPInAppReceipt](https://fluffy.es/in-app-purchase-receipt-local/)
 * [objc.io - Receipt Validation](https://www.objc.io/issues/17-security/receipt-validation/)
+
+
 
 ## License
 
