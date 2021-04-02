@@ -22,6 +22,6 @@ s.source_files  = "Sources/*.{swift}"
 
 s.resources  = "Sources/AppleIncRootCertificate.cer", "Sources/StoreKitTestCertificate.cer"
 
-s.dependency 'ASN1Swift', '~> 1.2.4'
+s.dependency 'ASN1Swift', '~> 1.2.3'
 
 end
