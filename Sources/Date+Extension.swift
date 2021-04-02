@@ -20,12 +20,12 @@ public extension String
 {
     func rfc3339date() -> Date?
     {
-        let date = rfc3339DateFormater.date(from: self)
+        let date = rfc3339DateFormatter.date(from: self)
         return date
     }
 }
 
-fileprivate var rfc3339DateFormater: ISO8601DateFormatter = {
+fileprivate var rfc3339DateFormatter: ISO8601DateFormatter = {
 	let formatter = ISO8601DateFormatter()
 	formatter.formatOptions = .withInternetDateTime
 	formatter.timeZone = TimeZone(abbreviation: "UTC")
