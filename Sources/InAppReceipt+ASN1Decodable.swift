@@ -193,8 +193,7 @@ extension InAppPurchase: ASN1Decodable
 				let type: Int32 = try attributeContainer.decode(Int32.self)
 				let _ = try attributeContainer.skip(template: .universal(ASN1Identifier.Tag.integer)) // Consume
 				var valueContainer = try attributeContainer.nestedUnkeyedContainer(for: .universal(ASN1Identifier.Tag.octetString)) as! ASN1UnkeyedDecodingContainerProtocol
-				//let attribute = try container.decode(ReceiptAttribute.self)
-				
+		
 				switch type
 				{
 				case InAppReceiptField.quantity:
@@ -207,12 +206,12 @@ extension InAppPurchase: ASN1Decodable
 					transactionIdentifier = try valueContainer.decode(String.self)
 				case InAppReceiptField.purchaseDate:
 					let purchaseDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
-					purchaseDate = purchaseDateString.rfc3339date()!
+					purchaseDate = purchaseDateString.rfc3339date()
 				case InAppReceiptField.originalTransactionIdentifier:
 					originalTransactionIdentifier = try valueContainer.decode(String.self)
 				case InAppReceiptField.originalPurchaseDate:
 					let originalPurchaseDateString = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
-					originalPurchaseDate = originalPurchaseDateString.rfc3339date()!
+					originalPurchaseDate = originalPurchaseDateString.rfc3339date()
 				case InAppReceiptField.subscriptionExpirationDate:
 					let str = try valueContainer.decode(String.self, template: .universal(ASN1Identifier.Tag.ia5String))
 					let subscriptionExpirationDateString = str == "" ? nil : str

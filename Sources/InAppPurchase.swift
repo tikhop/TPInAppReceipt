@@ -43,8 +43,8 @@ public struct InAppPurchase
     /// Purchase Date
     public var purchaseDate: Date
     
-    /// Original Purchase Date
-    public var originalPurchaseDate: Date
+    /// Original Purchase Date. Returns `nil` when testing with StoreKitTest
+    public var originalPurchaseDate: Date! = nil
     
 	/// Subscription Expiration Date. Returns `nil` if the purchase has been expired (in some cases)
     public var subscriptionExpirationDate: Date? = nil

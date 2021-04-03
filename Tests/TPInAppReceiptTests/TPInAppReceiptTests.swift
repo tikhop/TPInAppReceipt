@@ -9,6 +9,11 @@ final class TPInAppReceiptTests: XCTestCase {
         
     }
 
+	func testCrashReceipts()
+	{
+		var r = try? InAppReceipt(receiptData: noOriginalPurchaseDateCrashReceipt)
+	}
+	
 	func testNewReceipt()
 	{
 		self.measure {
