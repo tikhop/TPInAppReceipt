@@ -84,6 +84,8 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
     }
 }
 
+#endif
+
 extension InAppReceipt
 {
 	/// Check whether user is eligible for introductory offer
@@ -107,4 +109,3 @@ extension InAppReceipt
 		return purchases.isEmpty
 	}
 }
-#endif
