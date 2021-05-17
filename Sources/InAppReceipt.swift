@@ -55,6 +55,15 @@ public class InAppReceipt
 	/// Raw data
 	private var rawData: Data
 	
+	/// Initialize a `InAppReceipt` using local receipt
+	public convenience init() throws
+	{
+		let data = try Bundle.main.appStoreReceiptData()
+		try self.init(receiptData: data)
+	}
+	
+	///
+	///
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
     /// - parameter receiptData: `Data` object that represents receipt
