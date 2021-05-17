@@ -84,4 +84,27 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
     }
 }
 
+extension InAppReceipt
+{
+	/// Check whether user is eligible for introductory offer
+	///
+	/// - Returns `false` if user isn't eligible for introductory offer, otherwise `true`
+	func isEligibleForIntroductoryOffer(for productIdentifiers: [String]) -> Bool
+	{
+		let purchases = purchases.filter { $0.subscriptionTrialPeriod || $0.subscriptionIntroductoryPricePeriod }
+			.filter { productIdentifiers.contains($0.productIdentifier) }
+		
+		return purchases.isEmpty
+	}
+	
+	/// Check whether user is eligible for introductory offer
+	///
+	/// - Returns `false` if user isn't eligible for introductory offer, otherwise `true`
+	func isEligibleForIntroductoryOffer(for productIdentifier: String) -> Bool
+	{
+		let purchases = purchases.filter { ($0.subscriptionTrialPeriod || $0.subscriptionIntroductoryPricePeriod) && $0.productIdentifier == productIdentifier }
+		
+		return purchases.isEmpty
+	}
+}
 #endif
