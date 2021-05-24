@@ -23,14 +23,33 @@ import TPInAppReceipt
 		return try InAppReceipt_Objc(receiptData: data)
 	}
 	
+	/// Creates and returns the 'InAppReceipt' instance from data object
+	///
+	/// - Returns: 'InAppReceipt' instance
+	/// - throws: An error in the InAppReceipt domain, if `InAppReceipt` cannot be created.
+	@objc public class func receipt(from data: Data) -> InAppReceipt_Objc?
+	{
+		return try? InAppReceipt_Objc(receiptData: data)
+	}
+	
 	/// Creates and returns the 'InAppReceipt' instance using local receipt
 	///
 	/// - Returns: 'InAppReceipt' instance
 	/// - throws: An error in the InAppReceipt domain, if `InAppReceipt` cannot be created.
-	@objc public class func localReceipt() throws -> InAppReceipt_Objc
+	@objc public class func local() throws -> InAppReceipt_Objc
 	{
 		let data = try Bundle.main.appStoreReceiptData()
 		return try InAppReceipt_Objc.receipt(from: data)
+	}
+	
+	/// Creates and returns the 'InAppReceipt' instance using local receipt
+	///
+	/// - Returns: 'InAppReceipt' instance
+	/// - throws: An error in the InAppReceipt domain, if `InAppReceipt` cannot be created.
+	@objc public class func local() -> InAppReceipt_Objc?
+	{
+		guard let data = try? Bundle.main.appStoreReceiptData() else { return nil }
+		return InAppReceipt_Objc.receipt(from: data)
 	}
 	
 	///
