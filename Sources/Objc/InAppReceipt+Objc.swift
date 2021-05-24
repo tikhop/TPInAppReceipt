@@ -18,23 +18,19 @@ import TPInAppReceipt
 	///
 	/// - Returns: 'InAppReceipt' instance
 	/// - throws: An error in the InAppReceipt domain, if `InAppReceipt` cannot be created.
-	class func receipt(from data: Data) -> InAppReceipt?
+	@objc static func receipt(from data: Data) throws -> InAppReceipt_Objc
 	{
-		return try? InAppReceipt(receiptData: data)
+		return try InAppReceipt_Objc(receiptData: data)
 	}
 	
 	/// Creates and returns the 'InAppReceipt' instance using local receipt
 	///
 	/// - Returns: 'InAppReceipt' instance
 	/// - throws: An error in the InAppReceipt domain, if `InAppReceipt` cannot be created.
-	class func local() -> InAppReceipt?
+	@objc static func localReceipt() throws -> InAppReceipt_Objc
 	{
-		guard let data = try? Bundle.main.appStoreReceiptData() else
-		{
-			return nil
-		}
-		
-		return try? InAppReceipt.receipt(from: data)
+		let data = try Bundle.main.appStoreReceiptData()
+		return try InAppReceipt_Objc.receipt(from: data)
 	}
 	
 	///
@@ -42,14 +38,9 @@ import TPInAppReceipt
 	/// Initialize a `InAppReceipt` with asn1 payload
 	///
 	/// - parameter receiptData: `Data` object that represents receipt
-	public init?(receiptData: Data, rootCertPath: String? = nil)
+	@objc public init(receiptData: Data, rootCertPath: String? = nil) throws
 	{
-		guard let r = try? InAppReceipt.init(receiptData: receiptData, rootCertPath: rootCertPath) else
-		{
-			return nil
-		}
-		
-		wrappedReceipt = r
+		self.wrappedReceipt = try InAppReceipt.init(receiptData: receiptData, rootCertPath: rootCertPath)
 	}
 }
 
