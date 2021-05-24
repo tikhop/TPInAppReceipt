@@ -18,7 +18,7 @@ fileprivate var refreshSession: RefreshSession?
 public class SKSubscriptionGroup
 {
 	let identifier: GroupIdentifier
-	var products: [SKProduct] = []
+	var products: Set<SKProduct> = []
 	
 	init(with identifier: GroupIdentifier)
 	{
@@ -26,7 +26,7 @@ public class SKSubscriptionGroup
 		self.products = []
 	}
 	
-	init(with products: [SKProduct])
+	init(with products: Set<SKProduct>)
 	{
 		self.identifier = products.first?.subscriptionGroupIdentifier ?? ""
 		self.products = products
@@ -39,10 +39,7 @@ public class SKSubscriptionGroup
 			fatalError("`Product.subscriptionGroupIdentifier` must be equal to current identifier")
 		}
 		
-		var products = Set(self.products)
 		products.insert(product)
-		
-		self.products = Array(products)
 	}
 	
 	func contains(_ productIdentifier: String) -> Bool
@@ -58,12 +55,11 @@ public extension SKProductsResponse
 {
 	/// Build a `SKSubscriptionGroup` object
 	///
-	/// We assume that all retrieved products `(SKProduct)` belong the same subscription group
+	/// We assume that all retrieved products `(SKProduct)` belong to the same subscription group
 	///
 	/// - Returns  `SKSubscriptionGroup`. Empty if no subscription groups found
 	var subscriptionGroup: SKSubscriptionGroup
 	{
-		var gid: GroupIdentifier?
 		var group: SKSubscriptionGroup!
 		
 		for p in products
@@ -86,7 +82,7 @@ public extension SKProductsResponse
 			fatalError("`group` can't be nil.")
 		}
 		
-		return group
+		return g
 	}
 	
 	/// Build a dictionary that contains the subscription groups
