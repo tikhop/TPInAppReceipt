@@ -202,7 +202,7 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
 
 #endif
 
-public typealias SubscriptionGroup = Array<String>
+public typealias SubscriptionGroup = Set<String>
 
 public extension InAppReceipt
 {
