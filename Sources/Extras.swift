@@ -54,7 +54,7 @@ public class SKSubscriptionGroup
 public typealias GroupIdentifier = String
 
 @available(iOS 12.0, *)
-extension SKProductsResponse
+public extension SKProductsResponse
 {
 	/// Build a dictionary that contains the subscription groups
 	///
