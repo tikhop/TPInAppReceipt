@@ -1,5 +1,5 @@
 //
-//  Constants.swift
+//  IARError.swift
 //  TPInAppReceipt
 //
 //  Created by Pavel Tikhonenko on 20/01/17.

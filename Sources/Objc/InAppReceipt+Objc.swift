@@ -1,8 +1,9 @@
 //
-//  File.swift
-//  
+//  InAppReceipt+Objc.swift
+//  TPInAppReceipt
 //
 //  Created by Pavel Tikhonenko on 24.05.2021.
+//  Copyright © 2020-2021 Pavel Tikhonenko. All rights reserved.
 //
 
 import Foundation
