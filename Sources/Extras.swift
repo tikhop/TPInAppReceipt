@@ -204,7 +204,7 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
 
 public typealias SubscriptionGroup = Array<String>
 
-extension InAppReceipt
+public extension InAppReceipt
 {
 	/// Check whether user is eligible for introductory offer for any products within the same subscription group
 	///
