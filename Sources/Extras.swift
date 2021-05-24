@@ -56,6 +56,39 @@ public typealias GroupIdentifier = String
 @available(iOS 12.0, *)
 public extension SKProductsResponse
 {
+	/// Build a `SKSubscriptionGroup` object
+	///
+	/// We assume that all retrieved products `(SKProduct)` belong the same subscription group
+	///
+	/// - Returns  `SKSubscriptionGroup`. Empty if no subscription groups found
+	var subscriptionGroup: SKSubscriptionGroup
+	{
+		var gid: GroupIdentifier?
+		var group: SKSubscriptionGroup!
+		
+		for p in products
+		{
+			guard let pgid = p.subscriptionGroupIdentifier else
+			{
+				continue
+			}
+			
+			if group == nil
+			{
+				group = SKSubscriptionGroup(with: pgid)
+			}
+			
+			group.insert(product: p)
+		}
+		
+		guard let g = group else
+		{
+			fatalError("`group` can't be nil.")
+		}
+		
+		return group
+	}
+	
 	/// Build a dictionary that contains the subscription groups
 	///
 	/// The dictionary contains `SKSubscriptionGroup` objects where the key is a group identifier `GroupIdentifier`
