@@ -11,6 +11,7 @@ let package = Package(
 	
     products: [
         .library(name: "TPInAppReceipt", targets: ["TPInAppReceipt"]),
+		.library(name: "TPInAppReceipt-Objc", targets: ["TPInAppReceipt-Objc"]),
     ],
 	dependencies: [
 		.package(url: "https://github.com/tikhop/ASN1Swift", .upToNextMajor(from: "1.0.0"))
@@ -23,15 +24,14 @@ let package = Package(
 			exclude: ["Bundle+Extension.swift", "Objc/InAppReceipt+Objc.swift"],
 			resources: [.process("AppleIncRootCertificate.cer"), .process("StoreKitTestCertificate.cer")]
 		),
-		.testTarget(
-			name: "TPInAppReceiptTests",
-			dependencies: ["TPInAppReceipt"])
-		,
 		.target(
-			name: "TPInAppReceiptObjc",
+			name: "TPInAppReceipt-Objc",
 			dependencies: ["TPInAppReceipt"],
 			path: "Sources/Objc"
 		),
+		.testTarget(
+			name: "TPInAppReceiptTests",
+			dependencies: ["TPInAppReceipt"])
 	],
 	swiftLanguageVersions: [.v5]
 )
