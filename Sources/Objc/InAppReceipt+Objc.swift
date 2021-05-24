@@ -27,7 +27,7 @@ import TPInAppReceipt
 	///
 	/// - Returns: 'InAppReceipt' instance
 	/// - throws: An error in the InAppReceipt domain, if `InAppReceipt` cannot be created.
-	static func localReceipt() throws -> InAppReceipt
+	class func local() throws -> InAppReceipt
 	{
 		let data = try Bundle.main.appStoreReceiptData()
 		return try InAppReceipt.receipt(from: data)
