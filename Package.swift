@@ -20,13 +20,20 @@ let package = Package(
             name: "TPInAppReceipt",
 			dependencies: ["ASN1Swift"],
 			path: "Sources",
-			exclude: ["Bundle+Extension.swift"],
+			exclude: ["Bundle+Extension.swift", "Objc/InAppReceipt+Objc.swift"],
 			resources: [.process("AppleIncRootCertificate.cer"), .process("StoreKitTestCertificate.cer")]
 		),
 		.testTarget(
 			name: "TPInAppReceiptTests",
 			dependencies: ["TPInAppReceipt"])
-	]
+		,
+		.target(
+			name: "TPInAppReceiptObjc",
+			dependencies: ["TPInAppReceipt"],
+			path: "Sources/Objc"
+		),
+	],
+	swiftLanguageVersions: [.v5]
 )
 
     
