@@ -18,7 +18,7 @@ import TPInAppReceipt
 	///
 	/// - Returns: 'InAppReceipt' instance
 	/// - throws: An error in the InAppReceipt domain, if `InAppReceipt` cannot be created.
-	@objc static func receipt(from data: Data) throws -> InAppReceipt_Objc
+	@objc public class func receipt(from data: Data) throws -> InAppReceipt_Objc
 	{
 		return try InAppReceipt_Objc(receiptData: data)
 	}
@@ -27,7 +27,7 @@ import TPInAppReceipt
 	///
 	/// - Returns: 'InAppReceipt' instance
 	/// - throws: An error in the InAppReceipt domain, if `InAppReceipt` cannot be created.
-	@objc static func localReceipt() throws -> InAppReceipt_Objc
+	@objc public class func localReceipt() throws -> InAppReceipt_Objc
 	{
 		let data = try Bundle.main.appStoreReceiptData()
 		return try InAppReceipt_Objc.receipt(from: data)
