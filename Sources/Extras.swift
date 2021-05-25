@@ -1,5 +1,5 @@
 //
-//  InAppReceiptManager.swift
+//  Extras.swift
 //  TPInAppReceipt
 //
 //  Created by Pavel Tikhonenko on 13.02.2020.

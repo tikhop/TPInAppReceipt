@@ -1,5 +1,5 @@
 //
-//  InAppReceiptValidator.swift
+//  Validation.swift
 //  TPInAppReceipt
 //
 //  Created by Pavel Tikhonenko on 19/01/17.
