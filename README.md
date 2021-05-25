@@ -15,11 +15,10 @@ A lightweight library for reading and validating Apple In App Purchase Receipt l
 
 ## Features
 
-- [x] Extract all In-App Receipt Attributes
-- [x] Hash Verification
-- [x] Bundle Version and Identifiers Verification
-- [x] Signature Verification
-- [x] Works with StoreKitTest
+- [x] Read all In-App Receipt Attributes
+- [x] Validate In-App Purchase Receipt (Signature, Bundle Version and Identifier, Hash)
+- [x] Use with StoreKitTest
+- [x] Use in Objective-C projects
 
 Installation
 ------------
