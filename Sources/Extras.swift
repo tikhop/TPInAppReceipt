@@ -159,10 +159,10 @@ public extension InAppReceipt
 	@available(iOS 12.0, *)
 	func isEligibleForIntroductoryOffer(for group: SKSubscriptionGroup) -> Bool
 	{
-		let purchases = purchases.filter { $0.subscriptionTrialPeriod || $0.subscriptionIntroductoryPricePeriod }
+		let array = purchases.filter { $0.subscriptionTrialPeriod || $0.subscriptionIntroductoryPricePeriod }
 			.filter { group.contains($0.productIdentifier) }
 		
-		return purchases.isEmpty
+		return array.isEmpty
 	}
 }
 
@@ -222,10 +222,10 @@ public extension InAppReceipt
 	/// - Returns `false` if user isn't eligible for introductory offer, otherwise `true`
 	func isEligibleForIntroductoryOffer(for group: SubscriptionGroup) -> Bool
 	{
-		let purchases = purchases.filter { $0.subscriptionTrialPeriod || $0.subscriptionIntroductoryPricePeriod }
+		let array = purchases.filter { $0.subscriptionTrialPeriod || $0.subscriptionIntroductoryPricePeriod }
 			.filter { group.contains($0.productIdentifier) }
 		
-		return purchases.isEmpty
+		return array.isEmpty
 	}
 	
 	/// Check whether user is eligible for introductory offer for a specific product
@@ -233,8 +233,9 @@ public extension InAppReceipt
 	/// - Returns `false` if user isn't eligible for introductory offer, otherwise `true`
 	func isEligibleForIntroductoryOffer(for productIdentifier: String) -> Bool
 	{
-		let purchases = purchases.filter { ($0.subscriptionTrialPeriod || $0.subscriptionIntroductoryPricePeriod) && $0.productIdentifier == productIdentifier }
-		
-		return purchases.isEmpty
+		let array = purchases.filter { $0.subscriptionTrialPeriod || $0.subscriptionIntroductoryPricePeriod }
+			.filter { $0.productIdentifier == productIdentifier }
+			
+		return array.isEmpty
 	}
 }
