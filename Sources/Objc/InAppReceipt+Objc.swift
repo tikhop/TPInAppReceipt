@@ -141,7 +141,7 @@ import TPInAppReceipt
 	/// Return original transaction identifier if there is a purchase for a specific product identifier
 	///
 	/// - parameter productIdentifier: Product name
-	func originalTransactionIdentifier(ofProductIdentifier productIdentifier: String) -> String?
+	@objc func originalTransactionIdentifier(ofProductIdentifier productIdentifier: String) -> String?
 	{
 		return purchases(ofProductIdentifier: productIdentifier).first?.originalTransactionIdentifier
 	}
@@ -149,7 +149,7 @@ import TPInAppReceipt
 	/// Returns `true` if there is a purchase for a specific product identifier, `false` otherwise
 	///
 	/// - parameter productIdentifier: Product name
-	func containsPurchase(ofProductIdentifier productIdentifier: String) -> Bool
+	@objc func containsPurchase(ofProductIdentifier productIdentifier: String) -> Bool
 	{
 		for item in purchases
 		{
@@ -167,7 +167,7 @@ import TPInAppReceipt
 	///
 	/// - parameter productIdentifier: Product name
 	/// - parameter sort: Sorting block
-	func purchases(ofProductIdentifier productIdentifier: String,
+	@objc func purchases(ofProductIdentifier productIdentifier: String,
 				   sortedBy sort: ((InAppPurchase_Objc, InAppPurchase_Objc) -> Bool)? = nil) -> [InAppPurchase_Objc]
 	{
 		let filtered: [InAppPurchase_Objc] = purchases.filter({
@@ -190,7 +190,7 @@ import TPInAppReceipt
 	/// `nil` otherwise
 	///
 	/// - parameter productIdentifier: Product name
-	func activeAutoRenewableSubscriptionPurchases(ofProductIdentifier productIdentifier: String, forDate date: Date) -> InAppPurchase_Objc?
+	@objc func activeAutoRenewableSubscriptionPurchases(ofProductIdentifier productIdentifier: String, forDate date: Date) -> InAppPurchase_Objc?
 	{
 		let filtered = purchases(ofProductIdentifier: productIdentifier)
 		
@@ -209,7 +209,7 @@ import TPInAppReceipt
 	/// `nil` otherwise
 	///
 	/// - parameter productIdentifier: Product name
-	func lastAutoRenewableSubscriptionPurchase(ofProductIdentifier productIdentifier: String) -> InAppPurchase_Objc?
+	@objc func lastAutoRenewableSubscriptionPurchase(ofProductIdentifier productIdentifier: String) -> InAppPurchase_Objc?
 	{
 		var purchase: InAppPurchase_Objc? = nil
 		let filtered = purchases(ofProductIdentifier: productIdentifier)
@@ -237,7 +237,7 @@ import TPInAppReceipt
 	///
 	/// - parameter productIdentifier: Product name
 	/// - parameter date: Date to check subscription against
-	func hasActiveAutoRenewableSubscription(ofProductIdentifier productIdentifier: String, forDate date: Date) -> Bool
+	@objc func hasActiveAutoRenewableSubscription(ofProductIdentifier productIdentifier: String, forDate date: Date) -> Bool
 	{
 		return activeAutoRenewableSubscriptionPurchases(ofProductIdentifier: productIdentifier, forDate: date) != nil
 	}
@@ -314,10 +314,10 @@ import TPInAppReceipt
 	}
 }
 
-public extension InAppPurchase_Objc
+@objc public extension InAppPurchase_Objc
 {
 	/// A Boolean value indicating whether the purchase is renewable subscription.
-	var isRenewableSubscription: Bool
+	@objc var isRenewableSubscription: Bool
 	{
 		return purchase.isRenewableSubscription
 	}
@@ -326,7 +326,7 @@ public extension InAppPurchase_Objc
 	///
 	/// - Parameter date: The date in which the auto-renewable subscription should be active.
 	/// - Returns: true if the latest auto-renewable subscription is active for the given date, false otherwise.
-	func isActiveAutoRenewableSubscription(forDate date: Date) -> Bool
+	@objc func isActiveAutoRenewableSubscription(forDate date: Date) -> Bool
 	{
 		return purchase.isActiveAutoRenewableSubscription(forDate: date)
 	}
@@ -340,7 +340,7 @@ public extension InAppPurchase_Objc
 	/// Verify In App Receipt
 	///
 	/// - throws: An error in the InAppReceipt domain, if verification fails
-	func verify() throws
+	@objc func verify() throws
 	{
 		try wrappedReceipt.verifyHash()
 		try wrappedReceipt.verifyBundleIdentifierAndVersion()
@@ -351,7 +351,7 @@ public extension InAppPurchase_Objc
 	/// Should be equal to `receiptHash` value
 	///
 	/// - throws: An error in the InAppReceipt domain, if verification fails
-	func verifyHash() throws
+	@objc func verifyHash() throws
 	{
 		try wrappedReceipt.verifyHash()
 	}
@@ -361,7 +361,7 @@ public extension InAppPurchase_Objc
 	///
 	///
 	/// - throws: An error in the InAppReceipt domain, if verification fails
-	func verifyBundleIdentifierAndVersion() throws
+	@objc func verifyBundleIdentifierAndVersion() throws
 	{
 		try wrappedReceipt.verifyBundleIdentifierAndVersion()
 	}
@@ -369,7 +369,7 @@ public extension InAppPurchase_Objc
 	/// Verify signature inside pkcs7 container
 	///
 	/// - throws: An error in the InAppReceipt domain, if verification can't be completed
-	func verifySignature() throws
+	@objc func verifySignature() throws
 	{
 		try wrappedReceipt.verifySignature()
 	}
