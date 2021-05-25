@@ -14,6 +14,8 @@ import StoreKit
 @available(watchOSApplicationExtension 6.2, *)
 fileprivate var refreshSession: RefreshSession?
 
+@available(tvOS 12.0, *)
+@available(macOS 10.14, *)
 @available(iOS 12.0, *)
 public class SKSubscriptionGroup
 {
@@ -28,7 +30,12 @@ public class SKSubscriptionGroup
 	
 	init(with products: Set<SKProduct>)
 	{
-		self.identifier = products.first?.subscriptionGroupIdentifier ?? ""
+		guard let gid = products.first?.subscriptionGroupIdentifier else
+		{
+			fatalError("All products must have subscriptionGroupIdentifier")
+		}
+		
+		self.identifier = gid
 		self.products = products
 	}
 	
@@ -50,7 +57,9 @@ public class SKSubscriptionGroup
 
 public typealias GroupIdentifier = String
 
+@available(tvOS 12.0, *)
 @available(iOS 12.0, *)
+@available(macOS 10.14, *)
 public extension SKProductsResponse
 {
 	/// Build a `SKSubscriptionGroup` object
@@ -118,6 +127,8 @@ public extension SKProductsResponse
 	}
 }
 
+@available(tvOS 12.0, *)
+@available(macOS 10.14, *)
 public extension InAppReceipt
 {
     
