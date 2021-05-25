@@ -63,7 +63,7 @@ swift package update
 
 ### Requirements
 
-- iOS 9.0+ / OSX 10.11+
+- iOS 10.0+ / OSX 10.11+
 - Swift 5.3+
 
 Usage
