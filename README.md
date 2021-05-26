@@ -23,7 +23,7 @@ A lightweight library for reading and validating Apple In App Purchase Receipt l
 Installation
 ------------
 
-> - [Use TPInAppReceipt in Objective-C project](https://github.com/tikhop/TPInAppReceipt/Documentation/UseInObjCProject.md) - If you want to use TPInAppReceipt in Objective-C project please follow this guide. 
+> Note: [TPInAppReceipt in Objective-C project](https://github.com/tikhop/TPInAppReceipt/Documentation/UseInObjCProject.md) - If you want to use TPInAppReceipt in Objective-C project please follow this guide. 
 
 ### CocoaPods
 

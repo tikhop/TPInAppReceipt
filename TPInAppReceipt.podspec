@@ -20,6 +20,7 @@ Pod::Spec.new do |s|
 
 	
 	s.subspec 'Core' do |core|
+		core.exclude_files = "Sources/Objc/*.{swift}"
 		core.source_files  = "Sources/*.{swift}"
 		core.resources  = "Sources/AppleIncRootCertificate.cer", "Sources/StoreKitTestCertificate.cer"
 		core.dependency 'ASN1Swift', '~> 1.2.3'
