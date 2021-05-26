@@ -23,6 +23,8 @@ A lightweight library for reading and validating Apple In App Purchase Receipt l
 Installation
 ------------
 
+> - [Use TPInAppReceipt in Objective-C project](https://github.com/tikhop/TPInAppReceipt/Documentation/UseInObjCProject.md) - If you want to use TPInAppReceipt in Objective-C project please follow this guide. 
+
 ### CocoaPods
 
 To integrate TPInAppReceipt into your project using CocoaPods, specify it in your `Podfile`:
@@ -79,6 +81,7 @@ Usage
 do {
   /// Initialize receipt
   let receipt = try InAppReceipt.localReceipt() 
+  // let receipt = try InAppReceipt() // Returns local receipt 
   
   // let receiptData: Data = ...
   // let receipt = try InAppReceipt.receipt(from: receiptData)
@@ -126,6 +129,51 @@ let activePurchases: [InAppPurchase] = receipt.activeAutoRenewableSubscriptionPu
 
 ```
 
+#### Validating Receipt
+
+```swift
+
+/// Verify all at once
+
+do {
+try r.verify()
+} catch IARError.validationFailed(reason: .hashValidation) 
+{
+// Do smth
+} catch IARError.validationFailed(reason: .bundleIdentifierVerification) 
+{
+// Do smth
+} catch IARError.validationFailed(reason: .signatureValidation) 
+{
+// Do smth
+} catch {
+// Do smth
+}
+
+/// Verify hash 
+try? r.verifyHash()
+
+/// Verify bundle identifier and version
+try? r.verifyBundleIdentifierAndVersion()
+
+/// Verify signature
+try? r.verifySignature()
+
+```
+
+#### Determining Eligibility for Introductory Offer  
+
+```swift
+
+// Initialize receipt
+let receipt = try InAppReceipt()
+
+// Check whether user is eligible for any products within the same subscription group 
+var isEligible = receipt.isEligibleForIntroductoryOffer(for: ["com.test.product.bronze", "com.test.product.silver", "com.test.product.gold"])
+
+
+```
+
 #### Useful methods
 
 ```swift
@@ -141,37 +189,7 @@ receipt.purchases(ofProductIdentifier: subscriptionName)
 
 ```
 
-#### Validating Receipt
 
-```swift
-
-/// Verify all at once
-
-do {
-    try r.verify()
-} catch IARError.validationFailed(reason: .hashValidation) 
-{
-    // Do smth
-} catch IARError.validationFailed(reason: .bundleIdentifierVerification) 
-{
-    // Do smth
-} catch IARError.validationFailed(reason: .signatureValidation) 
-{
-    // Do smth
-} catch {
-    // Do smth
-}
-
-/// Verify hash 
-try? r.verifyHash()
-
-/// Verify bundle identifier and version
-try? r.verifyBundleIdentifierAndVersion()
-
-/// Verify signature
-try? r.verifySignature()
-
-```
 
 ## Essential Reading
 * [Apple - About Receipt Validation](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Introduction.html)
