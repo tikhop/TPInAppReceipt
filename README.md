@@ -11,7 +11,7 @@
 [![Platform](https://img.shields.io/cocoapods/p/TPInAppReceipt.svg?style=flat)]()
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tikhop/TPInAppReceipt/master/LICENSE)
 
-A lightweight library for reading and validating Apple In App Purchase Receipt locally.
+TPInAppReceipt is a lightweight, pure-Swift library for reading and validating Apple In App Purchase Receipt locally.
 
 ## Features
 
@@ -23,7 +23,7 @@ A lightweight library for reading and validating Apple In App Purchase Receipt l
 Installation
 ------------
 
-> Note: [TPInAppReceipt in Objective-C project](https://github.com/tikhop/TPInAppReceipt/Documentation/UseInObjCProject.md) - If you want to use TPInAppReceipt in Objective-C project please follow this guide. 
+> Note: [TPInAppReceipt in Objective-C project](https://github.com/tikhop/TPInAppReceipt/blob/master/Documentation/UseInObjCProject.md) - If you want to use TPInAppReceipt in Objective-C project please follow this guide. 
 
 ### CocoaPods
 
@@ -73,9 +73,11 @@ Usage
 
 ### Working With a Receipt
 
-`InAppReceipt` is an object to incapsulate all necessary getters from a receipt payload and provides a comprehensive API for reading and validating in app receipt and related purchases.
+The [`InAppReceipt`](https://tikhop.github.io/TPInAppReceipt/Classes/InAppReceipt.html) object encapsulates information about a receipt and the purchases associated with it. To validate In-App Purchase Receipt you must create an `InAppReceipt` object.
 
 #### Initializing Receipt
+
+To create [`InAppReceipt`](https://tikhop.github.io/TPInAppReceipt/Classes/InAppReceipt.html) object you can either provide a raw receipt data or initialize a local receipt.
 
 ```swift
 do {
@@ -95,7 +97,9 @@ do {
 
 #### Refreshing/Requesting Receipt
 
-Use this method to request a new receipt if the receipt is invalid or missing. 
+When necessary, use this method to ensure the receipt you are working with is up-to-date. 
+
+> NOTE: If validation fails in iOS, try to refresh the receipt first.
 
 ```swift
 InAppReceipt.refresh { (error) in
@@ -112,12 +116,12 @@ InAppReceipt.refresh { (error) in
 #### Reading Receipt
 
 ```swift
-/// Base64 Encoded Receipt
-let base64Receipt = receipt.base64
-  
 /// Initialize receipt
 let receipt = try! InAppReceipt.localReceipt() 
 
+/// Base64 Encoded Receipt
+let base64Receipt = receipt.base64
+  
 /// Check whether receipt contains any purchases
 let hasPurchases = receipt.hasPurchases
 
