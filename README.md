@@ -34,9 +34,9 @@ To integrate TPInAppReceipt into your project using CocoaPods, specify it in you
 platform :ios, '9.0'
 
 target 'YOUR_TARGET' do
-    use_frameworks!
+  use_frameworks!
 
-    pod 'TPInAppReceipt'
+  pod 'TPInAppReceipt'
 end
 
 ```
@@ -82,15 +82,15 @@ To create [`InAppReceipt`](https://tikhop.github.io/TPInAppReceipt/Classes/InApp
 
 ```swift
 do {
-	/// Initialize receipt
-	let receipt = try InAppReceipt.localReceipt() 
-	// let receipt = try InAppReceipt() // Returns local receipt 
+  /// Initialize receipt
+  let receipt = try InAppReceipt.localReceipt() 
+  // let receipt = try InAppReceipt() // Returns local receipt 
   
-	// let receiptData: Data = ...
-	// let receipt = try InAppReceipt.receipt(from: receiptData)
+  // let receiptData: Data = ...
+  // let receipt = try InAppReceipt.receipt(from: receiptData)
   
 } catch {
-	print(error)
+  print(error)
 }
 
 
@@ -116,15 +116,15 @@ try? receipt.verifySignature()
 
 /// Validate all at once 
 do {
-	try receipt.verify()
+  try receipt.verify()
 } catch IARError.validationFailed(reason: .hashValidation) {
-	// Do smth
+  // Do smth
 } catch IARError.validationFailed(reason: .bundleIdentifierVerification) {
-	// Do smth
+  // Do smth
 } catch IARError.validationFailed(reason: .signatureValidation) {
-	// Do smth
+  // Do smth
 } catch {
-	// Do smth
+  // Do smth
 }
 
 ```
@@ -186,12 +186,12 @@ When necessary, use this method to ensure the receipt you are working with is up
 
 ```swift
 InAppReceipt.refresh { (error) in
-	if let err = error
-	{
-		print(err)
-	} else {
-		initializeReceipt()
-	}
+  if let err = error
+  {
+    print(err)
+  } else {
+    initializeReceipt()
+  }
 }
 
 ```
