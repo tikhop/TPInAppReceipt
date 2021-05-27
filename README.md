@@ -106,7 +106,7 @@ InAppReceipt.refresh { (error) in
   if let err = error
   {
     print(err)
-  }else{
+  } else {
     initializeReceipt()
   }
 }
@@ -140,18 +140,15 @@ let activePurchases: [InAppPurchase] = receipt.activeAutoRenewableSubscriptionPu
 /// Verify all at once
 
 do {
-try r.verify()
-} catch IARError.validationFailed(reason: .hashValidation) 
-{
-// Do smth
-} catch IARError.validationFailed(reason: .bundleIdentifierVerification) 
-{
-// Do smth
-} catch IARError.validationFailed(reason: .signatureValidation) 
-{
-// Do smth
+  try r.verify()
+} catch IARError.validationFailed(reason: .hashValidation) {
+  // Do smth
+} catch IARError.validationFailed(reason: .bundleIdentifierVerification) {
+  // Do smth
+} catch IARError.validationFailed(reason: .signatureValidation) {
+  // Do smth
 } catch {
-// Do smth
+  // Do smth
 }
 
 /// Verify hash 
