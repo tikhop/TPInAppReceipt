@@ -106,7 +106,7 @@ do {
 try? receipt.verifyHash()
 
 /// Verify bundle identifier
-try? receipt.verifyBundleIdentifier
+try? receipt.verifyBundleIdentifier()
 
 /// Verify bundle version
 try? receipt.verifyBundleVersion()
