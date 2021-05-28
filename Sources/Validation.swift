@@ -21,6 +21,19 @@ import CommonCrypto
 /// A InAppReceipt extension helps to validate the receipt
 public extension InAppReceipt
 {
+	/// Determine whether receipt is valid or not
+	///
+	/// - Returns:`true` if the receipt is valid, otherwise `false`
+	var isValid: Bool
+	{
+		do {
+			try verify()
+			return true
+		} catch {
+			return false
+		}
+	}
+	
     /// Verify In App Receipt
     ///
     /// - throws: An error in the InAppReceipt domain, if verification fails
