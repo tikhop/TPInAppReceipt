@@ -3,7 +3,7 @@
 //  TPInAppReceipt
 //
 //  Created by Pavel Tikhonenko on 19/01/17.
-//  Copyright © 2017-2020 Pavel Tikhonenko. All rights reserved.
+//  Copyright © 2017-2021 Pavel Tikhonenko. All rights reserved.
 //
 
 import Foundation
@@ -40,17 +40,17 @@ public struct InAppPurchase
     /// Original Transaction identifier
     public var originalTransactionIdentifier: String
     
-    /// Purchase Date in string format
-    public var purchaseDateString: String
+    /// Purchase Date
+    public var purchaseDate: Date
     
-    /// Original Purchase Date in string format
-    public var originalPurchaseDateString: String
+    /// Original Purchase Date. Returns `nil` when testing with StoreKitTest
+    public var originalPurchaseDate: Date! = nil
     
-    /// Subscription Expiration Date in string format. Returns `nil` if the purchase is not a renewable subscription
-    public var subscriptionExpirationDateString: String? = nil
+	/// Subscription Expiration Date. Returns `nil` if the purchase has been expired (in some cases)
+    public var subscriptionExpirationDate: Date? = nil
     
-    /// Cancellation Date in string format. Returns `nil` if the purchase is not a renewable subscription
-    public var cancellationDateString: String? = nil
+    /// Cancellation Date. Returns `nil` if the purchase is not a renewable subscription
+    public var cancellationDate: Date? = nil
 
     /// This value is `true`if the customer’s subscription is currently in the free trial period, or `false` if not.
     public var subscriptionTrialPeriod: Bool = false
@@ -68,37 +68,14 @@ public struct InAppPurchase
     /// The number of consumable products purchased
 	/// The default value is `1` unless modified with a mutable payment. The maximum value is 10.
     public var quantity: Int = 1
-    
-    public init()
-    {
-        originalTransactionIdentifier = ""
-        productIdentifier = ""
-        transactionIdentifier = ""
-        purchaseDateString = ""
-        originalPurchaseDateString = ""
-    }
 }
 
 public extension InAppPurchase
 {
-    /// Purchase Date representation as a 'Date' object
-    var purchaseDate: Date
-    {
-        return purchaseDateString.rfc3339date()!
-    }
-    
-    /// Subscription Expiration Date representation as a 'Date' object. Returns `nil` if the purchase has been expired (in some cases)
-    var subscriptionExpirationDate: Date?
-    {
-        assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
-       
-        return subscriptionExpirationDateString?.rfc3339date()
-    }
-    
     /// A Boolean value indicating whether the purchase is renewable subscription.
     var isRenewableSubscription: Bool
     {
-        return self.subscriptionExpirationDateString != nil
+        return subscriptionExpirationDate != nil
     }
     
     /// Check whether the subscription is active for a specific date
@@ -109,10 +86,10 @@ public extension InAppPurchase
     {
         assert(isRenewableSubscription, "\(productIdentifier) is not an auto-renewable subscription.")
 		
-        if(self.cancellationDateString != nil && self.cancellationDateString != "")
-        {
-            return false
-        }
+        if cancellationDate != nil
+		{
+			return false
+		}
         
         guard let expirationDate = subscriptionExpirationDate else
         {

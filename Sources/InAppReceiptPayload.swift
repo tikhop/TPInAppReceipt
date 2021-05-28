@@ -3,7 +3,7 @@
 //  TPInAppReceipt
 //
 //  Created by Pavel Tikhonenko on 20/01/17.
-//  Copyright © 2017-2020 Pavel Tikhonenko. All rights reserved.
+//  Copyright © 2017-2021 Pavel Tikhonenko. All rights reserved.
 //
 
 import Foundation
@@ -24,7 +24,7 @@ struct InAppReceiptPayload
 	let originalAppVersion: String
     
     /// The date that the app receipt expires
-	let expirationDate: String?
+	let expirationDate: Date?
     
     /// Used to validate the receipt
 	let bundleIdentifierData: Data
@@ -36,8 +36,11 @@ struct InAppReceiptPayload
 	let receiptHash: Data
     
     /// The date when the app receipt was created.
-	let creationDate: String
+	let creationDate: Date
     
+	/// Age Rating of the app
+	let ageRating: String
+	
 	/// Receipt's environment
 	let environment: String
 	
@@ -46,7 +49,7 @@ struct InAppReceiptPayload
 	
     /// Initialize a `InAppReceipt` passing all values
     ///
-	init(bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: String?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, creationDate: String, environment: String, rawData: Data)
+	init(bundleIdentifier: String, appVersion: String, originalAppVersion: String, purchases: [InAppPurchase], expirationDate: Date?, bundleIdentifierData: Data, opaqueValue: Data, receiptHash: Data, creationDate: Date, ageRating: String, environment: String, rawData: Data)
     {
         self.bundleIdentifier = bundleIdentifier
         self.appVersion = appVersion
@@ -57,6 +60,7 @@ struct InAppReceiptPayload
         self.opaqueValue = opaqueValue
         self.receiptHash = receiptHash
         self.creationDate = creationDate
+		self.ageRating = ageRating
 		self.environment = environment
 		self.rawData = rawData
     }

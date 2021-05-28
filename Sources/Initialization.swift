@@ -3,7 +3,7 @@
 //  TPInAppReceipt
 //
 //  Created by Pavel Tikhonenko on 05/02/17.
-//  Copyright © 2017-2020 Pavel Tikhonenko. All rights reserved.
+//  Copyright © 2017-2021 Pavel Tikhonenko. All rights reserved.
 //
 
 import Foundation

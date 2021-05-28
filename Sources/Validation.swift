@@ -1,9 +1,9 @@
 //
-//  InAppReceiptValidator.swift
+//  Validation.swift
 //  TPInAppReceipt
 //
 //  Created by Pavel Tikhonenko on 19/01/17.
-//  Copyright © 2017-2020 Pavel Tikhonenko. All rights reserved.
+//  Copyright © 2017-2021 Pavel Tikhonenko. All rights reserved.
 //
 
 #if os(iOS) || os(tvOS)
@@ -21,6 +21,19 @@ import CommonCrypto
 /// A InAppReceipt extension helps to validate the receipt
 public extension InAppReceipt
 {
+	/// Determine whether receipt is valid or not
+	///
+	/// - Returns:`true` if the receipt is valid, otherwise `false`
+	var isValid: Bool
+	{
+		do {
+			try verify()
+			return true
+		} catch {
+			return false
+		}
+	}
+	
     /// Verify In App Receipt
     ///
     /// - throws: An error in the InAppReceipt domain, if verification fails
@@ -50,35 +63,48 @@ public extension InAppReceipt
     /// - throws: An error in the InAppReceipt domain, if verification fails
     func verifyBundleIdentifierAndVersion() throws
     {
-        #if targetEnvironment(simulator)
-        #else
-        guard let bid = Bundle.main.bundleIdentifier, bid == bundleIdentifier else
-        {
-            throw IARError.validationFailed(reason: .bundleIdentifierVerification)
-        }
-        
-        #if targetEnvironment(macCatalyst)
-        guard let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
-            v == appVersion else
-        {
-            throw IARError.validationFailed(reason: .bundleVersionVerification)
-        }
-        #elseif os(iOS) || os(watchOS) || os(tvOS)
-        guard let v = Bundle.main.infoDictionary?["CFBundleVersion"] as? String,
-            v == appVersion else
-        {
-            throw IARError.validationFailed(reason: .bundleVersionVerification)
-        }
-        #elseif os(macOS)
-        guard let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
-            v == appVersion else
-        {
-            throw IARError.validationFailed(reason: .bundleVersionVerification)
-        }
-        #endif
-        #endif
+        try verifyBundleIdentifier()
+		try verifyBundleVersion()
     }
     
+	/// Verify that the bundle identifier in the receipt matches a hard-coded constant containing the CFBundleIdentifier value you expect in the Info.plist file. If they do not match, validation fails.
+	/// Verify that the version identifier string in the receipt matches a hard-coded constant containing the CFBundleShortVersionString value (for macOS) or the CFBundleVersion value (for iOS) that you expect in the Info.plist file.
+	///
+	///
+	/// - throws: An error in the InAppReceipt domain, if verification fails
+	func verifyBundleIdentifier() throws
+	{
+		#if !targetEnvironment(simulator)
+		guard let bid = Bundle.main.bundleIdentifier, bid == bundleIdentifier else
+		{
+			throw IARError.validationFailed(reason: .bundleIdentifierVerification)
+		}
+		#endif
+	}
+	
+	/// Verify that the version identifier string in the receipt matches a hard-coded constant containing the CFBundleShortVersionString value (for macOS) or the CFBundleVersion value (for iOS) that you expect in the Info.plist file.
+	///
+	///
+	/// - throws: An error in the InAppReceipt domain, if verification fails
+	func verifyBundleVersion() throws
+	{
+		#if !targetEnvironment(simulator)
+		#if targetEnvironment(macCatalyst) || os(macOS)
+		guard let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+			  v == appVersion else
+		{
+			throw IARError.validationFailed(reason: .bundleVersionVerification)
+		}
+		#elseif os(iOS) || os(watchOS) || os(tvOS)
+		guard let v = Bundle.main.infoDictionary?["CFBundleVersion"] as? String,
+			  v == appVersion else
+		{
+			throw IARError.validationFailed(reason: .bundleVersionVerification)
+		}
+		#endif
+		#endif
+	}
+	
     /// Verify signature inside pkcs7 container
     ///
     /// - throws: An error in the InAppReceipt domain, if verification can't be completed
@@ -251,15 +277,7 @@ public extension InAppReceipt
 
 fileprivate func guid() -> Data
 {
-	if #available(OSX 11.0, *)
-	{
-		if ProcessInfo.processInfo.isiOSAppOnMac || ProcessInfo.processInfo.isMacCatalystApp
-		{
-			return macos_guid()
-		}
-	}
-	
-	
+    
 #if os(watchOS)
     var uuidBytes = WKInterfaceDevice.current().identifierForVendor!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
@@ -267,64 +285,60 @@ fileprivate func guid() -> Data
     var uuidBytes = UIDevice.current.identifierForVendor!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
 #elseif targetEnvironment(macCatalyst) || os(macOS)
-	return macos_guid()
+    
+    var masterPort = mach_port_t()
+    var kernResult: kern_return_t = IOMasterPort(mach_port_t(MACH_PORT_NULL), &masterPort)
+    if (kernResult != KERN_SUCCESS)
+    {
+        assertionFailure("Failed to initialize master port")
+    }
+    
+    let matchingDict = IOBSDNameMatching(masterPort, 0, "en0")
+    if (matchingDict == nil)
+    {
+        assertionFailure("Failed to retrieve guid")
+    }
+    
+    var iterator = io_iterator_t()
+    kernResult = IOServiceGetMatchingServices(masterPort, matchingDict, &iterator)
+    if (kernResult != KERN_SUCCESS)
+    {
+        assertionFailure("Failed to retrieve guid")
+    }
+    
+    var guidData: Data?
+    var service = IOIteratorNext(iterator)
+    var parentService = io_object_t()
+    
+    defer
+    {
+        IOObjectRelease(iterator)
+    }
+    
+    while(service != 0)
+    {
+        kernResult = IORegistryEntryGetParentEntry(service, kIOServicePlane, &parentService)
+        
+        if (kernResult == KERN_SUCCESS)
+        {
+            guidData = IORegistryEntryCreateCFProperty(parentService, "IOMACAddress" as CFString, nil, 0).takeRetainedValue() as? Data
+            
+            IOObjectRelease(parentService)
+        }
+        IOObjectRelease(service)
+        
+        if  guidData != nil {
+            break
+        }else{
+            service = IOIteratorNext(iterator)
+        }
+    }
+    
+    if guidData == nil
+    {
+        assertionFailure("Failed to retrieve guid")
+    }
+    
+    return guidData!    
 #endif
-}
-
-fileprivate func macos_guid() -> Data
-{
-	var masterPort = mach_port_t()
-	var kernResult: kern_return_t = IOMasterPort(mach_port_t(MACH_PORT_NULL), &masterPort)
-	if (kernResult != KERN_SUCCESS)
-	{
-		assertionFailure("Failed to initialize master port")
-	}
-	
-	let matchingDict = IOBSDNameMatching(masterPort, 0, "en0")
-	if (matchingDict == nil)
-	{
-		assertionFailure("Failed to retrieve guid")
-	}
-	
-	var iterator = io_iterator_t()
-	kernResult = IOServiceGetMatchingServices(masterPort, matchingDict, &iterator)
-	if (kernResult != KERN_SUCCESS)
-	{
-		assertionFailure("Failed to retrieve guid")
-	}
-	
-	var guidData: Data?
-	var service = IOIteratorNext(iterator)
-	var parentService = io_object_t()
-	
-	defer
-	{
-		IOObjectRelease(iterator)
-	}
-	
-	while(service != 0)
-	{
-		kernResult = IORegistryEntryGetParentEntry(service, kIOServicePlane, &parentService)
-		
-		if (kernResult == KERN_SUCCESS)
-		{
-			guidData = IORegistryEntryCreateCFProperty(parentService, "IOMACAddress" as CFString, nil, 0).takeRetainedValue() as? Data
-			
-			IOObjectRelease(parentService)
-		}
-		IOObjectRelease(service)
-		
-		if  guidData != nil {
-			break
-		}else{
-			service = IOIteratorNext(iterator)
-		}
-	}
-	
-	if guidData == nil
-	{
-		assertionFailure("Failed to retrieve guid")
-	}
-	
-	return guidData!
 }

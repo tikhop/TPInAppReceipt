@@ -3,7 +3,7 @@
 //  TPReceiptValidator
 //
 //  Created by Pavel Tikhonenko on 28/09/16.
-//  Copyright © 2016-2020 Pavel Tikhonenko. All rights reserved.
+//  Copyright © 2016-2021 Pavel Tikhonenko. All rights reserved.
 //
 
 import Foundation
@@ -16,6 +16,7 @@ public struct InAppReceiptField
 	static let appVersion: Int32 = 3
 	static let opaqueValue: Int32 = 4
 	static let receiptHash: Int32 = 5 // SHA-1 Hash
+	static let ageRating: Int32 = 10 // SHA-1 Hash
 	static let receiptCreationDate: Int32 = 12
 	static let inAppPurchaseReceipt: Int32 = 17 // The receipt for an in-app purchase.
 	//TODO: case originalPurchaseDate = 18
@@ -54,6 +55,15 @@ public class InAppReceipt
 	/// Raw data
 	private var rawData: Data
 	
+	/// Initialize a `InAppReceipt` using local receipt
+	public convenience init() throws
+	{
+		let data = try Bundle.main.appStoreReceiptData()
+		try self.init(receiptData: data)
+	}
+	
+	///
+	///
     /// Initialize a `InAppReceipt` with asn1 payload
     ///
     /// - parameter receiptData: `Data` object that represents receipt
@@ -115,7 +125,7 @@ public extension InAppReceipt
     /// The date that the app receipt expires
     var expirationDate: Date?
     {
-		return payload.expirationDate?.rfc3339date()
+		return payload.expirationDate
     }
     
     /// Returns `true` if any purchases exist, `false` otherwise
@@ -130,12 +140,16 @@ public extension InAppReceipt
         return activeAutoRenewableSubscriptionPurchases.count > 0
     }
     
-    /// The date when the app receipt was created.
+    
     var creationDate: Date
     {
-		return payload.creationDate.rfc3339date()!
+		return payload.creationDate
     }
     
+	var ageRating: String
+	{
+		return payload.ageRating
+	}
     /// In App Receipt in base64
     var base64: String
     {

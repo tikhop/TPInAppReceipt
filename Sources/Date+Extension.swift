@@ -3,7 +3,7 @@
 //  TPInAppReceipt
 //
 //  Created by Pavel Tikhonenko on 01/10/16.
-//  Copyright © 2016-2020 Pavel Tikhonenko. All rights reserved.
+//  Copyright © 2016-2021 Pavel Tikhonenko. All rights reserved.
 //
 
 import Foundation
@@ -18,24 +18,16 @@ public extension Date
 
 public extension String
 {
-    func utcTime() -> Date?
-    {
-        
-        let formatter = ISO8601DateFormatter()
-        formatter.timeZone = TimeZone(abbreviation: "UTC")
-        formatter.formatOptions = .withInternetDateTime
-
-        let date = formatter.date(from: self)
-        return date
-    }
-    
     func rfc3339date() -> Date?
     {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = .withInternetDateTime
-        formatter.timeZone = TimeZone(abbreviation: "UTC")
-
-        let date = formatter.date(from: self)
+        let date = rfc3339DateFormatter.date(from: self)
         return date
     }
 }
+
+fileprivate var rfc3339DateFormatter: ISO8601DateFormatter = {
+	let formatter = ISO8601DateFormatter()
+	formatter.formatOptions = .withInternetDateTime
+	formatter.timeZone = TimeZone(abbreviation: "UTC")
+	return formatter
+}()

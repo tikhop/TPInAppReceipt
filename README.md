@@ -5,24 +5,26 @@
 
 # TPInAppReceipt
 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+![Swift](https://github.com/tikhop/TPInAppReceipt/workflows/Swift/badge.svg?branch=master)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TPInAppReceipt.svg)](https://cocoapods.org/pods/TPInAppReceipt)
 [![Swift Package Manager compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
 [![Platform](https://img.shields.io/cocoapods/p/TPInAppReceipt.svg?style=flat)]()
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tikhop/TPInAppReceipt/master/LICENSE)
 
-A lightweight library for reading and validating Apple In App Purchase Receipt locally.
+TPInAppReceipt is a lightweight, pure-Swift library for reading and validating Apple In App Purchase Receipt locally.
 
 ## Features
 
-- [x] Extract all In-App Receipt Attributes
-- [x] Hash Verification
-- [x] Verify Bundle Version and Identifiers
-- [x] Signature Verification
-
+- [x] Read all In-App Receipt Attributes
+- [x] Validate In-App Purchase Receipt (Signature, Bundle Version and Identifier, Hash)
+- [x] Determine Eligibility for Introductory Offer
+- [x] Use with StoreKitTest
+- [x] Use in Objective-C projects
 
 Installation
 ------------
+
+> Note: [TPInAppReceipt in Objective-C project](https://github.com/tikhop/TPInAppReceipt/blob/master/Documentation/UseInObjCProject.md) - If you want to use TPInAppReceipt in Objective-C project please follow this guide. 
 
 ### CocoaPods
 
@@ -32,9 +34,9 @@ To integrate TPInAppReceipt into your project using CocoaPods, specify it in you
 platform :ios, '9.0'
 
 target 'YOUR_TARGET' do
-    use_frameworks!
+  use_frameworks!
 
-    pod 'TPInAppReceipt'
+  pod 'TPInAppReceipt'
 end
 
 ```
@@ -62,22 +64,9 @@ Lastly, run the following command:
 swift package update
 ```
 
-### Carthage
-
-Make the following entry in your Cartfile:
-
-```
-github "tikhop/TPInAppReceipt" 
-```
-
-Then run `carthage update`.
-
-If this is your first time using Carthage in the project, you'll need to go through some additional steps as explained [over at Carthage](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
-
-
 ### Requirements
 
-- iOS 9.0+ / OSX 10.11+
+- iOS 10.0+ / OSX 10.11+
 - Swift 5.3+
 
 Usage
@@ -85,14 +74,17 @@ Usage
 
 ### Working With a Receipt
 
-`InAppReceipt` is an object to incapsulate all necessary getters from a receipt payload and provides a comprehensive API for reading and validating in app receipt and related purchases.
+The [`InAppReceipt`](https://tikhop.github.io/TPInAppReceipt/Classes/InAppReceipt.html) object encapsulates information about a receipt and the purchases associated with it. To validate In-App Purchase Receipt you must create an `InAppReceipt` object.
 
 #### Initializing Receipt
+
+To create [`InAppReceipt`](https://tikhop.github.io/TPInAppReceipt/Classes/InAppReceipt.html) object you can either provide a raw receipt data or initialize a local receipt.
 
 ```swift
 do {
   /// Initialize receipt
   let receipt = try InAppReceipt.localReceipt() 
+  // let receipt = try InAppReceipt() // Returns local receipt 
   
   // let receiptData: Data = ...
   // let receipt = try InAppReceipt.receipt(from: receiptData)
@@ -104,31 +96,64 @@ do {
 
 ```
 
-#### Refreshing/Requesting Receipt
+#### Validating Receipt
 
-Use this method to request a new receipt if the receipt is invalid or missing. 
+`TPInAppReceipt` provides a variety of convenience methods for validating In-App Purchase Receipt:
 
 ```swift
-InAppReceipt.refresh { (error) in
-  if let err = error
-  {
-    print(err)
-  }else{
-    initializeReceipt()
-  }
+
+/// Verify hash 
+try? receipt.verifyHash()
+
+/// Verify bundle identifier
+try? receipt.verifyBundleIdentifier()
+
+/// Verify bundle version
+try? receipt.verifyBundleVersion()
+
+/// Verify signature
+try? receipt.verifySignature()
+
+/// Validate all at once 
+do {
+  try receipt.verify()
+} catch IARError.validationFailed(reason: .hashValidation) {
+  // Do smth
+} catch IARError.validationFailed(reason: .bundleIdentifierVerification) {
+  // Do smth
+} catch IARError.validationFailed(reason: .signatureValidation) {
+  // Do smth
+} catch {
+  // Do smth
 }
 
 ```
 
+> NOTE: Apple recommends to perform receipt validation right after your app is launched. For additional security, you may repeat this check periodically while your application is running.
+> NOTE: If validation fails in iOS, try to refresh the receipt first.
+
+#### Determining Eligibility for Introductory Offer  
+
+If your App offers introductory pricing for auto-renewable subscriptions, you will need to dispay the correct price, either the intro or regular price.   
+The [`InAppReceipt`](https://tikhop.github.io/TPInAppReceipt/Classes/InAppReceipt.html) class provides an interface for determining introductory price eligibility. At the simplest, just provide a `Set`  of product identifiers that belong to the same subscription group:
+
+```swift
+// Check whether user is eligible for any products within the same subscription group 
+var isEligible = receipt.isEligibleForIntroductoryOffer(for: ["com.test.product.bronze", "com.test.product.silver", "com.test.product.gold"])
+```
+
+> Note: To determine if a user is eligible for an introductory offer, you must initialize and validate receipt first and only then check for eligibility.
+
+
 #### Reading Receipt
 
 ```swift
-/// Base64 Encoded Receipt
-let base64Receipt = receipt.base64
-  
 /// Initialize receipt
 let receipt = try! InAppReceipt.localReceipt() 
 
+/// Base64 Encoded Receipt
+let base64Receipt = receipt.base64
+  
 /// Check whether receipt contains any purchases
 let hasPurchases = receipt.hasPurchases
 
@@ -155,35 +180,19 @@ receipt.purchases(ofProductIdentifier: subscriptionName)
 
 ```
 
-#### Validating Receipt
+#### Refreshing/Requesting Receipt
+
+When necessary, use this method to ensure the receipt you are working with is up-to-date. 
 
 ```swift
-
-/// Verify all at once
-
-do {
-    try r.verify()
-} catch IARError.validationFailed(reason: .hashValidation) 
-{
-    // Do smth
-} catch IARError.validationFailed(reason: .bundleIdentifierVerification) 
-{
-    // Do smth
-} catch IARError.validationFailed(reason: .signatureValidation) 
-{
-    // Do smth
-} catch {
-    // Do smth
+InAppReceipt.refresh { (error) in
+  if let err = error
+  {
+    print(err)
+  } else {
+    initializeReceipt()
+  }
 }
-
-/// Verify hash 
-try? r.verifyHash()
-
-/// Verify bundle identifier and version
-try? r.verifyBundleIdentifierAndVersion()
-
-/// Verify signature
-try? r.verifySignature()
 
 ```
 
@@ -191,7 +200,9 @@ try? r.verifySignature()
 * [Apple - About Receipt Validation](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Introduction.html)
 * [Apple - Receipt Validation Programming Guide](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Chapters/ReceiptFields.html#//apple_ref/doc/uid/TP40010573-CH106-SW1)
 * [Apple - Validating Receipts Locally](https://developer.apple.com/library/content/releasenotes/General/ValidateAppStoreReceipt/Chapters/ValidateLocally.html)
+* [fluffy.es - Tutorial: Read and validate in-app purchase receipt locally using TPInAppReceipt](https://fluffy.es/in-app-purchase-receipt-local/)
 * [objc.io - Receipt Validation](https://www.objc.io/issues/17-security/receipt-validation/)
+
 
 ## License
 
