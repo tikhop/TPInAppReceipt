@@ -88,21 +88,11 @@ public extension InAppReceipt
 	/// - throws: An error in the InAppReceipt domain, if verification fails
 	func verifyBundleVersion() throws
 	{
-		#if !targetEnvironment(simulator)
-		#if targetEnvironment(macCatalyst) || os(macOS)
-		guard let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+		guard let v = Bundle.main.appVersion,
 			  v == appVersion else
 		{
 			throw IARError.validationFailed(reason: .bundleVersionVerification)
 		}
-		#elseif os(iOS) || os(watchOS) || os(tvOS)
-		guard let v = Bundle.main.infoDictionary?["CFBundleVersion"] as? String,
-			  v == appVersion else
-		{
-			throw IARError.validationFailed(reason: .bundleVersionVerification)
-		}
-		#endif
-		#endif
 	}
 	
     /// Verify signature inside pkcs7 container
