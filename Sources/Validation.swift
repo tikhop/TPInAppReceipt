@@ -27,16 +27,27 @@ public extension InAppReceipt
 	var isValid: Bool
 	{
 		do {
-			try verify()
+			try validate()
 			return true
 		} catch {
 			return false
 		}
 	}
 	
+	/// Validate In App Receipt
+	///
+	/// - throws: An error in the InAppReceipt domain, if verification fails
+	func validate() throws
+	{
+		try verifyHash()
+		try verifyBundleIdentifierAndVersion()
+		try verifySignature()
+	}
+	
     /// Verify In App Receipt
     ///
     /// - throws: An error in the InAppReceipt domain, if verification fails
+	@available(*, deprecated, renamed: "validate")
     func verify() throws
     {
         try verifyHash()
@@ -121,7 +132,6 @@ public extension InAppReceipt
         {
             throw IARError.validationFailed(reason: .signatureValidation(.appleIncRootCertificateNotFound))
         }
-        
     }
     
     @available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 5.0, *)
@@ -265,7 +275,6 @@ public extension InAppReceipt
 
 fileprivate func guid() -> Data
 {
-    
 #if os(watchOS)
     var uuidBytes = WKInterfaceDevice.current().identifierForVendor!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
@@ -273,7 +282,6 @@ fileprivate func guid() -> Data
     var uuidBytes = UIDevice.current.identifierForVendor!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
 #elseif targetEnvironment(macCatalyst) || os(macOS)
-    
     var masterPort = mach_port_t()
     var kernResult: kern_return_t = IOMasterPort(mach_port_t(MACH_PORT_NULL), &masterPort)
     if (kernResult != KERN_SUCCESS)
