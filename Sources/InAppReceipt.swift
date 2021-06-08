@@ -234,13 +234,11 @@ public extension InAppReceipt
         
         var lastInterval: TimeInterval = 0
         for iap in filtered
-		{
-            if !(iap.productIdentifier == productIdentifier) {
-                continue
-            }
-            
-            if let thisInterval = iap.subscriptionExpirationDate?.timeIntervalSince1970 {
-                if purchase == nil || thisInterval > lastInterval {
+		{            
+            if let thisInterval = iap.subscriptionExpirationDate?.timeIntervalSince1970
+			{
+                if purchase == nil || thisInterval > lastInterval
+				{
                     purchase = iap
                     lastInterval = thisInterval
                 }
