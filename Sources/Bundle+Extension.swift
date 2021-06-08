@@ -6,13 +6,24 @@
 //  Copyright © 2020-2021 Pavel Tikhonenko. All rights reserved.
 //
 
-import class Foundation.Bundle
-extension Foundation.Bundle
-{
-	static var module: Bundle =
-	{
-		return Bundle(for: _TPInAppReceipt.self)
-	}()
-}
+import Foundation
 
-fileprivate class _TPInAppReceipt {}
+extension Bundle
+{
+	/// Appropriate app version for receipt validation
+	var appVersion: String?
+	{
+		#if targetEnvironment(macCatalyst) || os(macOS)
+		let dictKey: String = "CFBundleShortVersionString"
+		#else
+		let dictKey: String = "CFBundleVersion"
+		#endif
+		
+		guard let v = infoDictionary?[dictKey] as? String else
+		{
+			return nil
+		}
+		
+		return v
+	}
+}
