@@ -68,18 +68,16 @@ public extension InAppReceipt
     }
     
 	/// Verify that the bundle identifier in the receipt matches a hard-coded constant containing the CFBundleIdentifier value you expect in the Info.plist file. If they do not match, validation fails.
-	/// Verify that the version identifier string in the receipt matches a hard-coded constant containing the CFBundleShortVersionString value (for macOS) or the CFBundleVersion value (for iOS) that you expect in the Info.plist file.
 	///
 	///
 	/// - throws: An error in the InAppReceipt domain, if verification fails
 	func verifyBundleIdentifier() throws
 	{
-		#if !targetEnvironment(simulator)
-		guard let bid = Bundle.main.bundleIdentifier, bid == bundleIdentifier else
+		guard let bid = Bundle.main.bundleIdentifier,
+			  bid == bundleIdentifier else
 		{
 			throw IARError.validationFailed(reason: .bundleIdentifierVerification)
 		}
-		#endif
 	}
 	
 	/// Verify that the version identifier string in the receipt matches a hard-coded constant containing the CFBundleShortVersionString value (for macOS) or the CFBundleVersion value (for iOS) that you expect in the Info.plist file.
