@@ -37,7 +37,7 @@ public extension InAppReceipt
     /// - throws: An error in the InAppReceipt domain, if verification fails
     func verifyHash() throws
     {
-        if (computedHashData != receiptHash)
+        guard let computedHashData = computedHashData, computedHashData == receiptHash else
         {
             throw IARError.validationFailed(reason: .hashValidation)
         }
@@ -244,9 +244,13 @@ public extension InAppReceipt
     }
     
     /// Computed SHA-1 hash, used to validate the receipt.
-    internal var computedHashData: Data
+    internal var computedHashData: Data?
     {
-        let uuidData = guid()
+        guard let uuidData = guid() else
+        {
+            return nil
+        }
+        
         let opaqueData = opaqueValue
         let bundleIdData = bundleIdentifierData
         
@@ -262,7 +266,7 @@ public extension InAppReceipt
     }
 }
 
-fileprivate func guid() -> Data
+fileprivate func guid() -> Data?
 {
     
 #if os(watchOS)
@@ -273,59 +277,75 @@ fileprivate func guid() -> Data
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
 #elseif targetEnvironment(macCatalyst) || os(macOS)
     
-    var masterPort = mach_port_t()
-    var kernResult: kern_return_t = IOMasterPort(mach_port_t(MACH_PORT_NULL), &masterPort)
-    if (kernResult != KERN_SUCCESS)
+    guard let service = ioService(named: "en0", wantBuiltIn: true)
+            ?? ioService(named: "en1", wantBuiltIn: true)
+            ?? ioService(named: "en0", wantBuiltIn: false)
+    else
     {
-        assertionFailure("Failed to initialize master port")
+        return nil
     }
-    
-    let matchingDict = IOBSDNameMatching(masterPort, 0, "en0")
-    if (matchingDict == nil)
-    {
-        assertionFailure("Failed to retrieve guid")
-    }
-    
-    var iterator = io_iterator_t()
-    kernResult = IOServiceGetMatchingServices(masterPort, matchingDict, &iterator)
-    if (kernResult != KERN_SUCCESS)
-    {
-        assertionFailure("Failed to retrieve guid")
-    }
-    
-    var guidData: Data?
-    var service = IOIteratorNext(iterator)
-    var parentService = io_object_t()
     
     defer
     {
-        IOObjectRelease(iterator)
-    }
-    
-    while(service != 0)
-    {
-        kernResult = IORegistryEntryGetParentEntry(service, kIOServicePlane, &parentService)
-        
-        if (kernResult == KERN_SUCCESS)
-        {
-            guidData = IORegistryEntryCreateCFProperty(parentService, "IOMACAddress" as CFString, nil, 0).takeRetainedValue() as? Data
-            
-            IOObjectRelease(parentService)
-        }
         IOObjectRelease(service)
-        
-        if  guidData != nil {
-            break
-        }else{
-            service = IOIteratorNext(iterator)
-        }
     }
     
-    if guidData == nil
+    if let cfType = IORegistryEntrySearchCFProperty(
+        service,
+        kIOServicePlane,
+        "IOMACAddress" as CFString,
+        kCFAllocatorDefault,
+        IOOptionBits(kIORegistryIterateRecursively | kIORegistryIterateParents))
     {
-        assertionFailure("Failed to retrieve guid")
+        return cfType as? Data
     }
     
-    return guidData!    
+    return nil
 #endif
 }
+
+#if targetEnvironment(macCatalyst) || os(macOS)
+fileprivate func ioService(named name: String, wantBuiltIn: Bool) -> io_service_t? {
+    let master_port = kIOMasterPortDefault
+    var iterator = io_iterator_t()
+    defer
+    {
+        if iterator != IO_OBJECT_NULL
+        {
+            IOObjectRelease(iterator)
+        }
+    }
+    
+    guard let matchingDict = IOBSDNameMatching(master_port, 0, name),
+          IOServiceGetMatchingServices(master_port,
+                                       matchingDict as CFDictionary,
+                                       &iterator) == KERN_SUCCESS,
+          iterator != IO_OBJECT_NULL
+    else
+    {
+        return nil
+    }
+    
+    var candidate = IOIteratorNext(iterator)
+    while candidate != IO_OBJECT_NULL
+    {
+        if let cfType = IORegistryEntryCreateCFProperty(
+            candidate,
+            "IOBuiltin" as CFString,
+            kCFAllocatorDefault,
+            0)
+        {
+            let isBuiltIn = cfType.takeRetainedValue() as! CFBoolean
+            if wantBuiltIn == CFBooleanGetValue(isBuiltIn)
+            {
+                return candidate
+            }
+        }
+        
+        IOObjectRelease(candidate)
+        candidate = IOIteratorNext(iterator)
+    }
+    
+    return nil
+}
+#endif
