@@ -61,7 +61,7 @@ public extension InAppReceipt
     /// - throws: An error in the InAppReceipt domain, if verification fails
     func verifyHash() throws
     {
-        if (computedHashData != receiptHash)
+        if (computedHash != receiptHash)
         {
             throw IARError.validationFailed(reason: .hashValidation)
         }
@@ -128,7 +128,8 @@ public extension InAppReceipt
     /// - throws: An error in the InAppReceipt domain, if Apple Root Certificate does not exist
     fileprivate func checkAppleRootCertExistence() throws
     {
-        guard let certPath = rootCertificatePath, FileManager.default.fileExists(atPath: certPath) else
+        guard let certPath = rootCertificatePath,
+			  FileManager.default.fileExists(atPath: certPath) else
         {
             throw IARError.validationFailed(reason: .signatureValidation(.appleIncRootCertificateNotFound))
         }
@@ -142,7 +143,8 @@ public extension InAppReceipt
         // https://developer.apple.com/documentation/security/certificate_key_and_trust_services/trust/creating_a_trust_object
         
         // root cert data is loaded from the bundled Apple Root Certificate
-        guard let path = rootCertificatePath, let rootCertData = try? Data(contentsOf: URL(fileURLWithPath: path)) else
+        guard let path = rootCertificatePath,
+			  let rootCertData = try? Data(contentsOf: URL(fileURLWithPath: path)) else
         {
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadAppleIncRootCertificate))
         }
@@ -175,11 +177,12 @@ public extension InAppReceipt
         var iTunesTrust: SecTrust?
         
         // verify worldwide developer cert in the receipt is signed by Apple Root Cert
-        let worldwideDevCertVerifystatus = SecTrustCreateWithCertificates([worldwideDevCertSec, rootCertSec] as AnyObject,
+        let worldwideDevCertVerifyStatus = SecTrustCreateWithCertificates([worldwideDevCertSec, rootCertSec] as AnyObject,
                                                                             policy,
                                                                             &wwdcTrust)
         
-        guard worldwideDevCertVerifystatus == errSecSuccess && wwdcTrust != nil  else {
+        guard worldwideDevCertVerifyStatus == errSecSuccess && wwdcTrust != nil else
+		{
             throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
         }
         
@@ -188,7 +191,8 @@ public extension InAppReceipt
                                                                     policy,
                                                                     &iTunesTrust)
         
-        guard iTunesCertVerifystatus == errSecSuccess && iTunesTrust != nil else {
+        guard iTunesCertVerifystatus == errSecSuccess && iTunesTrust != nil else
+		{
             throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
         }
         
@@ -197,11 +201,13 @@ public extension InAppReceipt
         if #available(OSX 10.14, iOS 12.0, tvOS 12.0, *)
         {
             var error: CFError?
-            guard SecTrustEvaluateWithError(wwdcTrust!, &error) else {
+            guard SecTrustEvaluateWithError(wwdcTrust!, &error) else
+			{
                 throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
             }
         } else {
-            guard SecTrustEvaluate(wwdcTrust!, &secTrustResult) == errSecSuccess else {
+            guard SecTrustEvaluate(wwdcTrust!, &secTrustResult) == errSecSuccess else
+			{
                 throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
             }
         }
@@ -209,11 +215,13 @@ public extension InAppReceipt
         if #available(OSX 10.14, iOS 12.0, tvOS 12.0, *)
         {
             var error: CFError?
-            guard SecTrustEvaluateWithError(iTunesTrust!, &error) else {
+            guard SecTrustEvaluateWithError(iTunesTrust!, &error) else
+			{
                 throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
             }
         } else {
-            guard SecTrustEvaluate(iTunesTrust!, &secTrustResult) == errSecSuccess else {
+            guard SecTrustEvaluate(iTunesTrust!, &secTrustResult) == errSecSuccess else
+			{
                 throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
             }
         }
@@ -227,7 +235,8 @@ public extension InAppReceipt
             throw IARError.validationFailed(reason: .signatureValidation(.signatureNotFound))
         }
         
-        guard let iTunesPublicKeyContainer = receipt.iTunesPublicKeyData else {
+        guard let iTunesPublicKeyContainer = receipt.iTunesPublicKeyData else
+		{
             throw IARError.validationFailed(reason: .signatureValidation(.unableToLoadiTunesPublicKey))
         }
         
@@ -255,7 +264,7 @@ public extension InAppReceipt
     }
     
     /// Computed SHA-1 hash, used to validate the receipt.
-    internal var computedHashData: Data
+    internal var computedHash: Data
     {
         let uuidData = guid()
         let opaqueData = opaqueValue
@@ -282,59 +291,73 @@ fileprivate func guid() -> Data
     var uuidBytes = UIDevice.current.identifierForVendor!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
 #elseif targetEnvironment(macCatalyst) || os(macOS)
-    var masterPort = mach_port_t()
-    var kernResult: kern_return_t = IOMasterPort(mach_port_t(MACH_PORT_NULL), &masterPort)
-    if (kernResult != KERN_SUCCESS)
-    {
-        assertionFailure("Failed to initialize master port")
-    }
     
-    let matchingDict = IOBSDNameMatching(masterPort, 0, "en0")
-    if (matchingDict == nil)
-    {
-        assertionFailure("Failed to retrieve guid")
-    }
-    
-    var iterator = io_iterator_t()
-    kernResult = IOServiceGetMatchingServices(masterPort, matchingDict, &iterator)
-    if (kernResult != KERN_SUCCESS)
-    {
-        assertionFailure("Failed to retrieve guid")
-    }
-    
-    var guidData: Data?
-    var service = IOIteratorNext(iterator)
-    var parentService = io_object_t()
-    
-    defer
-    {
-        IOObjectRelease(iterator)
-    }
-    
-    while(service != 0)
-    {
-        kernResult = IORegistryEntryGetParentEntry(service, kIOServicePlane, &parentService)
-        
-        if (kernResult == KERN_SUCCESS)
-        {
-            guidData = IORegistryEntryCreateCFProperty(parentService, "IOMACAddress" as CFString, nil, 0).takeRetainedValue() as? Data
-            
-            IOObjectRelease(parentService)
-        }
-        IOObjectRelease(service)
-        
-        if  guidData != nil {
-            break
-        }else{
-            service = IOIteratorNext(iterator)
-        }
-    }
-    
-    if guidData == nil
-    {
-        assertionFailure("Failed to retrieve guid")
-    }
-    
-    return guidData!    
+	if let guid = getMacAddress()
+	{
+		return guid
+	}else{
+		assertionFailure("Failed to retrieve guid")
+	}
+	
+	return Data() // Never get called
 #endif
 }
+
+#if targetEnvironment(macCatalyst) || os(macOS)
+func getMacAddress() -> Data?
+{
+	guard let service = ioService(named: "en0", wantBuiltIn: true)
+			?? ioService(named: "en1", wantBuiltIn: true)
+			?? ioService(named: "en0", wantBuiltIn: false)
+	else { return nil }
+	
+	defer { IOObjectRelease(service) }
+	
+	if let cftype = IORegistryEntrySearchCFProperty(service, kIOServicePlane, "IOMACAddress" as CFString, kCFAllocatorDefault, IOOptionBits(kIORegistryIterateRecursively | kIORegistryIterateParents))
+	{
+		return (cftype as? Data)
+	}
+	
+	return nil
+}
+
+func ioService(named name: String, wantBuiltIn: Bool) -> io_service_t?
+{
+	let master_port = kIOMasterPortDefault
+	var iterator = io_iterator_t()
+	
+	defer
+	{
+		if iterator != IO_OBJECT_NULL
+		{
+			IOObjectRelease(iterator)
+		}
+	}
+	
+	guard let matchingDict = IOBSDNameMatching(master_port, 0, name),
+		  IOServiceGetMatchingServices(master_port, matchingDict as CFDictionary, &iterator) == KERN_SUCCESS,
+		  iterator != IO_OBJECT_NULL
+	else
+	{
+		return nil
+	}
+	
+	var candidate = IOIteratorNext(iterator)
+	while candidate != IO_OBJECT_NULL
+	{
+		if let cftype = IORegistryEntryCreateCFProperty(candidate, "IOBuiltin" as CFString, kCFAllocatorDefault, 0)
+		{
+			let isBuiltIn = cftype.takeRetainedValue() as! CFBoolean
+			if wantBuiltIn == CFBooleanGetValue(isBuiltIn)
+			{
+				return candidate
+			}
+		}
+		
+		IOObjectRelease(candidate)
+		candidate = IOIteratorNext(iterator)
+	}
+	
+	return nil
+}
+#endif
