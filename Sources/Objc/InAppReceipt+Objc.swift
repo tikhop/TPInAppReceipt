@@ -288,7 +288,7 @@ import TPInAppReceipt
 	/// Subscription Expiration Date. Returns `nil` if the purchase has been expired (in some cases)
 	@objc public var subscriptionExpirationDate: Date? { purchase.subscriptionExpirationDate }
 	
-	/// Cancellation Date. Returns `nil` if the purchase is not a renewable subscription
+	/// Cancellation Date. Returns a value if the transaction was refunded by customer support or the auto-renewable subscription plan was upgraded. Otherwise returns nil.
 	@objc public var cancellationDate: Date? { purchase.cancellationDate }
 	
 	/// This value is `true`if the customer’s subscription is currently in the free trial period, or `false` if not.
