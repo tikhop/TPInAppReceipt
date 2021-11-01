@@ -140,6 +140,7 @@ public extension InAppReceipt
     {
         if refreshSession != nil
 		{
+			completion(IARError.receiptRefreshingInProgress)
 			return
 		}
         
