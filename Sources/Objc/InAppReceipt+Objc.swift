@@ -373,4 +373,11 @@ import TPInAppReceipt
 	{
 		try wrappedReceipt.verifySignature()
 	}
+
+	/// Check whether user is eligible for introductory offer for a specific product
+	///
+	/// - Returns `false` if user isn't eligible for introductory offer, otherwise `true`
+	@objc func productIsEligibleForIntroductoryOffer(_ productIdentifier: String) -> Bool {
+		return wrappedReceipt.isEligibleForIntroductoryOffer(for: productIdentifier)
+	}
 }
