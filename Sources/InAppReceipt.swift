@@ -150,6 +150,7 @@ public extension InAppReceipt
 	{
 		return payload.ageRating
 	}
+	
     /// In App Receipt in base64
     var base64: String
     {

@@ -288,7 +288,7 @@ import TPInAppReceipt
 	/// Subscription Expiration Date. Returns `nil` if the purchase has been expired (in some cases)
 	@objc public var subscriptionExpirationDate: Date? { purchase.subscriptionExpirationDate }
 	
-	/// Cancellation Date. Returns `nil` if the purchase is not a renewable subscription
+	/// Cancellation Date. Returns a value if the transaction was refunded by customer support or the auto-renewable subscription plan was upgraded. Otherwise returns nil.
 	@objc public var cancellationDate: Date? { purchase.cancellationDate }
 	
 	/// This value is `true`if the customer’s subscription is currently in the free trial period, or `false` if not.
@@ -372,5 +372,13 @@ import TPInAppReceipt
 	@objc func verifySignature() throws
 	{
 		try wrappedReceipt.verifySignature()
+	}
+
+	/// Check whether user is eligible for introductory offer for a specific product
+	///
+	/// - Returns `false` if user isn't eligible for introductory offer, otherwise `true`
+	@objc func productIsEligibleForIntroductoryOffer(_ productIdentifier: String) -> Bool
+	{
+		return wrappedReceipt.isEligibleForIntroductoryOffer(for: productIdentifier)
 	}
 }

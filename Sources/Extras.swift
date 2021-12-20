@@ -138,7 +138,11 @@ public extension InAppReceipt
     @available(watchOSApplicationExtension 6.2, *)
     static func refresh(completion: @escaping IAPRefreshRequestResult)
     {
-        if refreshSession != nil { return }
+        if refreshSession != nil
+		{
+			completion(IARError.receiptRefreshingInProgress)
+			return
+		}
         
         refreshSession = RefreshSession()
         refreshSession!.refresh { (error) in
@@ -147,11 +151,27 @@ public extension InAppReceipt
         }
     }
 
+	///  Cancel refreshing local in-app receipt
+	@available(watchOSApplicationExtension 6.2, *)
+	static func cancelRefreshSession()
+	{
+		refreshSession?.cancel()
+	}
+	
     @available(watchOSApplicationExtension 6.2, *)
     static fileprivate func destroyRefreshSession()
     {
         refreshSession = nil
     }
+	
+	/// Check whether receipt is refreshing now
+	///
+	/// - Returns `true` if receipt is refreshing now, otherwise `false`
+	@available(watchOSApplicationExtension 6.2, *)
+	static var isReceiptRefreshingNow: Bool
+	{
+		refreshSession != nil
+	}
 	
 	/// Check whether user is eligible for introductory offer for any products within the same subscription group
 	///
@@ -173,7 +193,6 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
 {
     private let receiptRefreshRequest = SKReceiptRefreshRequest()
     private var completion: IAPRefreshRequestResult?
-    
     
     override init()
     {
@@ -205,10 +224,15 @@ fileprivate class RefreshSession : NSObject, SKRequestDelegate
     func requestDidFinish(with error: Error?)
     {
         DispatchQueue.main.async { [weak self] in
-            self?.completion?(error)
+			self?.completion?(error)
         }
         receiptRefreshRequest.cancel()
     }
+	
+	func cancel()
+	{
+		receiptRefreshRequest.cancel()
+	}
 }
 
 #endif
