@@ -156,6 +156,7 @@ public extension InAppReceipt
 	static func cancelRefreshSession()
 	{
 		refreshSession?.cancel()
+		destroyRefreshSession()
 	}
 	
     @available(watchOSApplicationExtension 6.2, *)
