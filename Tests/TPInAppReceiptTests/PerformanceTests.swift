@@ -22,6 +22,10 @@ class PerformanceTests: XCTestCase
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 	}
 	
+    func testAppleASN1() {
+        tryNewASN1()
+    }
+    
 	func testParsingPerformance() { //  / 0.004
 		// This is an example of a performance test case.
 		self.measure {
@@ -39,7 +43,7 @@ class PerformanceTests: XCTestCase
 		self.measure {
 			do
 			{
-				try receipt.verify()
+				try receipt.validate()
 			}catch{
 				XCTFail("Unable to verify: \(error)")
 			}

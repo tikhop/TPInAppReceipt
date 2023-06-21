@@ -9,6 +9,15 @@
           "revision": "b53bee03a942623db25afc5bfb80227b2cb3b425",
           "version": "1.2.4"
         }
+      },
+      {
+        "package": "swift-asn1",
+        "repositoryURL": "https://github.com/apple/swift-asn1.git",
+        "state": {
+          "branch": null,
+          "revision": "0700d170e8ba3f6b37fdf61b1617b93945b1157d",
+          "version": "0.9.1"
+        }
       }
     ]
   },

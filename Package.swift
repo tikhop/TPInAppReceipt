@@ -14,12 +14,14 @@ let package = Package(
 		.library(name: "TPInAppReceipt-Objc", targets: ["TPInAppReceipt-Objc"]),
     ],
 	dependencies: [
-		.package(url: "https://github.com/tikhop/ASN1Swift", .upToNextMajor(from: "1.0.0"))
+		.package(url: "https://github.com/tikhop/ASN1Swift", .upToNextMajor(from: "1.0.0")),
+        .package(url: "https://github.com/apple/swift-asn1.git", .upToNextMinor(from: "0.9.0"))
 	],
     targets: [
         .target(
             name: "TPInAppReceipt",
-			dependencies: ["ASN1Swift"],
+			dependencies: ["ASN1Swift",
+                           .product(name: "SwiftASN1", package: "swift-asn1")],
 			path: "Sources",
 			exclude: ["Bundle+Private.swift", "Objc/InAppReceipt+Objc.swift"],
 			resources: [.process("AppleIncRootCertificate.cer"), .process("StoreKitTestCertificate.cer")]
