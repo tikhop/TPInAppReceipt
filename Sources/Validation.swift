@@ -323,7 +323,12 @@ func getMacAddress() -> Data?
 
 func ioService(named name: String, wantBuiltIn: Bool) -> io_service_t?
 {
-	let master_port = kIOMasterPortDefault
+	let main_port: mach_port_t
+	if #available(macOS 12.0, macCatalyst 15.0, *) {
+		main_port = kIOMainPortDefault
+	} else {
+		main_port = 0 // the kIOMasterPortDefault symbol is unavailable on xcode 14 and later.
+	}
 	var iterator = io_iterator_t()
 	
 	defer
@@ -334,8 +339,8 @@ func ioService(named name: String, wantBuiltIn: Bool) -> io_service_t?
 		}
 	}
 	
-	guard let matchingDict = IOBSDNameMatching(master_port, 0, name),
-		  IOServiceGetMatchingServices(master_port, matchingDict as CFDictionary, &iterator) == KERN_SUCCESS,
+	guard let matchingDict = IOBSDNameMatching(main_port, 0, name),
+		  IOServiceGetMatchingServices(main_port, matchingDict as CFDictionary, &iterator) == KERN_SUCCESS,
 		  iterator != IO_OBJECT_NULL
 	else
 	{
