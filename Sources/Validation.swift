@@ -6,14 +6,17 @@
 //  Copyright © 2017-2021 Pavel Tikhonenko. All rights reserved.
 //
 
-#if os(iOS) || os(tvOS)
+#if canImport(UIKit)
 import UIKit
-#elseif os(watchOS)
-import UIKit
+#endif
+
+#if os(watchOS)
 import WatchKit
-#elseif os(macOS)
-import IOKit
+#endif
+
+#if canImport(Cocoa)
 import Cocoa
+import IOKit
 #endif
 
 import CommonCrypto
@@ -287,9 +290,6 @@ fileprivate func guid() -> Data
 #if os(watchOS)
     var uuidBytes = WKInterfaceDevice.current().identifierForVendor!.uuid
     return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
-#elseif !targetEnvironment(macCatalyst) && (os(iOS) || os(tvOS))
-    var uuidBytes = UIDevice.current.identifierForVendor!.uuid
-    return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
 #elseif targetEnvironment(macCatalyst) || os(macOS)
     
 	if let guid = getMacAddress()
@@ -300,6 +300,9 @@ fileprivate func guid() -> Data
 	}
 	
 	return Data() // Never get called
+#elseif canImport(UIKit)
+    var uuidBytes = UIDevice.current.identifierForVendor!.uuid
+    return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
 #endif
 }
 
