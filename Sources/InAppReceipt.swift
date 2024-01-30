@@ -101,7 +101,13 @@ public extension InAppReceipt
     {
         return payload.originalAppVersion
     }
-    
+
+    /// The date of the app that was originally purchased.
+    var originalPurchaseDate: Date?
+    {
+        return payload.originalPurchaseDate
+    }
+
     /// In-app purchase's receipts
     var purchases: [InAppPurchase]
     {
