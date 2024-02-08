@@ -39,7 +39,7 @@ class PerformanceTests: XCTestCase
 		self.measure {
 			do
 			{
-				try receipt.verify()
+				try receipt.validate()
 			}catch{
 				XCTFail("Unable to verify: \(error)")
 			}

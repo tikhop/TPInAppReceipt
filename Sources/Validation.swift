@@ -6,14 +6,17 @@
 //  Copyright © 2017-2021 Pavel Tikhonenko. All rights reserved.
 //
 
-#if os(iOS) || os(tvOS)
+#if canImport(UIKit)
 import UIKit
-#elseif os(watchOS)
-import UIKit
+#endif
+
+#if canImport(WatchKit)
 import WatchKit
-#elseif os(macOS)
-import IOKit
+#endif
+
+#if canImport(Cocoa)
 import Cocoa
+import IOKit
 #endif
 
 import CommonCrypto
@@ -97,8 +100,7 @@ public extension InAppReceipt
 	/// - throws: An error in the InAppReceipt domain, if verification fails
 	func verifyBundleVersion() throws
 	{
-		guard let v = Bundle.main.appVersion,
-			  v == appVersion else
+		guard appVersion == Bundle.main.appVersion else
 		{
 			throw IARError.validationFailed(reason: .bundleVersionVerification)
 		}
@@ -110,17 +112,8 @@ public extension InAppReceipt
     func verifySignature() throws
     {
         try checkAppleRootCertExistence()
-        
-        // only check certificate chain of trust and signature validity after these version
-        if #available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 5.0, *)
-		{
-			#if DEBUG
-			try checkSignatureValidity()
-			#else
-			try checkChainOfTrust()
-			try checkSignatureValidity()
-			#endif
-        }
+        try checkSignatureValidity()
+        try checkChainOfTrust()
     }
     
     /// Verifies existence of Apple Root Certificate in bundle
@@ -128,14 +121,13 @@ public extension InAppReceipt
     /// - throws: An error in the InAppReceipt domain, if Apple Root Certificate does not exist
     fileprivate func checkAppleRootCertExistence() throws
     {
-        guard let certPath = rootCertificatePath,
-			  FileManager.default.fileExists(atPath: certPath) else
+        guard let rootCertificatePath,
+			  FileManager.default.fileExists(atPath: rootCertificatePath) else
         {
             throw IARError.validationFailed(reason: .signatureValidation(.appleIncRootCertificateNotFound))
         }
     }
     
-    @available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 5.0, *)
     func checkChainOfTrust() throws
     {
         // Validate chain of trust of certificate
@@ -181,17 +173,17 @@ public extension InAppReceipt
                                                                             policy,
                                                                             &wwdcTrust)
         
-        guard worldwideDevCertVerifyStatus == errSecSuccess && wwdcTrust != nil else
+        guard worldwideDevCertVerifyStatus == errSecSuccess, let wwdcTrust else
 		{
             throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
         }
         
         // verify iTunes cert in the receipt is signed by worldwide developer cert, which is signed by Apple Root Cert
-        let iTunesCertVerifystatus = SecTrustCreateWithCertificates([iTunesCertSec, worldwideDevCertSec, rootCertSec] as AnyObject,
+        let iTunesCertVerifyStatus = SecTrustCreateWithCertificates([iTunesCertSec, worldwideDevCertSec, rootCertSec] as AnyObject,
                                                                     policy,
                                                                     &iTunesTrust)
         
-        guard iTunesCertVerifystatus == errSecSuccess && iTunesTrust != nil else
+        guard iTunesCertVerifyStatus == errSecSuccess, let iTunesTrust else
 		{
             throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
         }
@@ -201,12 +193,12 @@ public extension InAppReceipt
         if #available(OSX 10.14, iOS 12.0, tvOS 12.0, *)
         {
             var error: CFError?
-            guard SecTrustEvaluateWithError(wwdcTrust!, &error) else
+            guard SecTrustEvaluateWithError(wwdcTrust, &error) else
 			{
                 throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
             }
         } else {
-            guard SecTrustEvaluate(wwdcTrust!, &secTrustResult) == errSecSuccess else
+            guard SecTrustEvaluate(wwdcTrust, &secTrustResult) == errSecSuccess else
 			{
                 throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
             }
@@ -215,12 +207,12 @@ public extension InAppReceipt
         if #available(OSX 10.14, iOS 12.0, tvOS 12.0, *)
         {
             var error: CFError?
-            guard SecTrustEvaluateWithError(iTunesTrust!, &error) else
+            guard SecTrustEvaluateWithError(iTunesTrust, &error) else
 			{
                 throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
             }
         } else {
-            guard SecTrustEvaluate(iTunesTrust!, &secTrustResult) == errSecSuccess else
+            guard SecTrustEvaluate(iTunesTrust, &secTrustResult) == errSecSuccess else
 			{
                 throw IARError.validationFailed(reason: .signatureValidation(.invalidCertificateChainOfTrust))
             }
@@ -284,22 +276,24 @@ public extension InAppReceipt
 
 fileprivate func guid() -> Data
 {
-#if os(watchOS)
-    var uuidBytes = WKInterfaceDevice.current().identifierForVendor!.uuid
-    return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
-#elseif !targetEnvironment(macCatalyst) && (os(iOS) || os(tvOS))
-    var uuidBytes = UIDevice.current.identifierForVendor!.uuid
-    return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
-#elseif targetEnvironment(macCatalyst) || os(macOS)
+#if targetEnvironment(macCatalyst) || os(macOS)
+    if let guid = getMacAddress()
+    {
+        return guid
+    }else{
+        assertionFailure("Failed to retrieve guid")
+    }
     
-	if let guid = getMacAddress()
-	{
-		return guid
-	}else{
-		assertionFailure("Failed to retrieve guid")
-	}
-	
-	return Data() // Never get called
+    return Data() // Never get called
+#else
+
+#if canImport(WatchKit)
+    var uuidBytes = WKInterfaceDevice.current().identifierForVendor!.uuid
+#elseif canImport(UIKit)
+    var uuidBytes = UIDevice.current.identifierForVendor!.uuid
+#endif
+    
+    return Data(bytes: &uuidBytes, count: MemoryLayout.size(ofValue: uuidBytes))
 #endif
 }
 

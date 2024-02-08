@@ -19,7 +19,7 @@ public struct InAppReceiptField
 	static let ageRating: Int32 = 10 // SHA-1 Hash
 	static let receiptCreationDate: Int32 = 12
 	static let inAppPurchaseReceipt: Int32 = 17 // The receipt for an in-app purchase.
-	//TODO: case originalPurchaseDate = 18
+    static let originalAppPurchaseDate: Int32 = 18
 	static let originalAppVersion: Int32 = 19
 	static let expirationDate: Int32 = 21
     
@@ -101,7 +101,13 @@ public extension InAppReceipt
     {
         return payload.originalAppVersion
     }
-    
+
+    /// The date of the app that was originally purchased.
+    var originalPurchaseDate: Date?
+    {
+        return payload.originalPurchaseDate
+    }
+
     /// In-app purchase's receipts
     var purchases: [InAppPurchase]
     {

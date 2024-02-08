@@ -83,7 +83,13 @@ import TPInAppReceipt
 	{
 		return wrappedReceipt.originalAppVersion
 	}
-	
+
+    /// The date of the app that was originally purchased.
+    var originalPurchaseDate: Date?
+    {
+        return wrappedReceipt.originalPurchaseDate
+    }
+
 	/// In-app purchase's receipts
 	var purchases: [InAppPurchase_Objc]
 	{
