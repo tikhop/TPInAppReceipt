@@ -31,7 +31,7 @@ Installation
 To integrate TPInAppReceipt into your project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
-platform :ios, '9.0'
+platform :ios, '12.0'
 
 target 'YOUR_TARGET' do
   use_frameworks!
@@ -66,8 +66,8 @@ swift package update
 
 ### Requirements
 
-- iOS 10.0+ / OSX 10.11+
-- Swift 5.3+
+- iOS 12.0+ / OSX 10.13+
+- Swift 5.9+
 
 Usage
 -------------
