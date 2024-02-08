@@ -2,20 +2,11 @@ import XCTest
 @testable import TPInAppReceipt
 
 final class TPInAppReceiptTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        
-    }
-
-	func testCrashReceipts()
-	{
+	func testCrashReceipts() {
 		var r = try? InAppReceipt(receiptData: noOriginalPurchaseDateCrashReceipt)
 	}
 	
-	func testNewReceipt()
-	{
+	func testNewReceipt() {
 		self.measure {
 			let r = try! InAppReceipt(receiptData: newReceipt)
 			print(r.creationDate)
@@ -23,8 +14,7 @@ final class TPInAppReceiptTests: XCTestCase {
 		
 	}
 	
-	func testLegacyReceipt()
-	{
+	func testLegacyReceipt() {
 		self.measure {
 			let r = try! InAppReceipt(receiptData: legacyReceipt)
 		}
