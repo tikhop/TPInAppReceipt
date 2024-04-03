@@ -24,7 +24,9 @@ let package = Package(
 			dependencies: ["ASN1Swift"],
 			path: "Sources",
 			exclude: ["Bundle+Private.swift", "Objc/InAppReceipt+Objc.swift"],
-			resources: [.process("AppleIncRootCertificate.cer"), .process("StoreKitTestCertificate.cer")]
+			resources: [.process("AppleIncRootCertificate.cer"),
+                        .process("StoreKitTestCertificate.cer"),
+                        .process("PrivacyInfo.xcprivacy")]
 		),
 		.target(
 			name: "TPInAppReceipt-Objc",
