@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
 	s.name         = "TPInAppReceipt"
-	s.version      = "3.4.0"
+	s.version      = "3.4.1"
 	s.summary      = "Reading and Validating In App Purchase Receipt Locally"
 	s.description  = "A lightweight iOS/OSX library for reading and validating Apple In App Purchase Receipt locally. Pure swift, No OpenSSL!"
 
@@ -23,8 +23,8 @@ Pod::Spec.new do |s|
 	s.subspec 'Core' do |core|
 		core.exclude_files = "Sources/Objc/*.{swift}"
 		core.source_files  = "Sources/*.{swift}"
-		core.resources  = "Sources/AppleIncRootCertificate.cer", "Sources/StoreKitTestCertificate.cer"
-		core.dependency 'ASN1Swift', '~> 1.2.5'
+		core.resources  = "Sources/AppleIncRootCertificate.cer", "Sources/StoreKitTestCertificate.cer", "Source/PrivacyInfo.xcprivacy"
+		core.dependency 'ASN1Swift', '~> 1.2.6'
 	end
 	
 	s.subspec 'Objc' do |objc|

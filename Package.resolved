@@ -1,16 +1,14 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "ASN1Swift",
-        "repositoryURL": "https://github.com/tikhop/ASN1Swift",
-        "state": {
-          "branch": null,
-          "revision": "177417b6bf89431a0750ee640012b6aed8961c6a",
-          "version": "1.2.5"
-        }
+  "pins" : [
+    {
+      "identity" : "asn1swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tikhop/ASN1Swift",
+      "state" : {
+        "revision" : "4e525ca3064fd45751b80c9ae6a2c16ea7b395e9",
+        "version" : "1.2.6"
       }
-    ]
-  },
-  "version": 1
+    }
+  ],
+  "version" : 2
 }
