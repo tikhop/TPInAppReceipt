@@ -1,15 +1,15 @@
 Pod::Spec.new do |s|
 
-	s.name         = "TPInAppReceipt"
-	s.version      = "3.4.1"
-	s.summary      = "Reading and Validating In App Purchase Receipt Locally"
-	s.description  = "A lightweight iOS/OSX library for reading and validating Apple In App Purchase Receipt locally. Pure swift, No OpenSSL!"
+	s.name = "TPInAppReceipt"
+	s.version = "3.4.2"
+	s.summary = "Reading and Validating In App Purchase Receipt Locally"
+	s.description = "A lightweight iOS/OSX library for reading and validating Apple In App Purchase Receipt locally. Pure swift, No OpenSSL!"
 
-	s.homepage     = "https://github.com/tikhop/TPInAppReceipt"
-	s.license      = "MIT"
-	s.source       = { :git => "https://github.com/tikhop/TPInAppReceipt.git", :tag => "#{s.version}" }
+	s.homepage = "https://github.com/tikhop/TPInAppReceipt"
+	s.license = "MIT"
+	s.source = { :git => "https://github.com/tikhop/TPInAppReceipt.git", :tag => "#{s.version}" }
 
-	s.author       = { "tikhop" => "hi@tikhop.com" }
+	s.author = { "tikhop" => "hi@tikhop.com" }
 
 	s.swift_versions = ['5.3']
 	s.ios.deployment_target = '12.0'
@@ -22,16 +22,17 @@ Pod::Spec.new do |s|
 	
 	s.subspec 'Core' do |core|
 		core.exclude_files = "Sources/Objc/*.{swift}"
-		core.source_files  = "Sources/*.{swift}"
-		core.resources  = "Sources/AppleIncRootCertificate.cer", "Sources/StoreKitTestCertificate.cer", "Source/PrivacyInfo.xcprivacy"
-		core.dependency 'ASN1Swift', '~> 1.2.6'
+		core.source_files = "Sources/*.{swift}"
+		core.resources = "Sources/AppleIncRootCertificate.cer", "Sources/StoreKitTestCertificate.cer"
+		core.dependency 'ASN1Swift', '~> 1.2.7'
 	end
 	
 	s.subspec 'Objc' do |objc|
-		objc.source_files  = "Sources/Objc/*.{swift}"
+		objc.source_files = "Sources/Objc/*.{swift}"
 		objc.dependency 'TPInAppReceipt/Core'
 	end
 	
+    s.resource_bundles = { "TPInAppReceipt" => "Source/PrivacyInfo.xcprivacy" }
 	s.default_subspecs = 'Core'
 	
 end

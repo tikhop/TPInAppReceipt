@@ -57,8 +57,6 @@ public class SKSubscriptionGroup
 
 public typealias GroupIdentifier = String
 
-@available(tvOS 12.0, *)
-@available(iOS 12.0, *)
 @available(macOS 10.14, *)
 public extension SKProductsResponse
 {
@@ -127,7 +125,6 @@ public extension SKProductsResponse
 	}
 }
 
-@available(tvOS 12.0, *)
 @available(macOS 10.14, *)
 public extension InAppReceipt
 {
@@ -177,7 +174,6 @@ public extension InAppReceipt
 	/// Check whether user is eligible for introductory offer for any products within the same subscription group
 	///
 	/// - Returns `false` if user isn't eligible for introductory offer, otherwise `true`
-	@available(iOS 12.0, *)
 	func isEligibleForIntroductoryOffer(for group: SKSubscriptionGroup) -> Bool
 	{
 		let array = purchases.filter { $0.subscriptionTrialPeriod || $0.subscriptionIntroductoryPricePeriod }
