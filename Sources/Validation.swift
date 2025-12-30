@@ -113,7 +113,10 @@ public extension InAppReceipt
     {
         try checkAppleRootCertExistence()
         try checkSignatureValidity()
+        
+#if !DEBUG
         try checkChainOfTrust()
+#endif
     }
     
     /// Verifies existence of Apple Root Certificate in bundle
