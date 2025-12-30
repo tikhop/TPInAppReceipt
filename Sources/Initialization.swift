@@ -35,7 +35,7 @@ public extension InAppReceipt
 /// A Bundle extension helps to retrieve receipt data
 public extension Bundle
 {
-    /// Retrieve local App Store Receip Data
+    /// Retrieve local App Store Receipt Data
     ///
     /// - Returns: 'Data' object that represents local receipt
     /// - throws: An error if receipt file not found or 'Data' can't be created
@@ -54,7 +54,7 @@ public extension Bundle
 		}
     }
     
-    /// Retrieve local App Store Receip Data in base64 string
+    /// Retrieve local App Store Receipt Data in base64 string
     ///
     /// - Returns: 'Data' object that represents local receipt
     /// - throws: An error if receipt file not found or 'Data' can't be created
