@@ -4,28 +4,18 @@
 
 # TPInAppReceipt
 
-![Swift](https://github.com/tikhop/TPInAppReceipt/workflows/Swift/badge.svg?branch=master)
 [![Swift Package Manager compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
+[![Platform](https://img.shields.io/cocoapods/p/TPInAppReceipt.svg?style=flat)]()
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/tikhop/TPInAppReceipt/master/LICENSE)
 
-Local decoding and validation of Apple App Store receipts. Built on top of Apple's [swift-asn1](https://github.com/apple/swift-asn1), [swift-certificates](https://github.com/apple/swift-certificates), and [swift-crypto](https://github.com/apple/swift-crypto).
+TPInAppReceipt is a lightweight, pure-Swift library for reading and validating Apple In App Purchase Receipt locally.
 
-```swift
-let receipt = try await AppReceipt.local
+## Installation
 
-receipt.bundleIdentifier    // "com.example.app"
-receipt.environment         // .production, .sandbox, .xcode
-receipt.purchases           // [InAppPurchase]
-
-let result = await receipt.validate()
-```
-
-## Requirements
+### Requirements
 
 - Swift 6.0+ / Xcode 16+
 - macOS 10.15+ / iOS 13+ / tvOS 13+ / watchOS 6.2+ / visionOS 1+
-
-## Installation
 
 ### Swift Package Manager
 
