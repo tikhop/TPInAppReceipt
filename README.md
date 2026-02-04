@@ -21,7 +21,7 @@ TPInAppReceipt is a lightweight, pure-Swift library for reading and validating A
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tikhop/TPInAppReceipt.git", from: "4.0.0")
+    .package(url: "https://github.com/tikhop/TPInAppReceipt.git", from: "4.0.1")
 ]
 ```
 
@@ -46,7 +46,7 @@ let receipt = try await AppReceipt.local
 let receipt = try AppReceipt.receipt(from: data)
 ```
 
-Access receipt fields, query purchases, check subscriptions and introductory offer eligibility. See <doc:Working-with-Receipt> for details.
+Access receipt fields, query purchases, check subscriptions and introductory offer eligibility. See [Working with Receipt](Sources/Docs.docc/Working%20with%20Receipt.md) for details.
 
 ### Validating
 
@@ -63,11 +63,11 @@ case .invalid(let error):
 }
 ```
 
-Supports custom validators via `@VerifierBuilder`. See <doc:Validating-Receipt> for details.
+Supports custom validators via `@VerifierBuilder`. See [Validating Receipt](Sources/Docs.docc/Validating%20Receipt.md) for details.
 
 ### Blocking API
 
-For contexts where async is not available. See <doc:Blocking-Mode>.
+For contexts where async is not available. See [Blocking Mode](Sources/Docs.docc/Blocking%20Mode.md).
 
 ```swift
 @_spi(Blocking) import TPInAppReceipt
@@ -78,7 +78,7 @@ let result = receipt.validate_blocking()
 
 ## Migrating from v3
 
-See <doc:Migrating-to-v4>.
+See [TPInAppReceipt 4.0 Migration Guide](Sources/Docs.docc/TPInAppReceipt%204.0%20Migration%20Guide.md).
 
 ## Essential Reading
 
