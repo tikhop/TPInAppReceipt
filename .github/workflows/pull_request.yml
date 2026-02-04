@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  macos:
+    name: macOS (Build & Test)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: swift build -v
+      - name: Test
+        run: swift test -v
+
+  ios:
+    name: iOS (Build & Test)
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: List available simulators
+        run: |
+          xcrun simctl list devices
+          xcodebuild -showsdks
+      - name: Build
+        run: xcodebuild build -scheme TPInAppReceipt -destination 'platform=iOS Simulator,OS=latest,name=iPhone 17' -skipPackagePluginValidation SWIFT_STRICT_CONCURRENCY=targeted
+      - name: Test
+        run: xcodebuild test -scheme TPInAppReceipt -destination 'platform=iOS Simulator,OS=latest,name=iPhone 17' -skipPackagePluginValidation SWIFT_STRICT_CONCURRENCY=targeted
+
+  linux:
+    name: Linux (Build & Test)
+    runs-on: ubuntu-latest
+    container: swift:6.0
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show Swift & OS info
+        run: |
+          swift --version
+          uname -a
+
+      - name: Restore swift package cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .build
+            .swiftpm
+          key: ${{ runner.os }}-swift-${{ hashFiles('**/Package.resolved') }}
+
+      - name: Resolve Packages
+        run: swift package resolve -v
+
+      - name: Build
+        run: swift build -v
+
+      - name: Test
+        run: swift test -v
