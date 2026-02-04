@@ -111,7 +111,7 @@ extension AppReceipt {
             return .invalid(ReceiptValidatorError.invalidReceiptStructure)
         }
 
-        let root = rootCertificate ?? Bundle.appleRootCertificateData(testing: payload.environment == .xcode)
+        let root = rootCertificate ?? Bundle.appleRootCertificateData(testing: environment == .xcode)
 
         guard let root else {
             return .invalid(ReceiptValidatorError.rootCertificateInvalid(nil))
