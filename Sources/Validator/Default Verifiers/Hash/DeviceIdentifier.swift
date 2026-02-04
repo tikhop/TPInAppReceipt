@@ -3,13 +3,11 @@ import Foundation
 // MARK: - Device Identifier
 
 /// Provides platform-specific device identifiers for receipt hash verification.
-public enum DeviceIdentifier {
-    // Platform-specific implementations below
-}
+public enum DeviceIdentifier {}
 
 // MARK: - iOS/tvOS/watchOS Implementation
 
-#if os(iOS) || os(watchOS) || os(tvOS)
+#if !targetEnvironment(macCatalyst) && (os(iOS) || os(watchOS) || os(tvOS))
 #if canImport(WatchKit)
 import WatchKit
 #elseif canImport(UIKit)
@@ -53,7 +51,9 @@ extension DeviceIdentifier {
     ///
     /// - Returns: The device identifier as `Data`, or nil if unavailable.
     public static var data: Data? {
-        obtainMACAddress()
+        get async {
+            obtainMACAddress()
+        }
     }
 
     @_spi(Blocking)

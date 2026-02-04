@@ -23,13 +23,13 @@ extension AppReceipt {
             return .invalid(ReceiptValidatorError.invalidReceiptStructure)
         }
 
-        guard let root = await finalAppleRootCertificateData(using: rootCertificate),
+        guard let root = await Self.appleRootCertificateData(using: rootCertificate, environment: environment),
             let rootCert = try? Certificate(derEncoded: root)
         else {
             return .invalid(ReceiptValidatorError.rootCertificateInvalid(nil))
         }
 
-        guard let deviceId = await finalDeviceIdentifier(using: deviceIdentifier) else {
+        guard let deviceId = await Self.deviceIdentifier(using: deviceIdentifier) else {
             return .invalid(ReceiptValidatorError.deviceIdentifierIsNotFound)
         }
 
@@ -94,19 +94,24 @@ extension AppReceipt: ReceiptValidatable {
     }
 }
 
+// MARK: - Helpers
 extension AppReceipt {
-    fileprivate func finalAppleRootCertificateData(using rootCertificate: Data? = nil) async -> Data? {
+    fileprivate static func appleRootCertificateData(
+        using rootCertificate: Data? = nil,
+        environment: InAppReceiptPayload.Environment
+    ) async -> Data? {
         guard let rootCertificate else {
-            let isXcode = payload.environment == .xcode
-            return await Bundle.appleRootCertificateData(testing: isXcode)
+            return await Bundle.appleRootCertificateData(testing: environment == .xcode)
         }
+
         return rootCertificate
     }
 
-    fileprivate func finalDeviceIdentifier(using deviceIdentifier: Data?) async -> Data? {
+    fileprivate static func deviceIdentifier(using deviceIdentifier: Data?) async -> Data? {
         guard let deviceIdentifier else {
             return await DeviceIdentifier.data
         }
+
         return deviceIdentifier
     }
 }
