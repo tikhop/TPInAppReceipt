@@ -17,15 +17,14 @@ extension AppReceipt {
     /// - Returns: A ``VerificationResult`` indicating whether the receipt is valid or invalid.
     @concurrent public func validate(
         rootCertificate: Data? = nil,
-        deviceIdentifier: Data? = nil
+        deviceIdentifier: Data? = nil,
+        needsMetadataVerification: Bool = true
     ) async -> VerificationResult {
         guard hasValidStructure else {
             return .invalid(ReceiptValidatorError.invalidReceiptStructure)
         }
 
-        guard let root = await Self.appleRootCertificateData(using: rootCertificate, environment: environment),
-            let rootCert = try? Certificate(derEncoded: root)
-        else {
+        guard let root = await Self.appleRootCertificateData(using: rootCertificate, environment: environment) else {
             return .invalid(ReceiptValidatorError.rootCertificateInvalid(nil))
         }
 
@@ -33,12 +32,18 @@ extension AppReceipt {
             return .invalid(ReceiptValidatorError.deviceIdentifierIsNotFound)
         }
 
-        let validator = ReceiptValidator.default(
-            rootCertificate: rootCert,
-            deviceIdentifier: deviceId
-        )
+        do {
+            let validator = try ReceiptValidator.default(
+                rootCertificate: root,
+                deviceIdentifier: deviceId,
+                environment: environment,
+                needsMetadataVerification: needsMetadataVerification
+            )
 
-        return await validator.validate(self)
+            return await validator.validate(self)
+        } catch {
+            return .invalid(error)
+        }
     }
 }
 

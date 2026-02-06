@@ -8,20 +8,17 @@ import Testing
 struct SwiftASN1DecoderTests {
     struct ReceiptTestCase: Sendable, CustomTestStringConvertible {
         let path: String
-        let expectedEnvironment: InAppReceiptPayload.Environment?
+        let expectedEnvironment: InAppReceiptPayload.Environment
 
         var testDescription: String { path }
     }
 
     static let allReceipts: [ReceiptTestCase] = [
-        .init(path: "Assets/receipt-from-known-device", expectedEnvironment: .productionSandbox),
+        .init(path: "Assets/receipt-sandbox-g5", expectedEnvironment: .productionSandbox),
         .init(path: "Assets/receipt-production", expectedEnvironment: .production),
-        .init(path: "Assets/receipt-no-orig-purchase-date", expectedEnvironment: .xcode),
-        .init(path: "Assets/receipt-crash", expectedEnvironment: nil),
-        .init(path: "Assets/receipt-legacy", expectedEnvironment: nil),
-        .init(path: "Assets/receipt-new", expectedEnvironment: nil),
-        .init(path: "Assets/receipt-watch", expectedEnvironment: nil),
-        .init(path: "Assets/receipt-with-transaction", expectedEnvironment: nil),
+        .init(path: "Assets/receipt-sandbox-legacy", expectedEnvironment: .productionSandbox),
+        .init(path: "Assets/receipt-xcode", expectedEnvironment: .xcode),
+        .init(path: "Assets/receipt-xcode-with-purchases", expectedEnvironment: .xcode),
     ]
 
     @Test(arguments: allReceipts)
@@ -32,9 +29,7 @@ struct SwiftASN1DecoderTests {
         let receipt = try decoder.decode(from: receiptData)
 
         #expect(receipt.hasValidStructure)
-        if let expected = testCase.expectedEnvironment {
-            #expect(receipt.environment == expected)
-        }
+        #expect(receipt.environment == testCase.expectedEnvironment)
     }
 
     @Test

@@ -12,10 +12,18 @@ import X509
 // MARK: - "Legacy" Chain Verifier
 
 public struct SecChainVerifier: ReceiptChainVerifier, Sendable {
-    private let rootCertificates: [Data]
+    private let rootCertificates: [SecCertificate]
 
-    public init(rootCertificates: [Data]) {
-        self.rootCertificates = rootCertificates
+    public init(rootCertificates: [Data]) throws {
+        var rootSecCertificates: [SecCertificate] = []
+        for cert in rootCertificates {
+            guard let cert = SecCertificateCreateWithData(nil, cert as CFData) else {
+                throw ChainVerificationError.invalidCertificateData
+            }
+            rootSecCertificates.append(cert)
+        }
+
+        self.rootCertificates = rootSecCertificates
     }
 
     func verify(
@@ -24,14 +32,6 @@ public struct SecChainVerifier: ReceiptChainVerifier, Sendable {
         policy: [ReceiptChainVerifierPolicy]
     ) -> VerificationResult {
         var trust: SecTrust?
-
-        var rootSecCertificates: [SecCertificate] = []
-        for cert in rootCertificates {
-            guard let cert = SecCertificateCreateWithData(nil, cert as CFData) else {
-                return .invalid(ChainVerificationError.invalidCertificateData)
-            }
-            rootSecCertificates.append(cert)
-        }
 
         var certificates: [SecCertificate] = [leaf]
         certificates.append(contentsOf: intermediate)
@@ -42,7 +42,7 @@ public struct SecChainVerifier: ReceiptChainVerifier, Sendable {
         }
 
         // Set anchor certificates and use only these anchors (not system roots)
-        guard SecTrustSetAnchorCertificates(trustRef, rootSecCertificates as CFArray) == errSecSuccess else {
+        guard SecTrustSetAnchorCertificates(trustRef, rootCertificates as CFArray) == errSecSuccess else {
             return .invalid(ChainVerificationError.chainValidationFailed)
         }
 
@@ -106,24 +106,10 @@ extension SecChainVerifier: ReceiptVerifier {
             return .invalid(ChainVerificationError.invalidCertificateData)
         }
 
-        let policy: [ReceiptChainVerifierPolicy]
-        if receipt.environment == .xcode {
-            policy = [
-                .appleX509Basic,
-                .validationTime(receipt.validationTime),
-            ]
-        } else {
-            policy = [
-                .appleX509Basic,
-                .appStoreReceipt,
-                .validationTime(receipt.validationTime),
-            ]
-        }
-
         return verify(
             leaf: leaf,
             intermediate: receipt.intermediateCertificates,
-            policy: policy
+            policy: receipt.verificationPolicy
         )
     }
 }

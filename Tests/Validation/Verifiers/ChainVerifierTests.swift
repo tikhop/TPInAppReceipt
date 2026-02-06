@@ -3,7 +3,7 @@ import SwiftASN1
 import Testing
 import X509
 
-@_spi(AsyncValidation) @testable import TPInAppReceipt
+@testable import TPInAppReceipt
 
 // MARK: - Shared Test Cases
 
@@ -15,7 +15,7 @@ typealias ChainVerifyFn = (
 
 enum ChainVerifierTestCases {
     static func validChain(using verify: ChainVerifyFn) async throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let certificates = pkcs7.content.certificates
 
         let result = await verify(
@@ -28,7 +28,7 @@ enum ChainVerifierTestCases {
     }
 
     static func wrongRootCertificateFails(using verify: ChainVerifyFn) async throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-watch")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-production")
         let certificates = pkcs7.content.certificates
 
         guard certificates.count >= 2 else {
@@ -46,7 +46,7 @@ enum ChainVerifierTestCases {
     }
 
     static func expiredCertificatesFails(using verify: ChainVerifyFn) async throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-legacy")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-legacy")
         let certificates = pkcs7.content.certificates
 
         guard certificates.count >= 2 else {
@@ -64,7 +64,7 @@ enum ChainVerifierTestCases {
     }
 
     static func invalidLeafOIDFails(using verify: ChainVerifyFn) async throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-watch")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-production")
         let certificates = pkcs7.content.certificates
 
         guard certificates.count >= 2 else {
@@ -83,7 +83,7 @@ enum ChainVerifierTestCases {
     }
 
     static func invalidIntermediateOIDFails(using verify: ChainVerifyFn) async throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-watch")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-production")
         let certificates = pkcs7.content.certificates
 
         guard certificates.count >= 2 else {
@@ -116,7 +116,7 @@ struct X509ChainVerifierTests {
 
     @Test
     func wrongRootCertificateFails() async throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-watch")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-production")
         let wrongRoot = pkcs7.content.certificates[1]
         let verifier = X509ChainVerifier(rootCertificates: [wrongRoot])
         try await ChainVerifierTestCases.wrongRootCertificateFails { leaf, intermediate, policy in
@@ -164,7 +164,7 @@ struct X509ChainVerifierTests {
 struct SecChainVerifierTests {
     @Test
     func validChain() async throws {
-        let verifier = SecChainVerifier(rootCertificates: [TestingUtility.loadRootCertificate()])
+        let verifier = try SecChainVerifier(rootCertificates: [TestingUtility.loadRootCertificate()])
         try await ChainVerifierTestCases.validChain { leaf, intermediate, policy in
             verifier.verify(leaf: leaf, intermediate: intermediate, policy: policy)
         }
@@ -172,7 +172,7 @@ struct SecChainVerifierTests {
 
     @Test
     func wrongRootCertificateFails() async throws {
-        let verifier = SecChainVerifier(rootCertificates: [])
+        let verifier = try SecChainVerifier(rootCertificates: [])
         try await ChainVerifierTestCases.wrongRootCertificateFails { leaf, intermediate, policy in
             verifier.verify(leaf: leaf, intermediate: intermediate, policy: policy)
         }
@@ -180,7 +180,7 @@ struct SecChainVerifierTests {
 
     @Test
     func expiredCertificatesFails() async throws {
-        let verifier = SecChainVerifier(rootCertificates: [TestingUtility.loadRootCertificate()])
+        let verifier = try SecChainVerifier(rootCertificates: [TestingUtility.loadRootCertificate()])
         try await ChainVerifierTestCases.expiredCertificatesFails { leaf, intermediate, policy in
             verifier.verify(leaf: leaf, intermediate: intermediate, policy: policy)
         }
@@ -188,7 +188,7 @@ struct SecChainVerifierTests {
 
     @Test
     func invalidLeafOIDFails() async throws {
-        let verifier = SecChainVerifier(rootCertificates: [TestingUtility.loadRootCertificate()])
+        let verifier = try SecChainVerifier(rootCertificates: [TestingUtility.loadRootCertificate()])
         try await ChainVerifierTestCases.invalidLeafOIDFails { leaf, intermediate, policy in
             verifier.verify(leaf: leaf, intermediate: intermediate, policy: policy)
         }
@@ -199,11 +199,28 @@ struct SecChainVerifierTests {
         #if os(macOS) || targetEnvironment(macCatalyst)
         // SecTrust on macOS does not enforce CA basic constraints on intermediates
         #else
-        let verifier = SecChainVerifier(rootCertificates: [TestingUtility.loadRootCertificate()])
+        let verifier = try SecChainVerifier(rootCertificates: [TestingUtility.loadRootCertificate()])
         try await ChainVerifierTestCases.invalidIntermediateOIDFails { leaf, intermediate, policy in
             verifier.verify(leaf: leaf, intermediate: intermediate, policy: policy)
         }
         #endif
+    }
+
+    @Test
+    func xcodeReceiptSingleCertChain() async throws {
+        let verifier = try SecChainVerifier(rootCertificates: [TestingUtility.loadXcodeRootCertificate()])
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-xcode")
+        let certificates = pkcs7.content.certificates
+
+        #expect(certificates.count == 1)
+
+        let result = verifier.verify(
+            leaf: certificates[0],
+            intermediate: [],
+            policy: [.appleX509Basic]
+        )
+
+        #expect(result.isValid)
     }
 }
 #endif

@@ -14,6 +14,7 @@ public struct InAppReceiptPayload: Sendable, Hashable {
         case productionSandbox = "ProductionSandbox"
         case sandbox = "Sandbox"
         case xcode = "Xcode"
+        case localTesting = "LocalTesting"  // Reserved for unit testing
         case unknown = "Unknown"
 
         public init(rawValue: String) {
@@ -26,6 +27,8 @@ public struct InAppReceiptPayload: Sendable, Hashable {
                 self = .sandbox
             case "Xcode":
                 self = .xcode
+            case "LocalTesting":
+                self = .localTesting
             default:
                 self = .unknown
             }

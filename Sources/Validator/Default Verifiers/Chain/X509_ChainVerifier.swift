@@ -68,32 +68,35 @@ extension X509ChainVerifier: ReceiptVerifier {
             return .invalid(ChainVerificationError.invalidCertificateData)
         }
 
-        guard receipt.certificates.count > 1 else {
-            return .invalid(ChainVerificationError.invalidCertificateData)
-        }
-
-        let intermediate = receipt.certificates[1]
-
-        let policy: [ReceiptChainVerifierPolicy]
-        if receipt.environment == .xcode {
-            policy = []
-        } else {
-            policy = [
-                .appleX509Basic,
-                .appStoreReceipt,
-                .validationTime(receipt.validationTime),
-            ]
-        }
         let result = await verify(
             leaf: leaf,
-            intermediate: [intermediate],
-            policy: policy
+            intermediate: receipt.intermediateCertificates,
+            policy: receipt.verificationPolicy
         )
 
         return result
     }
 }
 
+extension ReceiptValidatable {
+    var verificationPolicy: [ReceiptChainVerifierPolicy] {
+        let policy: [ReceiptChainVerifierPolicy] = [.appleX509Basic]
+
+        switch environment {
+        case .production, .productionSandbox:
+            return policy + [
+                .appStoreReceipt,
+                .validationTime(validationTime),
+            ]
+        case .sandbox:
+            return policy + [
+                .appStoreReceipt
+            ]
+        default:
+            return policy
+        }
+    }
+}
 final class AppStoreOIDPolicy: VerifierPolicy {
     private static let NUMBER_OF_CERTS = 3
     private static let WWDR_INTERMEDIATE_OID: ASN1ObjectIdentifier = [1, 2, 840, 113_635, 100, 6, 2, 1]

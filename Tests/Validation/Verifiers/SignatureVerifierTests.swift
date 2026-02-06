@@ -11,7 +11,7 @@ enum SignatureVerifierTestCases {
     static func validSignature(
         using verify: (AppReceipt) -> TPInAppReceipt.VerificationResult
     ) throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let result = verify(pkcs7)
         #expect(result.isValid)
     }
@@ -19,7 +19,7 @@ enum SignatureVerifierTestCases {
     static func corruptedSignatureFails(
         using verify: (_ signedData: Data, _ signature: Data) -> TPInAppReceipt.VerificationResult
     ) throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         var corrupted = pkcs7.signature
         if corrupted.count > 10 {
             corrupted[5] ^= 0xFF
@@ -32,7 +32,7 @@ enum SignatureVerifierTestCases {
     static func corruptedSignedDataFails(
         using verify: (_ signedData: Data, _ signature: Data) -> TPInAppReceipt.VerificationResult
     ) throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         var corrupted = pkcs7.digestData
         if corrupted.count > 10 {
             corrupted[5] ^= 0xFF
@@ -45,7 +45,7 @@ enum SignatureVerifierTestCases {
     static func emptySignatureFails(
         using verify: (_ signedData: Data, _ signature: Data) -> TPInAppReceipt.VerificationResult
     ) throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let result = verify(pkcs7.digestData, Data())
         #expect(result.isInvalid)
     }
@@ -53,17 +53,34 @@ enum SignatureVerifierTestCases {
     static func emptySignedDataFails(
         using verify: (_ signedData: Data, _ signature: Data) -> TPInAppReceipt.VerificationResult
     ) throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let result = verify(Data(), pkcs7.signature)
         #expect(result.isInvalid)
     }
 }
+
+// MARK: - Shared Receipt Paths
+
+private let allReceiptPaths = [
+    "Assets/receipt-sandbox-g5",
+    "Assets/receipt-production",
+    "Assets/receipt-sandbox-legacy",
+    "Assets/receipt-xcode",
+    "Assets/receipt-xcode-with-purchases",
+]
 
 // MARK: - X509 SignatureVerifier
 
 @Suite("SignatureVerifier")
 struct SignatureVerifierTests {
     let verifier = SignatureVerifier()
+
+    @Test(arguments: allReceiptPaths)
+    func validSignatureForAllReceipts(path: String) throws {
+        let pkcs7 = try TestingUtility.parseReceipt(path)
+        let result = verifier.verify(pkcs7)
+        #expect(result.isValid, "Signature verification failed for \(path)")
+    }
 
     @Test
     func validSignature() throws {
@@ -74,7 +91,7 @@ struct SignatureVerifierTests {
 
     @Test
     func corruptedSignatureFails() throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         try SignatureVerifierTestCases.corruptedSignatureFails { signedData, signature in
             verifier.verify(
                 key: pkcs7.publicKey!,
@@ -87,7 +104,7 @@ struct SignatureVerifierTests {
 
     @Test
     func corruptedSignedDataFails() throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         try SignatureVerifierTestCases.corruptedSignedDataFails { signedData, signature in
             verifier.verify(
                 key: pkcs7.publicKey!,
@@ -100,7 +117,7 @@ struct SignatureVerifierTests {
 
     @Test
     func emptySignatureFails() throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         try SignatureVerifierTestCases.emptySignatureFails { signedData, signature in
             verifier.verify(
                 key: pkcs7.publicKey!,
@@ -113,7 +130,7 @@ struct SignatureVerifierTests {
 
     @Test
     func emptySignedDataFails() throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         try SignatureVerifierTestCases.emptySignedDataFails { signedData, signature in
             verifier.verify(
                 key: pkcs7.publicKey!,
@@ -132,6 +149,13 @@ struct SignatureVerifierTests {
 struct SecSignatureVerifierTests {
     let verifier = SecSignatureVerifier()
 
+    @Test(arguments: allReceiptPaths)
+    func validSignatureForAllReceipts(path: String) throws {
+        let pkcs7 = try TestingUtility.parseReceipt(path)
+        let result = verifier.verify(pkcs7)
+        #expect(result.isValid, "Sec signature verification failed for \(path)")
+    }
+
     @Test
     func validSignature() throws {
         try SignatureVerifierTestCases.validSignature { receipt in
@@ -141,7 +165,7 @@ struct SecSignatureVerifierTests {
 
     @Test
     func corruptedSignatureFails() throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let keyData = try Data(pkcs7.publicKey!.intoBytes())
         try SignatureVerifierTestCases.corruptedSignatureFails { signedData, signature in
             verifier.verify(
@@ -155,7 +179,7 @@ struct SecSignatureVerifierTests {
 
     @Test
     func corruptedSignedDataFails() throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let keyData = try Data(pkcs7.publicKey!.intoBytes())
         try SignatureVerifierTestCases.corruptedSignedDataFails { signedData, signature in
             verifier.verify(
@@ -169,7 +193,7 @@ struct SecSignatureVerifierTests {
 
     @Test
     func emptySignatureFails() throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let keyData = try Data(pkcs7.publicKey!.intoBytes())
         try SignatureVerifierTestCases.emptySignatureFails { signedData, signature in
             verifier.verify(
@@ -183,7 +207,7 @@ struct SecSignatureVerifierTests {
 
     @Test
     func emptySignedDataFails() throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let keyData = try Data(pkcs7.publicKey!.intoBytes())
         try SignatureVerifierTestCases.emptySignedDataFails { signedData, signature in
             verifier.verify(

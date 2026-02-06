@@ -10,7 +10,7 @@ struct HashVerifierTests {
 
     @Test
     func verifyHashWithKnownDeviceReceipt() async throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let payload = pkcs7.content.encapContentInfo.eContent!
 
         let verifier = HashVerifier(deviceIdentifier: knownDeviceUUID.data)
@@ -25,7 +25,7 @@ struct HashVerifierTests {
 
     @Test
     func verificationFailsWithWrongDeviceIdentifier() async throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let payload = pkcs7.content.encapContentInfo.eContent!
 
         let wrongUUID = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!

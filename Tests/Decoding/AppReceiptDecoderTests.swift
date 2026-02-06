@@ -6,21 +6,10 @@ import Testing
 
 @Suite("AppReceiptDecoder")
 struct AppReceiptDecoderTests {
-    @Test
-    func defaultDecoderDecodesReceipt() throws {
-        let receiptData = TestingUtility.readReceipt("Assets/receipt-from-known-device")
-        let decoder = AppReceiptDecoder.default
-
-        let receipt = try decoder.decode(from: receiptData)
-
-        #expect(receipt.hasValidStructure)
-        #expect(!receipt.bundleIdentifier.isEmpty)
-    }
 
     @Test
     func staticReceiptFactoryMethod() throws {
-        let receiptData = TestingUtility.readReceipt("Assets/receipt-from-known-device")
-
+        let receiptData = TestingUtility.readReceipt("Assets/receipt-sandbox-g5")
         let receipt = try AppReceipt.receipt(from: receiptData)
 
         #expect(receipt.hasValidStructure)
@@ -47,6 +36,25 @@ struct AppReceiptDecoderTests {
         }
     }
 
+    static let allReceiptPaths = [
+        "Assets/receipt-sandbox-g5",
+        "Assets/receipt-production",
+        "Assets/receipt-sandbox-legacy",
+        "Assets/receipt-xcode",
+        "Assets/receipt-xcode-with-purchases",
+    ]
+
+    @Test(arguments: allReceiptPaths)
+    func defaultDecoderDecodesAllReceipts(path: String) throws {
+        let receiptData = TestingUtility.readReceipt(path)
+        let decoder = AppReceiptDecoder.default
+
+        let receipt = try decoder.decode(from: receiptData)
+
+        #expect(receipt.hasValidStructure)
+        #expect(!receipt.bundleIdentifier.isEmpty)
+    }
+
     @Test
     func customEngineIsCalled() throws {
         final class MockEngine: AppReceiptDecoder.Engine {
@@ -60,7 +68,7 @@ struct AppReceiptDecoderTests {
 
         let mockEngine = MockEngine()
         let decoder = AppReceiptDecoder(engine: mockEngine)
-        let receiptData = TestingUtility.readReceipt("Assets/receipt-from-known-device")
+        let receiptData = TestingUtility.readReceipt("Assets/receipt-sandbox-g5")
 
         _ = try decoder.decode(from: receiptData)
 
