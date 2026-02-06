@@ -5,21 +5,38 @@ import Testing
 
 @Suite("AppReceipt Blocking Mode")
 struct AppReceiptBlockingTests {
-    let knownDeviceUUID = UUID(uuidString: "956328D9-CC6A-47F4-BE40-6953FB0AB6C7")!
 
-    @Test
-    func validReceiptPassesChainSignatureAndHashVerification() throws {
-        let receipt = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
-        let rootCertificate = TestingUtility.loadRootCertificate()
+    static let validatableReceipts: [(path: String, label: String)] = [
+        ("Assets/receipt-sandbox-g5", "sandbox-g5"),
+        ("Assets/receipt-production", "production"),
+        ("Assets/receipt-xcode", "xcode"),
+        ("Assets/receipt-xcode-with-purchases", "xcode-with-purchases"),
+    ]
+
+    // MARK: - Helpers
+
+    private static func rootCertificateData(for receipt: AppReceipt) -> Data {
+        receipt.environment == .xcode
+            ? TestingUtility.loadXcodeRootCertificate()
+            : TestingUtility.loadRootCertificate()
+    }
+
+    @Test("Blocking validation passes", arguments: validatableReceipts)
+    func blockingValidationPasses(receipt arg: (path: String, label: String)) throws {
+        let receipt = try TestingUtility.parseReceipt(arg.path)
+        let rootCertData = Self.rootCertificateData(for: receipt)
+        let chainVerifier = try SecChainVerifier(rootCertificates: [rootCertData])
 
         let validator = ReceiptValidator {
-            SecChainVerifier(rootCertificates: [rootCertificate])
+            chainVerifier
             SecSignatureVerifier()
-            HashVerifier(deviceIdentifier: knownDeviceUUID.data)
+            MetaVerifier(
+                expectedBundleIdentifier: receipt.bundleIdentifier,
+                expectedAppVersion: receipt.appVersion
+            )
         }
 
         let result = validator.validate_blocking(receipt)
-
         #expect(result.isValid)
     }
 }

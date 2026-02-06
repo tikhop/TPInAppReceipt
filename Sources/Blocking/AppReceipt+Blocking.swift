@@ -14,17 +14,17 @@ extension ReceiptValidator {
     /// - Returns: A configured ``ReceiptValidator`` instance ready for receipt validation.
     static func default_blocking(
         rootCertificate: Data,
-        deviceIdentifier: Data
-    ) -> ReceiptValidator {
-        ReceiptValidator {
-            SecChainVerifier(rootCertificates: [rootCertificate])
-            SecSignatureVerifier()
-            HashVerifier(deviceIdentifier: deviceIdentifier)
-            MetaVerifier(
-                appVersionProvider: nativeAppVersionProvider,
-                bundleIdentifierProvider: nativeBundleIdentifierProvider
-            )
-        }
+        deviceIdentifier: Data,
+        environment: InAppReceiptPayload.Environment,
+        needsMetadataVerification: Bool = true
+    ) throws -> ReceiptValidator {
+        try defaultValidator(
+            rootCertificate: rootCertificate,
+            deviceIdentifier: deviceIdentifier,
+            environment: environment,
+            isBlockingApi: true,
+            needsMetadataVerification: needsMetadataVerification
+        )
     }
 
     /// Validates a receipt using blocking verification methods.
@@ -123,11 +123,16 @@ extension AppReceipt {
             return .invalid(HashVerificationError.missingDeviceIdentifier)
         }
 
-        let validator = ReceiptValidator.default_blocking(
-            rootCertificate: root,
-            deviceIdentifier: deviceId
-        )
-        return validator.validate_blocking(self)
+        do {
+            let validator = try ReceiptValidator.default_blocking(
+                rootCertificate: root,
+                deviceIdentifier: deviceId,
+                environment: environment
+            )
+            return validator.validate_blocking(self)
+        } catch {
+            return .invalid(error)
+        }
     }
 }
 

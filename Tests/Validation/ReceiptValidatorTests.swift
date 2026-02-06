@@ -1,10 +1,15 @@
 import Foundation
 import Testing
+import X509
 
 @testable import TPInAppReceipt
 
 @Suite("ReceiptValidator")
 struct ReceiptValidatorTests {
+    let knownDeviceUUID = UUID(uuidString: "956328D9-CC6A-47F4-BE40-6953FB0AB6C7")!
+
+    // MARK: - Mock Verifier Tests
+
     @Test
     func validationSucceedsWhenAllVerifiersPass() async throws {
         let validator = ReceiptValidator {
@@ -13,7 +18,7 @@ struct ReceiptValidatorTests {
             MockValidVerifier()
         }
 
-        let receipt = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let receipt = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let result = await validator.validate(receipt)
 
         #expect(result.isValid)
@@ -29,7 +34,7 @@ struct ReceiptValidatorTests {
             MockValidVerifier()
         }
 
-        let receipt = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+        let receipt = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let result = await validator.validate(receipt)
 
         #expect(result.isInvalid)

@@ -84,16 +84,17 @@ struct ErrorPathTests {
     }
 
     @Test
-    func chainVerifierReturnsInvalidCertificateDataWhenSingleCertificate() async throws {
-        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-from-known-device")
+    func chainVerifierFailsWhenSingleNonXcodeCertificate() async throws {
+        let pkcs7 = try TestingUtility.parseReceipt("Assets/receipt-sandbox-g5")
         let leaf = pkcs7.content.certificates[0]
         let verifier = try X509ChainVerifier(rootCertificates: [TestingUtility.loadRootCertificate()])
+        // MockReceipt has .sandbox environment, so AppStoreOIDPolicy requires chain of 3
         let receipt = MockReceipt.withCertificates([leaf])
 
         let result = await verifier.verify(receipt)
 
         #expect(result.isInvalid)
-        expectError(result, equals: ChainVerificationError.invalidCertificateData)
+        expectError(result, equals: ChainVerificationError.chainValidationFailed)
     }
 }
 

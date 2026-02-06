@@ -90,17 +90,44 @@ extension ReceiptValidator {
     /// - Returns: A configured `ReceiptValidator` instance.
     /// - Throws: An error if the root certificate cannot be decoded.
     public static func `default`(
-        rootCertificate: Certificate,
-        deviceIdentifier: Data
-    ) -> ReceiptValidator {
+        rootCertificate: Data,
+        deviceIdentifier: Data,
+        environment: InAppReceiptPayload.Environment,
+        needsMetadataVerification: Bool = true
+    ) throws -> ReceiptValidator {
+        try defaultValidator(
+            rootCertificate: rootCertificate,
+            deviceIdentifier: deviceIdentifier,
+            environment: environment,
+            isBlockingApi: false,
+            needsMetadataVerification: needsMetadataVerification
+        )
+    }
+
+    internal static func defaultValidator(
+        rootCertificate: Data,
+        deviceIdentifier: Data,
+        environment: InAppReceiptPayload.Environment,
+        isBlockingApi: Bool,
+        needsMetadataVerification: Bool
+    ) throws -> ReceiptValidator {
+        let chainVerifier: ReceiptVerifier =
+            (isBlockingApi || environment == .xcode)
+            ? try SecChainVerifier(rootCertificates: [rootCertificate])
+            : try X509ChainVerifier(rootCertificates: [rootCertificate])
+
         return ReceiptValidator {
-            X509ChainVerifier(rootCertificates: [rootCertificate])
-            SignatureVerifier()
+            chainVerifier
+            isBlockingApi ? SecSignatureVerifier() : SignatureVerifier()
+            #if !targetEnvironment(simulator)
             HashVerifier(deviceIdentifier: deviceIdentifier)
-            MetaVerifier(
-                appVersionProvider: nativeAppVersionProvider,
-                bundleIdentifierProvider: nativeBundleIdentifierProvider
-            )
+            #endif
+            if needsMetadataVerification {
+                MetaVerifier(
+                    appVersionProvider: nativeAppVersionProvider,
+                    bundleIdentifierProvider: nativeBundleIdentifierProvider
+                )
+            }
         }
     }
 }
