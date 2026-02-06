@@ -1,5 +1,17 @@
 # Changelog
 
+## 4.0.2
+
+### Fixed
+
+- Use `SecChainVerifier` for xCode env receipts 
+
+## 4.0.1
+
+### Fixed
+
+- Compilation issue for Catalyst platform
+
 ## 4.0.0
 
 ### Breaking Changes
