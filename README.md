@@ -21,7 +21,7 @@ TPInAppReceipt is a lightweight, pure-Swift library for reading and validating A
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/tikhop/TPInAppReceipt.git", from: "4.0.1")
+    .package(url: "https://github.com/tikhop/TPInAppReceipt.git", from: "4.0.2")
 ]
 ```
 
@@ -46,7 +46,9 @@ let receipt = try await AppReceipt.local
 let receipt = try AppReceipt.receipt(from: data)
 ```
 
-Access receipt fields, query purchases, check subscriptions and introductory offer eligibility. See [Working with Receipt](Sources/Docs.docc/Working%20with%20Receipt.md) for details.
+Access receipt fields, query purchases, check subscriptions and introductory offer eligibility. 
+
+> See [Working with Receipt](Sources/Docs.docc/Working%20with%20Receipt.md) for details.
 
 ### Validating
 
@@ -63,11 +65,13 @@ case .invalid(let error):
 }
 ```
 
-Supports custom validators via `@VerifierBuilder`. See [Validating Receipt](Sources/Docs.docc/Validating%20Receipt.md) for details.
+Supports custom validators via `@VerifierBuilder`. 
+
+> See [Validating Receipt](Sources/Docs.docc/Validating%20Receipt.md) for details.
 
 ### Blocking API
 
-For contexts where async is not available. See [Blocking Mode](Sources/Docs.docc/Blocking%20Mode.md).
+For contexts where async is not available. 
 
 ```swift
 @_spi(Blocking) import TPInAppReceipt
@@ -75,6 +79,8 @@ For contexts where async is not available. See [Blocking Mode](Sources/Docs.docc
 let receipt = try AppReceipt.local_blocking
 let result = receipt.validate_blocking()
 ```
+
+> See [Blocking Mode](Sources/Docs.docc/Blocking%20Mode.md) for details.
 
 ## Migrating from v3
 
