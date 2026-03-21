@@ -7,7 +7,7 @@ public enum DeviceIdentifier {}
 
 // MARK: - iOS/tvOS/watchOS Implementation
 
-#if !targetEnvironment(macCatalyst) && (os(iOS) || os(watchOS) || os(tvOS))
+#if !targetEnvironment(macCatalyst) && (os(iOS) || os(watchOS) || os(tvOS) || os(visionOS))
 #if canImport(WatchKit)
 import WatchKit
 #elseif canImport(UIKit)
