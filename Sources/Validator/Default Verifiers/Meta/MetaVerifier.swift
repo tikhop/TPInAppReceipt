@@ -56,7 +56,7 @@ extension MetaVerifier: ReceiptVerifier {
     }
 }
 
-#if os(iOS) || os(watchOS) || os(tvOS) || os(macOS) || targetEnvironment(macCatalyst)
+#if os(iOS) || os(watchOS) || os(tvOS) || os(macOS) || os(visionOS) || targetEnvironment(macCatalyst)
 
 import Foundation
 
